@@ -1,12 +1,13 @@
 "use client";
 import { SignUp } from "@stackframe/stack";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function SignUpPage() {
   return (
     <div className="flex flex-1 items-center justify-center min-h-screen p-4">
       <div className="flex flex-col items-center justify-center w-full max-w-md sm:max-w-lg lg:max-w-xl bg-white border elevation-2 p-4 sm:p-6 lg:p-8 rounded-lg">
-        <div className="flex items-center justify-center w-full">
+        <Link href="/" className="flex items-center justify-center w-full cursor-pointer">
           <Image
             src="/logos/logo_with_tagline.png"
             alt="Pixel Habits"
@@ -15,7 +16,7 @@ export default function SignUpPage() {
             className="w-auto h-auto max-h-[30vh]"
             priority
           />
-        </div>
+        </Link>
         <div className="flex w-full items-center justify-center mt-4">
           <SignUp />
         </div>
