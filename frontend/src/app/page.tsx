@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { HabitTrackerPreview } from "@/components/sections/HabitTrackerPreview";
+import { FYPShowcase } from "@/components/sections/FYPShowcase";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <HeroSection />
         <FeaturesSection />
         <HabitTrackerPreview />
+        <FYPShowcase />
       </main>
     </div>
   );
