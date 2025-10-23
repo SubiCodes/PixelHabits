@@ -36,7 +36,7 @@ export function HabitTrackerPreview() {
                         key={dayIndex}
                         className={cn(
                           "w-3 h-3 rounded-sm transition-colors",
-                          hasActivity ? "bg-emerald-500" : "bg-muted/50"
+                          hasActivity ? "bg-emerald-500" : "bg-muted/50 border-2"
                         )}
                       />
                     )
