@@ -112,10 +112,6 @@ function ActivityCard({ activity }: { activity: ActivityCard }) {
           <div className="text-muted-foreground">Points earned</div>
           <div className="font-medium text-primary">{activity.points}</div>
         </div>
-
-        {/* Pixel Border Decoration */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-primary/20 via-primary/40 to-primary/20" />
-        <div className="absolute top-0 right-0 bottom-0 w-[2px] bg-linear-to-b from-primary/20 via-primary/40 to-primary/20" />
       </CardContent>
     </Card>
   )
@@ -123,7 +119,7 @@ function ActivityCard({ activity }: { activity: ActivityCard }) {
 
 export function FYPShowcase() {
   return (
-    <section className="w-full py-16 px-4">
+    <section id="fyp" className="w-full py-16 px-4 scroll-mt-16">
       <div className="container mx-auto">
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold">

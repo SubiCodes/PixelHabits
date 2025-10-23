@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[60vh] w-full flex flex-col items-center justify-center px-4 py-16">
+    <section id="hero" className="relative min-h-[60vh] w-full flex flex-col items-center justify-center px-4 py-16 scroll-mt-16">
       {/* Pixel Grid Background */}
       <div className="absolute inset-0 z-0 opacity-5">
         <div className="grid grid-cols-12 h-full w-full">

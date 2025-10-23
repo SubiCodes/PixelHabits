@@ -24,7 +24,7 @@ function FeatureCard({ title, description, children, className }: FeatureCardPro
 
 export function FeaturesSection() {
   return (
-    <section className="w-full py-16 px-4">
+    <section id="features" className="w-full py-16 px-4 scroll-mt-16">
       <div className="container mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">
           Everything you need to build better habits

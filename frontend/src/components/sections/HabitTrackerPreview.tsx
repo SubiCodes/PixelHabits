@@ -10,7 +10,7 @@ export function HabitTrackerPreview() {
   const activityData = generateMockData(12) // 12 weeks of data
 
   return (
-    <section className="w-full py-16 px-4 bg-muted/30">
+    <section id="preview" className="w-full py-16 px-4 bg-muted/30 scroll-mt-16">
       <div className="container mx-auto">
         <div className="max-w-3xl mx-auto text-center space-y-4 mb-12">
           <h2 className="text-3xl font-bold">
