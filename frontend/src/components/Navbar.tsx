@@ -31,22 +31,24 @@ export function Navbar() {
       {/* Mobile Navbar (full width) */}
       <nav className="md:hidden w-full h-16 px-4 flex items-center justify-between border-b backdrop-blur-md bg-background/80 shadow-sm">
         {/* Logo */}
-        <Link href="/" className="relative h-8 w-32">
-          <Image
-            src="/logos/logo.png"
-            alt="Pixel Habits"
-            fill
-            className="object-contain"
-            priority
-          />
-        </Link>
+        <div className="w-full flex items-center justify-center">
+          <Link href="/" className="relative h-8 w-32">
+            <Image
+              src="/logos/logo_icon.png"
+              alt="Pixel Habits"
+              fill
+              className="object-contain"
+              priority
+            />
+          </Link>
+        </div>
 
         <div className="hidden md:flex items-center gap-4">
           {/* Desktop Navigation Links */}
           <div className="flex items-center gap-1">
             {navigationLinks.map((link) => (
-              <NavLink 
-                key={link.sectionId} 
+              <NavLink
+                key={link.sectionId}
                 sectionId={link.sectionId}
                 isActive={activeSection === link.sectionId}
               >
@@ -94,7 +96,7 @@ export function Navbar() {
                   {link.label}
                 </NavLink>
               ))}
-              
+
               {/* Mobile Auth Buttons */}
               <div className="border-t pt-4 mt-4">
                 <div className="grid gap-2">
@@ -120,7 +122,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="relative h-8 w-32">
           <Image
-            src="/logos/logo.png"
+            src="/logos/logo_icon.png"
             alt="Pixel Habits"
             fill
             className="object-contain"
@@ -131,8 +133,8 @@ export function Navbar() {
         {/* Navigation Links */}
         <div className="flex items-center gap-2 px-6 border-l border-r flex-1 justify-center">
           {navigationLinks.map((link) => (
-            <NavLink 
-              key={link.sectionId} 
+            <NavLink
+              key={link.sectionId}
               sectionId={link.sectionId}
               isActive={activeSection === link.sectionId}
             >
