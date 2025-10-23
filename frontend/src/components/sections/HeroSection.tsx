@@ -1,7 +1,11 @@
+"use client"
+
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
+  const router = useRouter()
   return (
     <section id="hero" className="relative min-h-[60vh] w-full flex flex-col items-center justify-center px-4 py-16 scroll-mt-16">
       {/* Pixel Grid Background */}
@@ -35,6 +39,7 @@ export function HeroSection() {
         <Button
           size="lg"
           className="px-8 text-lg font-semibold hover:animate-pulse"
+          onClick={() => router.push('/sign-in')}
         >
           Get Started
         </Button>
