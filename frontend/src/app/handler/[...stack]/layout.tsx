@@ -1,12 +1,7 @@
-import { StackHandler } from "@stackframe/stack";
-import { stackServerApp } from "../../../stack/server";
-
-export default function HandlerLayout() {
+export default function HandlerLayout({ children }: { children: React.ReactNode }) {
   return (
-    <StackHandler
-      fullPage
-      app={stackServerApp}
-      routeProps={{}}
-    />
+    <>
+      {children}
+    </>
   );
 }

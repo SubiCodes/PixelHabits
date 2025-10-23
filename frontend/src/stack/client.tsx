@@ -5,7 +5,10 @@ export const stackClientApp = new StackClientApp({
   urls: {
     signIn: "/sign-in",
     signUp: "/sign-up",
-    afterSignIn: "/",
-    afterSignUp: "/",
+    afterSignIn: "/home",
+    afterSignUp: "/home",
+    afterSignOut: "/",
+    home: "/home",
+    handler: "/handler",
   },
 });

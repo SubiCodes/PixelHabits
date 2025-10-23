@@ -1,6 +1,13 @@
-import { StackHandler } from "@stackframe/stack"; 
-import { stackServerApp } from "../../../stack/server"; 
+import { StackHandler } from "@stackframe/stack";
+import { stackServerApp } from "../../../stack/server";
 
-export default function Handler(props: unknown) { 
-   return <StackHandler fullPage app = { stackServerApp } routeProps = { props } />; 
- } 
+// Correct type for Next.js App Router page props
+export default function Handler(props: { params: Record<string, string | string[]>; searchParams: Record<string, string | string[] | undefined> }) {
+  return (
+    <StackHandler
+      fullPage
+      app={stackServerApp}
+      routeProps={props} // Pass the actual route props
+    />
+  );
+} 

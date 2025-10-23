@@ -2,7 +2,7 @@
 import { SignUp } from "@stackframe/stack";
 import Image from "next/image";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <div className="flex flex-1 items-center justify-center min-h-screen p-4">
       <div className="flex flex-col items-center justify-center w-full max-w-md sm:max-w-lg lg:max-w-xl bg-white border elevation-2 p-4 sm:p-6 lg:p-8 rounded-lg">
