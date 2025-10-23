@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Pixel Habits",
   description: "Track your habits and improve your productivity",
+  icons: {
+    icon: "/logos/logo_icon.png",
+  },
 };
 
 export default function RootLayout({
