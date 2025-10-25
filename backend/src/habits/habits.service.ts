@@ -20,8 +20,10 @@ export class HabitsService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} habit`;
+  async findOne(id: string): Promise<Habit | null> {
+    return this.databaseService.habit.findUnique({
+      where: { id },
+    });
   }
 
   async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit> {

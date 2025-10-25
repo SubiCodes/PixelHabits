@@ -19,7 +19,7 @@ export class HabitsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.habitsService.findOne(+id);
+    return this.habitsService.findOne(id);
   }
 
   @Patch(':id')
