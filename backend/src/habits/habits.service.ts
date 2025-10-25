@@ -14,8 +14,10 @@ export class HabitsService {
     });
   }
 
-  findAll() {
-    return `This action returns all habits`;
+  async findAll(ownerId: string): Promise<Habit[]> {
+    return this.databaseService.habit.findMany({
+      where: { ownerId },
+    });
   }
 
   findOne(id: number) {
