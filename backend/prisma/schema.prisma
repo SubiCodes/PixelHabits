@@ -12,4 +12,36 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public"]
+}
+
+model Habit {
+  id          String     @id @default(cuid())
+  ownerId     String     @map("owner_id")
+  title       String
+  description String?
+  isPublic    Boolean    @default(false) @map("is_public")
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  
+  activities  Activity[]
+  
+  @@map("habits")
+  @@schema("public")
+}
+
+model Activity {
+  id          String    @id @default(cuid())
+  ownerId     String    @map("owner_id")
+  habitId     String    @map("habit_id")
+  caption     String?
+  mediaUrls   String[]  @map("media_urls")
+  isPublic    Boolean   @default(false) @map("is_public")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  
+  habit       Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  
+  @@map("activities")
+  @@schema("public")
 }
