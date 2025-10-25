@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
+import { DatabaseService } from 'src/database/database.service';
+import { Habit } from 'generated/prisma/client';
 
 @Injectable()
 export class HabitsService {
-  create(createHabitDto: CreateHabitDto) {
-    return 'This action adds a new habit';
+  constructor(private readonly databaseService: DatabaseService) {}
+
+  async create(createHabitDto: CreateHabitDto): Promise<Habit> {
+    return this.databaseService.habit.create({
+      data: createHabitDto,
+    });
   }
 
   findAll() {
