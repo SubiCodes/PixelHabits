@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException } from '@nestjs/common';
 import { HabitsService } from './habits.service';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
@@ -8,27 +8,45 @@ export class HabitsController {
   constructor(private readonly habitsService: HabitsService) {}
 
   @Post()
-  create(@Body() createHabitDto: CreateHabitDto) {
+  async create(@Body() createHabitDto: CreateHabitDto) {
     return this.habitsService.create(createHabitDto);
   }
 
   @Get()
-  findAll(@Query('ownerId') ownerId: string) {
+  async findAll(@Query('ownerId') ownerId: string) {
     return this.habitsService.findAll(ownerId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.habitsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const habit = await this.habitsService.findOne(id);
+    
+    if (!habit) {
+      throw new NotFoundException('Habit not found');
+    }
+    
+    return habit;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHabitDto: UpdateHabitDto) {
-    return this.habitsService.update(id, updateHabitDto);
+  async update(@Param('id') id: string, @Body() updateHabitDto: UpdateHabitDto) {
+    const habit = await this.habitsService.update(id, updateHabitDto);
+    
+    if (!habit) {
+      throw new NotFoundException('Habit not found');
+    }
+    
+    return habit;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.habitsService.remove(id);
+  async remove(@Param('id') id: string) {
+    const habit = await this.habitsService.remove(id);
+    
+    if (!habit) {
+      throw new NotFoundException('Habit not found');
+    }
+    
+    return habit;
   }
 }
