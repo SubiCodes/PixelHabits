@@ -24,7 +24,7 @@ export class HabitsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHabitDto: UpdateHabitDto) {
-    return this.habitsService.update(+id, updateHabitDto);
+    return this.habitsService.update(id, updateHabitDto);
   }
 
   @Delete(':id')

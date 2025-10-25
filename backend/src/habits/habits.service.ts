@@ -22,8 +22,11 @@ export class HabitsService {
     return `This action returns a #${id} habit`;
   }
 
-  update(id: number, updateHabitDto: UpdateHabitDto) {
-    return `This action updates a #${id} habit`;
+  async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit> {
+    return this.databaseService.habit.update({
+      where: { id },
+      data: updateHabitDto,
+    });
   }
 
   remove(id: number) {
