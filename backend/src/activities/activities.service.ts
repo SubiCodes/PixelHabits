@@ -35,9 +35,43 @@ export class ActivitiesService {
         console.log('All files uploaded successfully');
       } catch (error) {
         console.error('Upload error:', error);
-        throw new InternalServerErrorException(
-          `Failed to upload files: ${error.message}`
-        );
+        
+        // Determine error type and provide specific message
+        if (error.message?.includes('timeout') || error.message?.includes('Timeout')) {
+          throw new InternalServerErrorException({
+            statusCode: 500,
+            error: 'UPLOAD_TIMEOUT',
+            message: 'File upload timed out. The files may be too large or your connection is slow.',
+            suggestion: 'Try uploading smaller files or check your internet connection.',
+          });
+        }
+        
+        if (error.message?.includes('network') || error.message?.includes('ECONNREFUSED')) {
+          throw new InternalServerErrorException({
+            statusCode: 500,
+            error: 'NETWORK_ERROR',
+            message: 'Network error while uploading files.',
+            suggestion: 'Check your internet connection and try again.',
+          });
+        }
+        
+        if (error.message?.includes('Invalid image file') || error.message?.includes('Invalid video')) {
+          throw new BadRequestException({
+            statusCode: 400,
+            error: 'INVALID_FILE',
+            message: 'One or more files are corrupted or invalid.',
+            suggestion: 'Please ensure your files are valid images or videos.',
+          });
+        }
+        
+        // Generic upload error
+        throw new InternalServerErrorException({
+          statusCode: 500,
+          error: 'UPLOAD_FAILED',
+          message: 'Failed to upload files to cloud storage.',
+          suggestion: 'Please try again. If the problem persists, contact support.',
+          details: error.message,
+        });
       }
     }
 
