@@ -12,15 +12,12 @@ export class ActivitiesService {
   ) {}
 
   async create(createActivityDto: CreateActivityDto, files?: Express.Multer.File[]) {
-    // Validate files
     if (files && files.length > 0) {
       this.cloudinaryUploadService.validateFiles(files);
     }
 
-    // Upload files to Cloudinary
     const mediaUrls = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
 
-    // Create activity in database
     return this.databaseService.activity.create({
       data: {
         ownerId: createActivityDto.ownerId,
