@@ -1,6 +1,6 @@
 // src/common/filters/prisma-exception.filter.ts
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '../../../generated/prisma/client';
 import { Response } from 'express';
 
 @Catch(Prisma.PrismaClientKnownRequestError, Prisma.PrismaClientValidationError)
