@@ -1,4 +1,5 @@
 import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateActivityDto {
   @IsString()
@@ -11,7 +12,15 @@ export class CreateActivityDto {
   @IsOptional()
   caption?: string;
 
-  @IsBoolean()
+  @IsBoolean({ message: 'isPublic must be a boolean value (true or false)' })
   @IsOptional()
-  isPublic?: boolean = false;
+  @Transform(({ value }) => {
+    // Strict transformation - only accept "true", "false", true, or false
+    if (value === 'true' || value === true) return true;
+    if (value === 'false' || value === false) return false;
+    if (value === undefined || value === null) return undefined;
+    // Any other value will fail @IsBoolean validation
+    throw new Error(`isPublic must be "true" or "false", received: ${value}`);
+  })
+  isPublic?: boolean;
 }

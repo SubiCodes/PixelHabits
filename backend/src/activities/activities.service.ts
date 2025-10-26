@@ -38,7 +38,7 @@ export class ActivitiesService {
         mediaUrls,
       },
     });
-  };
+  }
 
   findAll() {
     return `This action returns all activities`;
