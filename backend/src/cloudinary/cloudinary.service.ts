@@ -52,7 +52,7 @@ export class CloudinaryService {
     return this.cloudinary.uploader.destroy(publicId);
   }
 
-  getOptimizedUrl(publicId: string, options: any = {}): string {
+  getOptimizedUrl(publicId: string, options: Record<string, any> = {}): string {
     return this.cloudinary.url(publicId, {
       fetch_format: 'auto',
       quality: 'auto',
