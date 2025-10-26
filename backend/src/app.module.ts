@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { HabitsModule } from './habits/habits.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule],
   controllers: [AppController],
   providers: [AppService],
 })
