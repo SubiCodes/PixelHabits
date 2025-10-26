@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
@@ -16,17 +16,29 @@ export class ActivitiesService {
     const mediaUrls: string[] = [];
 
     if (files && files.length > 0) {
-      const uploadPromises = files.map(async (file) => {
-        const isVideo = file.mimetype.startsWith('video/');
+      try {
+        console.log(`Starting upload of ${files.length} files...`);
+        
+        const uploadPromises = files.map(async (file, index) => {
+          const isVideo = file.mimetype.startsWith('video/');
+          console.log(`Uploading file ${index + 1}/${files.length}: ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
 
-        const result = isVideo
-          ? await this.cloudinaryService.uploadVideo(file, 'pixel_habits_activities')
-          : await this.cloudinaryService.uploadImage(file, 'pixel_habits_activities');
+          const result = isVideo
+            ? await this.cloudinaryService.uploadVideo(file, 'pixel_habits_activities')
+            : await this.cloudinaryService.uploadImage(file, 'pixel_habits_activities');
 
-        return result.secure_url;
-      });
+          console.log(`File ${index + 1} uploaded successfully: ${result.secure_url}`);
+          return result.secure_url;
+        });
 
-      mediaUrls.push(...await Promise.all(uploadPromises));
+        mediaUrls.push(...await Promise.all(uploadPromises));
+        console.log('All files uploaded successfully');
+      } catch (error) {
+        console.error('Upload error:', error);
+        throw new InternalServerErrorException(
+          `Failed to upload files: ${error.message}`
+        );
+      }
     }
 
     return this.databaseService.activity.create({

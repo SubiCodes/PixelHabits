@@ -33,14 +33,20 @@ export class CloudinaryService {
         {
           folder,
           resource_type: resourceType,
+          timeout: 120000, // 2 minutes timeout for large files
+          chunk_size: 6000000, // 6MB chunks for better upload reliability
           transformation:
             resourceType === 'image'
               ? [{ quality: 'auto', fetch_format: 'auto' }]
               : [{ quality: 'auto' }],
         },
         (error, result) => {
-          if (error) return reject(new Error(error.message));
-          if (!result) return reject(new Error('Upload failed'));
+          if (error) {
+            console.error('Cloudinary upload error:', error);
+            return reject(new Error(`Upload failed: ${error.message}`));
+          }
+          if (!result) return reject(new Error('Upload failed: No result returned'));
+          console.log('Upload successful:', result.secure_url);
           resolve(result);
         },
       );
