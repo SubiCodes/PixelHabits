@@ -34,31 +34,13 @@ export class HabitsController {
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateHabitDto: UpdateHabitDto) {
-    const habit = await this.habitsService.update(id, updateHabitDto);
-
-    if (!habit) {
-      throw new NotFoundException({
-        error: 'HABIT_NOT_FOUND',
-        message: 'Habit not found',
-        suggestion: 'That habit does not exist or may have been deleted',
-      });
-    }
-
-    return habit;
+    return this.habitsService.update(id, updateHabitDto);
+    // If not found, Prisma throws P2025 → PrismaExceptionFilter handles it
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    const habit = await this.habitsService.remove(id);
-
-    if (!habit) {
-      throw new NotFoundException({
-        error: 'HABIT_NOT_FOUND',
-        message: 'Habit not found',
-        suggestion: 'That habit does not exist or may have been deleted',
-      });
-    }
-
-    return habit;
+    return this.habitsService.remove(id);
+    // If not found, Prisma throws P2025 → PrismaExceptionFilter handles it
   }
 }
