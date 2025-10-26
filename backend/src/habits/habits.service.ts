@@ -8,12 +8,6 @@ import { Habit } from 'generated/prisma/client';
 export class HabitsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  private async findHabitById(id: string): Promise<Habit | null> {
-    return this.databaseService.habit.findUnique({
-      where: { id },
-    });
-  }
-
   async create(createHabitDto: CreateHabitDto): Promise<Habit> {
     return this.databaseService.habit.create({
       data: createHabitDto,
@@ -27,29 +21,19 @@ export class HabitsService {
   }
 
   async findOne(id: string): Promise<Habit | null> {
-    return this.findHabitById(id);
+    return this.databaseService.habit.findUnique({
+      where: { id },
+    });
   }
 
-  async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit | null> {
-    const habit = await this.findHabitById(id);
-    
-    if (!habit) {
-      return null;
-    }
-    
+  async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit> {
     return this.databaseService.habit.update({
       where: { id },
       data: updateHabitDto,
     });
   }
 
-  async remove(id: string): Promise<Habit | null> {
-    const habit = await this.findHabitById(id);
-    
-    if (!habit) {
-      return null;
-    }
-    
+  async remove(id: string): Promise<Habit> {
     return this.databaseService.habit.delete({
       where: { id },
     });

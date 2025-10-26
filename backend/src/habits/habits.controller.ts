@@ -5,7 +5,7 @@ import { UpdateHabitDto } from './dto/update-habit.dto';
 
 @Controller('habits')
 export class HabitsController {
-  constructor(private readonly habitsService: HabitsService) {}
+  constructor(private readonly habitsService: HabitsService) { }
 
   @Post()
   async create(@Body() createHabitDto: CreateHabitDto) {
@@ -20,33 +20,45 @@ export class HabitsController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const habit = await this.habitsService.findOne(id);
-    
+
     if (!habit) {
-      throw new NotFoundException('Habit not found');
+      throw new NotFoundException({
+        error: 'HABIT_NOT_FOUND',
+        message: 'Habit not found',
+        suggestion: 'That habit does not exist or may have been deleted',
+      });
     }
-    
+
     return habit;
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateHabitDto: UpdateHabitDto) {
     const habit = await this.habitsService.update(id, updateHabitDto);
-    
+
     if (!habit) {
-      throw new NotFoundException('Habit not found');
+      throw new NotFoundException({
+        error: 'HABIT_NOT_FOUND',
+        message: 'Habit not found',
+        suggestion: 'That habit does not exist or may have been deleted',
+      });
     }
-    
+
     return habit;
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const habit = await this.habitsService.remove(id);
-    
+
     if (!habit) {
-      throw new NotFoundException('Habit not found');
+      throw new NotFoundException({
+        error: 'HABIT_NOT_FOUND',
+        message: 'Habit not found',
+        suggestion: 'That habit does not exist or may have been deleted',
+      });
     }
-    
+
     return habit;
   }
 }
