@@ -8,6 +8,14 @@ import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  // Enable CORS for frontend access
+  app.enableCors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001', // Your frontend URL
+    credentials: true, // Allow cookies/auth headers
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+  
   // Enable global exception filter for consistent error responses
   app.useGlobalFilters(new PrismaExceptionFilter(), new HttpExceptionFilter());
   
