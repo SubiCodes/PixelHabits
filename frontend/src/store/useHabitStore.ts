@@ -16,27 +16,35 @@ export interface Habit {
     createdAt: Date
 }
 
-export type PartialHabit = Partial<Omit<Habit, 'id' | 'ownerId' | 'createdAt'>> 
+export type PartialHabit = Partial<Omit<Habit, 'id' | 'ownerId' | 'createdAt'>>
 interface HabitStore {
     habits: Habit[]
-    addingHabit: boolean
+    gettingUserHabits: boolean
     getHabitsByUserId: (ownerId: string, requestingUserId: string) => Promise<void>
+    addingHabit: boolean
     addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => Promise<void>
+    editingHabit: boolean
     editHabit: (habit: PartialHabit, habitId: string) => Promise<void>
+    deletingHabit: boolean
+    deleteHabit: (habitId: string) => Promise<void>
 }
 
 // Create the store
 export const useHabitStore = create<HabitStore>((set) => ({
     habits: [],
 
+    gettingUserHabits: false,
     getHabitsByUserId: async (ownerId: string, requestingUserId: string) => {
         try {
+            set({ gettingUserHabits: true });
             const res = await api.get(`/habits?ownerId=${ownerId}&requestingUserId=${requestingUserId}`);
             set({ habits: res.data });
         } catch (error) {
             toast.error('Failed to fetch habits', {
                 description: 'An unexpected error occurred',
             });
+        } finally {
+            set({ gettingUserHabits: false });
         }
     },
 
@@ -66,9 +74,11 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ addingHabit: false });
         }
     },
+
+    editingHabit: false,
     editHabit: async (habit: PartialHabit, habitId: string) => {
         try {
-            set({ addingHabit: true });
+            set({ editingHabit: true });
             toast.loading('Updating habit...', { id: 'edit-habit' });
             const res = await api.patch(`/habits/${habitId}`, habit);
             set((state) => ({
@@ -90,7 +100,36 @@ export const useHabitStore = create<HabitStore>((set) => ({
             }
             throw error;
         } finally {
-            set({ addingHabit: false });
+            set({ editingHabit: false });
         }
     },
+
+    deletingHabit: false,
+    deleteHabit: async (habitId: string) => {
+        try {
+            set({ deletingHabit: true });
+            toast.loading('Deleting habit...', { id: 'delete-habit' });
+            await api.delete(`/habits/${habitId}`);
+            set((state) => ({
+                habits: state.habits.filter((h) => h.id !== habitId),
+            }));
+            toast.success('Habit deleted successfully!', { id: 'delete-habit' });
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response?.data) {
+                const { message, suggestion } = error.response.data;
+                toast.error(message || 'Failed to delete habit', {
+                    id: 'delete-habit',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to delete habit', {
+                    id: 'delete-habit',
+                    description: 'An unexpected error occurred',
+                });
+            }
+            throw error;
+        } finally {
+            set({ deletingHabit: false });
+        }
+    }
 }))
