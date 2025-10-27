@@ -168,11 +168,11 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
 
       {/* Desktop Sidebar */}
       <div className="hidden md:flex md:w-64 lg:w-72 xl:w-80 flex-col h-screen border-r border-border">
-        <div className="flex flex-col h-full p-3">
+        <div className="flex flex-col h-full p-3 xl:p-4">
           {/* Logo */}
-          <div className="mb-3 px-2">
+          <div className="mb-3 px-2 xl:mb-4">
             <Link href="/home" className="flex items-center gap-2">
-              <div className="relative h-8 w-8">
+              <div className="relative h-8 w-8 xl:h-9 xl:w-9">
                 <Image
                   src="/logos/logo_icon.png"
                   alt="Pixel Habits"
@@ -181,12 +181,12 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   priority
                 />
               </div>
-              <span className="hidden lg:inline text-lg font-bold">Pixel Habits</span>
+              <span className="hidden lg:inline text-lg xl:text-xl font-bold">Pixel Habits</span>
             </Link>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 space-y-0.5">
+          <nav className="flex-1 space-y-0.5 xl:space-y-1">
             {navigationItems.map((item) => {
               const isActive = pathname === item.href
               const Icon = item.icon
@@ -196,13 +196,13 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors",
+                    "flex items-center gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 rounded-full transition-colors",
                     "hover:bg-accent",
                     isActive && "font-bold"
                   )}
                 >
-                  <Icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
-                  <span className={cn("hidden lg:inline text-base", isActive && "font-bold")}>
+                  <Icon className={cn("h-5 w-5 xl:h-6 xl:w-6", isActive && "stroke-[2.5]")} />
+                  <span className={cn("hidden lg:inline text-base xl:text-lg", isActive && "font-bold")}>
                     {item.name}
                   </span>
                 </Link>
@@ -215,18 +215,18 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
             <Button
               onClick={handleSignOut}
               variant="ghost"
-              className="w-full justify-start gap-3 px-3 py-2.5 h-auto rounded-full hover:bg-accent text-base"
+              className="w-full justify-start gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 h-auto rounded-full hover:bg-accent text-base xl:text-lg"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-5 w-5 xl:h-6 xl:w-6" />
               <span className="hidden lg:inline">Sign out</span>
             </Button>
 
             {user && (
               <Link
                 href="/profile"
-                className="flex items-center gap-2.5 p-2.5 rounded-full hover:bg-accent transition-colors"
+                className="flex items-center gap-2.5 xl:gap-3 p-2.5 xl:p-3 rounded-full hover:bg-accent transition-colors"
               >
-                <div className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm overflow-hidden relative">
+                <div className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold text-sm overflow-hidden relative">
                   {user.profileImageUrl ? (
                     <Image
                       src={user.profileImageUrl}
@@ -239,10 +239,10 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   )}
                 </div>
                 <div className="hidden lg:block flex-1 min-w-0">
-                  <p className="font-semibold text-sm truncate">
+                  <p className="font-semibold text-sm xl:text-base truncate">
                     {user.displayName || "User"}
                   </p>
-                  <p className="text-xs text-muted-foreground truncate">
+                  <p className="text-xs xl:text-sm text-muted-foreground truncate">
                     @{user.primaryEmail?.split('@')[0] || "username"}
                   </p>
                 </div>
