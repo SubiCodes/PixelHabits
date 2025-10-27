@@ -15,8 +15,8 @@ export class ActivitiesController {
   }
 
   @Get()
-  findAll(@Query('habitId') habitId: string) {
-    return this.activitiesService.findAll(habitId);
+  findAll(@Query('habitId') habitId: string, @Query('requestingUserId') requestingUserId: string) {
+    return this.activitiesService.findAll(habitId, requestingUserId);
   }
 
   @Get(':id')

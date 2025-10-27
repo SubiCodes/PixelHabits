@@ -11,6 +11,7 @@ export class ActivitiesService {
     private readonly databaseService: DatabaseService,
   ) {}
 
+  // Create activity with optional media files
   async create(createActivityDto: CreateActivityDto, files?: Express.Multer.File[]) {
     if (files && files.length > 0) {
       this.cloudinaryUploadService.validateFiles(files);
@@ -29,9 +30,23 @@ export class ActivitiesService {
     });
   }
 
-  findAll(habitId: string) {
+  async findAll(habitId: string, requestingUserId: string) {
+    const habit = await this.databaseService.habit.findUnique({
+      where: { id: habitId },
+      select: { ownerId: true },
+    });
+    if (!habit) {
+      return [];
+    }
+    const isOwner = habit.ownerId === requestingUserId;
     return this.databaseService.activity.findMany({
-      where: { habitId },
+      where: {
+        habitId,
+        ...(isOwner ? {} : { isPublic: true }), 
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
