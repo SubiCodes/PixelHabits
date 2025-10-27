@@ -1,6 +1,7 @@
 import React from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { DialogCreateHabit } from '@/components/DialogCreateHabit'
 
 function Habits() {
   return (
@@ -13,13 +14,17 @@ function Habits() {
             <p className="text-sm text-muted-foreground mt-0.5">Track and build your daily habits</p>
           </div>
           
-          <Button 
-            size="default"
-            className="gap-2 rounded-full shadow-md hover:shadow-lg transition-shadow"
-          >
-            <Plus className="h-5 w-5" />
-            <span className="hidden sm:inline">Create Habit</span>
-          </Button>
+          <DialogCreateHabit 
+            trigger={
+              <Button 
+                size="default"
+                className="gap-2 rounded-full shadow-md hover:shadow-lg transition-shadow"
+              >
+                <Plus className="h-5 w-5" />
+                <span className="hidden sm:inline">Create Habit</span>
+              </Button>
+            }
+          />
         </div>
       </div>
 
