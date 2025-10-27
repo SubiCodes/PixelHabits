@@ -70,6 +70,59 @@ export class CloudinaryUploadService {
     }
   }
 
+  async deleteFiles(mediaUrls: string[]): Promise<void> {
+    if (!mediaUrls || mediaUrls.length === 0) {
+      return;
+    }
+
+    try {
+      console.log(`Starting deletion of ${mediaUrls.length} files...`);
+      
+      const deletePromises = mediaUrls.map(async (url, index) => {
+        // Extract public_id from Cloudinary URL
+        const publicId = this.extractPublicIdFromUrl(url);
+        
+        if (!publicId) {
+          console.warn(`Could not extract public_id from URL: ${url}`);
+          return;
+        }
+
+        console.log(`Deleting file ${index + 1}/${mediaUrls.length}: ${publicId}`);
+        
+        // Determine resource type from URL (check if it's a video)
+        const resourceType = url.includes('/video/') ? 'video' : 'image';
+        
+        await this.cloudinaryService.deleteMedia(publicId, resourceType);
+        console.log(`File ${index + 1} deleted successfully`);
+      });
+
+      await Promise.all(deletePromises);
+      console.log('All files deleted successfully');
+    } catch (error) {
+      console.error('Delete error:', error);
+      throw new InternalServerErrorException({
+        statusCode: 500,
+        error: 'DELETE_FAILED',
+        message: 'Failed to delete files from cloud storage.',
+        suggestion: 'Please try again. If the problem persists, contact support.',
+        details: error.message,
+      });
+    }
+  }
+
+  private extractPublicIdFromUrl(url: string): string | null {
+    try {
+      // Extract public_id from Cloudinary URL
+      // Example: https://res.cloudinary.com/demo/image/upload/v1234567890/folder/subfolder/filename.jpg
+      // Result: folder/subfolder/filename
+      const matches = url.match(/\/upload\/(?:v\d+\/)?(.+)\.[^.]+$/);
+      return matches ? matches[1] : null;
+    } catch (error) {
+      console.error('Error extracting public_id:', error);
+      return null;
+    }
+  }
+
   private handleUploadError(error: any): never {
     console.error('Upload error:', error);
     

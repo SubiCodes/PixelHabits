@@ -54,8 +54,10 @@ export class CloudinaryService {
     });
   }
 
-  async deleteMedia(publicId: string): Promise<any> {
-    return this.cloudinary.uploader.destroy(publicId);
+  async deleteMedia(publicId: string, resourceType: 'image' | 'video' = 'image'): Promise<any> {
+    return this.cloudinary.uploader.destroy(publicId, { 
+      resource_type: resourceType 
+    });
   }
 
   getOptimizedUrl(publicId: string, options: Record<string, any> = {}): string {

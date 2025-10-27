@@ -76,7 +76,10 @@ export class ActivitiesService {
       mediaUrls = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
     }
 
-    //Delete the urls here
+    //Delete media URLs if any are specified
+    if (mediaUrlsToDelete && mediaUrlsToDelete.length > 0) {
+      await this.cloudinaryUploadService.deleteFiles(mediaUrlsToDelete);
+    }
 
     //Update the activity with new data
     return this.databaseService.activity.update({
