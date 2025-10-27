@@ -29,19 +29,23 @@ export class ActivitiesService {
     });
   }
 
-  findAll() {
-    return `This action returns all activities`;
+  findAll(habitId: string) {
+    return this.databaseService.activity.findMany({
+      where: { habitId },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} activity`;
+  findOne(id: string) {
+    return this.databaseService.activity.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateActivityDto: UpdateActivityDto) {
+  update(id: string, updateActivityDto: UpdateActivityDto) {
     return `This action updates a #${id} activity`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} activity`;
   }
 }
