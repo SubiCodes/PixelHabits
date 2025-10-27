@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Dialog,
   DialogContent,
@@ -6,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 import { FormCreateHabit } from "./FormCreateHabit"
 
 interface DialogCreateHabitProps {
@@ -14,8 +16,14 @@ interface DialogCreateHabitProps {
 }
 
 export function DialogCreateHabit({ trigger }: DialogCreateHabitProps) {
+  const [open, setOpen] = useState(false)
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
@@ -26,7 +34,7 @@ export function DialogCreateHabit({ trigger }: DialogCreateHabitProps) {
             Add a new habit to track. Fill in the details below and click create when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormCreateHabit />
+        <FormCreateHabit onSuccess={handleClose} />
       </DialogContent>
     </Dialog>
   )
