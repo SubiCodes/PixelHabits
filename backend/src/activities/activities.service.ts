@@ -9,7 +9,7 @@ export class ActivitiesService {
   constructor(
     private readonly cloudinaryUploadService: CloudinaryUploadService,
     private readonly databaseService: DatabaseService,
-  ) {}
+  ) { }
 
   // Create activity with optional media files
   async create(createActivityDto: CreateActivityDto, files?: Express.Multer.File[]) {
@@ -42,7 +42,7 @@ export class ActivitiesService {
     return this.databaseService.activity.findMany({
       where: {
         habitId,
-        ...(isOwner ? {} : { isPublic: true }), 
+        ...(isOwner ? {} : { isPublic: true }),
       },
       orderBy: {
         createdAt: 'desc',
@@ -56,8 +56,37 @@ export class ActivitiesService {
     });
   }
 
-  update(id: string, updateActivityDto: UpdateActivityDto) {
-    return `This action updates a #${id} activity`;
+  async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[], files?: (Express.Multer.File | string)[]) {
+    if (files && files.length > 0) {
+      this.cloudinaryUploadService.validateFiles(files);
+    }
+
+    //Check if the activity exists
+    const existingActivity = await this.databaseService.activity.findUnique({
+      where: { id },
+    });
+    if (!existingActivity) {
+      throw new Error(`Activity with id ${id} not found`);
+    };
+
+    //Upload the new files and get the URLs if one exists
+    let mediaUrls = existingActivity.mediaUrls;
+
+    if (files && files.length > 0) {
+      mediaUrls = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
+    }
+
+    //Delete the urls here
+
+    //Update the activity with new data
+    return this.databaseService.activity.update({
+      where: { id },
+      data: {
+        caption: updateActivityDto.caption ?? existingActivity.caption,
+        isPublic: updateActivityDto.isPublic ?? existingActivity.isPublic,
+        mediaUrls,
+      },
+    });
   }
 
   remove(id: string) {
