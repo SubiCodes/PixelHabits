@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackClientApp } from "../stack/client";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
         <StackProvider app={stackClientApp}>
           <StackTheme>
             {children}
+            <Toaster richColors position="top-right" />
           </StackTheme>
         </StackProvider>
       </body>

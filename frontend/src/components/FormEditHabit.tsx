@@ -17,7 +17,7 @@ import {
     FormMessage,
     FormDescription,
 } from "@/components/ui/form"
-import { useHabitStore } from "@/store/useHabitStore"
+import { Habit, useHabitStore } from "@/store/useHabitStore"
 import { useUser } from "@stackframe/stack"
 import { toast } from "sonner"
 
@@ -34,9 +34,10 @@ type FormValues = z.infer<typeof formSchema>
 
 interface FormCreateHabitProps {
     onSuccess?: () => void
+    habit: Habit
 }
 
-export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
+export function FormEditHabit({ onSuccess, habit }: FormCreateHabitProps) {
 
     const habitStore = useHabitStore();
     const user = useUser();
@@ -44,9 +45,9 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
-            description: "",
-            isPublic: false,
+            title: habit.title,
+            description: habit.description,
+            isPublic: habit.isPublic,
         },
     })
 
@@ -56,8 +57,7 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
             return;
         }
 
-        const habitPayload = { ownerId: user.id, ...data };
-        habitStore.addHabit(habitPayload);
+        habitStore.editHabit(data, habit.id);
 
         if (onSuccess) {
             onSuccess()
@@ -147,7 +147,7 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
                     <DialogClose asChild>
                         <Button type="button" variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit">Create Habit</Button>
+                    <Button type="submit">Save Changes</Button>
                 </DialogFooter>
             </form>
         </Form>

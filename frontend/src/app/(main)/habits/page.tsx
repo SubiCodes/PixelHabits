@@ -1,9 +1,23 @@
-import React from 'react'
+'use client'
+
+import React, { useEffect } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DialogCreateHabit } from '@/components/DialogCreateHabit'
+import { useHabitStore } from '@/store/useHabitStore'
+import CardHabits from '@/components/CardHabits'
+import { useUser } from '@stackframe/stack'
 
 function Habits() {
+  const user = useUser();
+  const habits = useHabitStore((state) => state.habits);
+
+  useEffect(() => {
+    if (user) {
+      useHabitStore.getState().getHabitsByUserId(user.id, user.id);
+    }
+  }, [user]);
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -30,10 +44,20 @@ function Habits() {
 
       {/* Content Area */}
       <div className="p-4">
-        {/* Habit cards will go here */}
-        <div className="text-center text-muted-foreground py-12">
-          <p>No habits yet. Create your first habit to get started!</p>
-        </div>
+        {habits.length === 0 ? (
+          <div className="text-center text-muted-foreground py-12">
+            <p>No habits yet. Create your first habit to get started!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {habits.map((habit) => (
+              <CardHabits
+                key={habit.id}
+                habit={habit}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
