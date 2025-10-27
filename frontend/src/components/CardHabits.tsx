@@ -1,21 +1,37 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Pencil } from 'lucide-react'
+import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { Habit } from '@/store/useHabitStore'
 import { DialogEditHabit } from './DialogEditHabit'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 interface CardHabitsProps {
   habit: Habit
 }
 
 function CardHabits({ habit }: CardHabitsProps) {
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+
   // Format the date
   const formattedDate = new Date(habit.createdAt).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
   })
+
+  const handleDelete = () => {
+    setDropdownOpen(false)
+    // TODO: Implement delete functionality
+    console.log('Delete habit:', habit.id)
+  }
 
   return (
     <Card className="w-full hover:shadow-lg transition-shadow duration-200">
@@ -25,14 +41,32 @@ function CardHabits({ habit }: CardHabitsProps) {
             <CardTitle className="text-xl">{habit.title}</CardTitle>
             <span className="text-sm text-muted-foreground">{formattedDate}</span>
           </div>
-          <DialogEditHabit
-            habit={habit}
-            trigger={
+          
+          <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+            <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="shrink-0">
-                <Pencil className="h-4 w-4" />
+                <MoreVertical className="h-4 w-4" />
               </Button>
-            }
-          />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DialogEditHabit
+                habit={habit}
+                trigger={
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    <span>Edit Habit</span>
+                  </DropdownMenuItem>
+                }
+              />
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                onClick={handleDelete}
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                <span>Delete Habit</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         {habit.description && (
           <CardDescription className="mt-2 text-sm">
