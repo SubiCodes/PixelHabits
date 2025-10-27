@@ -12,12 +12,12 @@ export class ActivitiesService {
   ) { }
 
   // Create activity with optional media files
-  async create(createActivityDto: CreateActivityDto, files?: Express.Multer.File[]) {
-    if (files && files.length > 0) {
-      this.cloudinaryUploadService.validateFiles(files);
+  async create(createActivityDto: CreateActivityDto) {
+    if (createActivityDto.mediaUrls && createActivityDto.mediaUrls.length > 0) {
+      this.cloudinaryUploadService.validateFiles(createActivityDto.mediaUrls);
     }
 
-    const mediaUrls = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
+    const mediaUrls = await this.cloudinaryUploadService.uploadFiles(createActivityDto.mediaUrls, 'pixel_habits_activities');
 
     return this.databaseService.activity.create({
       data: {
@@ -30,6 +30,7 @@ export class ActivitiesService {
     });
   }
 
+  //Get all activities for the specific habit, with privacy check
   async findAll(habitId: string, requestingUserId: string) {
     const habit = await this.databaseService.habit.findUnique({
       where: { id: habitId },
@@ -62,17 +63,14 @@ export class ActivitiesService {
       this.cloudinaryUploadService.validateFiles(updateActivityDto.mediaUrls);
     }
 
-    //Check if the activity exists
+    //Get existing activity to access current mediaUrls
     const existingActivity = await this.databaseService.activity.findUnique({
       where: { id },
     });
-    if (!existingActivity) {
-      throw new Error(`Activity with id ${id} not found`);
-    };
 
     //Process mediaUrls: strings pass through, files get uploaded
-    let mediaUrls = existingActivity.mediaUrls;
-    
+    let mediaUrls = existingActivity?.mediaUrls || [];
+
     if (updateActivityDto.mediaUrls && updateActivityDto.mediaUrls.length > 0) {
       mediaUrls = await this.cloudinaryUploadService.uploadFiles(updateActivityDto.mediaUrls, 'pixel_habits_activities');
     }
@@ -82,18 +80,27 @@ export class ActivitiesService {
       await this.cloudinaryUploadService.deleteFiles(mediaUrlsToDelete);
     }
 
-    //Update the activity with new data
     return this.databaseService.activity.update({
       where: { id },
       data: {
-        caption: updateActivityDto.caption ?? existingActivity.caption,
-        isPublic: updateActivityDto.isPublic ?? existingActivity.isPublic,
+        caption: updateActivityDto.caption ?? existingActivity?.caption,
+        isPublic: updateActivityDto.isPublic ?? existingActivity?.isPublic,
         mediaUrls,
       },
     });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} activity`;
+  async remove(id: string) {
+    const existingActivity = await this.databaseService.activity.findUnique({
+      where: { id },
+    });
+
+    if (existingActivity && existingActivity.mediaUrls.length > 0) {
+      await this.cloudinaryUploadService.deleteFiles(existingActivity.mediaUrls);
+    }
+
+    return await this.databaseService.activity.delete({
+      where: { id },
+    });
   }
 }

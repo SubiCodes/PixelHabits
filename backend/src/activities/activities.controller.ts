@@ -1,17 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException } from '@nestjs/common';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('activities')
 export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('media', 5))
-  create(@Body() createActivityDto: CreateActivityDto, @UploadedFiles() files?: Express.Multer.File[]) {
-    return this.activitiesService.create(createActivityDto, files);
+  async create(@Body() createActivityDto: CreateActivityDto) {
+    return this.activitiesService.create(createActivityDto);
   }
 
   @Get()
@@ -20,24 +18,34 @@ export class ActivitiesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.activitiesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const activity = await this.activitiesService.findOne(id);
+
+    if (!activity) {
+      throw new NotFoundException({
+        error: 'ACTIVITY_NOT_FOUND',
+        message: 'Activity not found',
+        suggestion: 'That activity does not exist or may have been deleted',
+      });
+    }
+
+    return activity;
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string, 
+  async update(
+    @Param('id') id: string,
     @Body() updateActivityDto: UpdateActivityDto,
   ) {
     return this.activitiesService.update(
-      id, 
-      updateActivityDto, 
+      id,
+      updateActivityDto,
       updateActivityDto.mediaUrlsToDelete,
     );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.activitiesService.remove(id);
   }
 }

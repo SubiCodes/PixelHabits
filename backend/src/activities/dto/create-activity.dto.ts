@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsArray } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateActivityDto {
@@ -23,4 +23,8 @@ export class CreateActivityDto {
     throw new Error(`isPublic must be "true" or "false", received: ${value}`);
   })
   isPublic?: boolean;
+
+  @IsArray()
+  @IsOptional()
+  mediaUrls?: (Express.Multer.File | string)[];
 }
