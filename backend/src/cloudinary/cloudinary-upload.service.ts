@@ -5,7 +5,7 @@ import { CloudinaryService } from './cloudinary.service';
 export class CloudinaryUploadService {
   constructor(private readonly cloudinaryService: CloudinaryService) {}
 
-  async uploadFiles(files?: Express.Multer.File[], folder: string = 'pixel_habits_activities'): Promise<string[]> {
+  async uploadFiles(files?: (Express.Multer.File | string)[], folder: string = 'pixel_habits_activities'): Promise<string[]> {
     if (!files || files.length === 0) {
       return [];
     }
@@ -14,6 +14,13 @@ export class CloudinaryUploadService {
       console.log(`Starting upload of ${files.length} files...`);
       
       const uploadPromises = files.map(async (file, index) => {
+        // If it's a string (URL), just return it as-is
+        if (typeof file === 'string') {
+          console.log(`Item ${index + 1}: Keeping existing URL`);
+          return file;
+        }
+        
+        // Otherwise, it's a file - upload it
         const isVideo = file.mimetype.startsWith('video/');
         console.log(`Uploading file ${index + 1}/${files.length}: ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
 
@@ -33,11 +40,16 @@ export class CloudinaryUploadService {
     }
   }
 
-  validateFiles(files: Express.Multer.File[]): void {
+  validateFiles(files: (Express.Multer.File | string)[]): void {
     const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
     const ALLOWED_MIME_TYPES = /^(image|video)\/(jpeg|jpg|png|gif|webp|mp4|mpeg|quicktime)$/;
 
     for (const file of files) {
+      // Skip validation for strings (existing URLs)
+      if (typeof file === 'string') {
+        continue;
+      }
+
       if (file.size > MAX_FILE_SIZE) {
         throw new BadRequestException({
           statusCode: 400,
