@@ -56,9 +56,10 @@ export class ActivitiesService {
     });
   }
 
-  async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[], files?: (Express.Multer.File | string)[]) {
-    if (files && files.length > 0) {
-      this.cloudinaryUploadService.validateFiles(files);
+  async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[]) {
+    //Validate mediaUrls if provided
+    if (updateActivityDto.mediaUrls && updateActivityDto.mediaUrls.length > 0) {
+      this.cloudinaryUploadService.validateFiles(updateActivityDto.mediaUrls);
     }
 
     //Check if the activity exists
@@ -69,14 +70,14 @@ export class ActivitiesService {
       throw new Error(`Activity with id ${id} not found`);
     };
 
-    //Upload the new files and get the URLs if one exists
+    //Process mediaUrls: strings pass through, files get uploaded
     let mediaUrls = existingActivity.mediaUrls;
-
-    if (files && files.length > 0) {
-      mediaUrls = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
+    
+    if (updateActivityDto.mediaUrls && updateActivityDto.mediaUrls.length > 0) {
+      mediaUrls = await this.cloudinaryUploadService.uploadFiles(updateActivityDto.mediaUrls, 'pixel_habits_activities');
     }
 
-    //Delete media URLs if any are specified
+    //Delete media URLs from Cloudinary
     if (mediaUrlsToDelete && mediaUrlsToDelete.length > 0) {
       await this.cloudinaryUploadService.deleteFiles(mediaUrlsToDelete);
     }

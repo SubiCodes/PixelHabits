@@ -25,8 +25,15 @@ export class ActivitiesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateActivityDto: UpdateActivityDto) {
-    return this.activitiesService.update(id, updateActivityDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateActivityDto: UpdateActivityDto,
+  ) {
+    return this.activitiesService.update(
+      id, 
+      updateActivityDto, 
+      updateActivityDto.mediaUrlsToDelete,
+    );
   }
 
   @Delete(':id')

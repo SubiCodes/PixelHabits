@@ -12,6 +12,10 @@ export class UpdateActivityDto extends PartialType(CreateActivityDto) {
   isPublic?: boolean;
 
   @IsArray()
+  @IsOptional()
+  mediaUrls?: (Express.Multer.File | string)[];
+
+  @IsArray()
   @IsString({ each: true })
   @IsOptional()
   mediaUrlsToDelete?: string[];
