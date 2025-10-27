@@ -13,8 +13,8 @@ export class HabitsController {
   }
 
   @Get()
-  async findAll(@Query('ownerId') ownerId: string) {
-    return this.habitsService.findAll(ownerId);
+  async findAll(@Query('ownerId') ownerId: string, @Query('requestingUserId') requestingUserId: string) {
+    return this.habitsService.findAll(ownerId, requestingUserId);
   }
 
   @Get(':id')

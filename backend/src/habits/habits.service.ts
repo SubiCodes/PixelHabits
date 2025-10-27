@@ -14,9 +14,14 @@ export class HabitsService {
     });
   }
 
-  async findAll(ownerId: string): Promise<Habit[]> {
+  async findAll(ownerId: string, requestingUserId: string): Promise<Habit[]> {
+    const isOwner = ownerId === requestingUserId;
+    
     return this.databaseService.habit.findMany({
-      where: { ownerId },
+      where: { 
+        ownerId,
+        ...(isOwner ? {} : { isPublic: true })
+      },
     });
   }
 
