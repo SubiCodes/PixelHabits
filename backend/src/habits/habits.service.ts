@@ -18,10 +18,8 @@ export class HabitsService {
     const isOwner = ownerId === requestingUserId;
     
     return this.databaseService.habit.findMany({
-      where: { 
-        ownerId,
-        ...(isOwner ? {} : { isPublic: true })
-      },
+      where: { ownerId, ...(isOwner ? {} : { isPublic: true })},
+      include: { activities: true }
     });
   }
 
