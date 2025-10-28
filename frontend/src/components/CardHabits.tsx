@@ -13,6 +13,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DialogDeleteHabit } from './DialogDeleteHabit'
+import { Calendar } from '@/components/ui/calendar'
 
 interface CardHabitsProps {
     habit: Habit
@@ -28,11 +29,9 @@ function CardHabits({ habit }: CardHabitsProps) {
         day: 'numeric'
     })
 
-    const handleDelete = () => {
-        setDropdownOpen(false)
-        // TODO: Implement delete functionality
-        console.log('Delete habit:', habit.id)
-    }
+
+    // Get activity dates
+    const activityDates = (habit.activities || []).map((activity) => new Date(activity.createdAt))
 
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
@@ -76,6 +75,21 @@ function CardHabits({ habit }: CardHabitsProps) {
                         {habit.description}
                     </CardDescription>
                 )}
+                {/* Calendar showing activity days */}
+                <div className="mt-4">
+                    <Calendar
+                        mode="multiple"
+                        selected={activityDates}
+                        month={new Date(habit.createdAt)}
+                        disabled={{ before: new Date(habit.createdAt) }}
+                        toMonth={new Date()}
+                        numberOfMonths={1}
+                        className="rounded-lg border w-full [&_.rdp-day]:pointer-events-none [&_.rdp-day:hover]:bg-transparent"
+                    />
+                    <p className="text-muted-foreground mt-2 text-center text-xs" role="region">
+                        Days with activities are highlighted in green
+                    </p>
+                </div>
             </CardHeader>
         </Card>
     )

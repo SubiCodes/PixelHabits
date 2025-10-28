@@ -7,13 +7,20 @@ const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
 });
 
+export interface Activity {
+    id: string;
+    createdAt: string | Date;
+    // Add other fields as needed
+}
+
 export interface Habit {
-    id: string
-    ownerId: string
-    title: string
-    description: string
-    isPublic: boolean
-    createdAt: Date
+    id: string;
+    ownerId: string;
+    title: string;
+    description: string;
+    isPublic: boolean;
+    createdAt: Date;
+    activities?: Activity[];
 }
 
 export type PartialHabit = Partial<Omit<Habit, 'id' | 'ownerId' | 'createdAt'>>
