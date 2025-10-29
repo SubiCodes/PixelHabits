@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { FormCreateHabit } from "./FormCreateHabit"
+import { FormCreateActivity } from "./FormCreateActivity";
 
 
 interface DialogCreateActivityProps {
@@ -22,14 +22,14 @@ export function DialogCreateActivity({ open, onOpenChange }: DialogCreateActivit
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] lg:min-w-xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add an Activity</DialogTitle>
           <DialogDescription>
             Add a new activity and gain a green block to your calendar. Fill in the details below and click add when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormCreateHabit onSuccess={handleClose} />
+        <FormCreateActivity onSuccess={handleClose} />
       </DialogContent>
     </Dialog>
   );

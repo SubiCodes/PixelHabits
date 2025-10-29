@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import CarouselMediaDisplay from "./CarouselMediaDisplay"
 import { DialogClose, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -32,11 +33,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-interface FormCreateHabitProps {
+interface FormCreateActivityProps {
     onSuccess?: () => void
 }
 
-export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
+export function FormCreateActivity({ onSuccess }: FormCreateActivityProps) {
 
     const habitStore = useHabitStore();
     const user = useUser();
@@ -48,7 +49,13 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
             mediaUrls: [],
             isPublic: false,
         },
-    })
+    });
+
+    const onRemoveMedia = (index: number) => {
+        const currentMedia = form.getValues("mediaUrls");
+        const updatedMedia = currentMedia.filter((_, i) => i !== index);
+        form.setValue("mediaUrls", updatedMedia);
+    }
 
     const onSubmit = (data: FormValues) => {
         if (!user?.id) {
@@ -67,18 +74,17 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="grid gap-4">
+                <div className="grid gap-2">
                     <FormField
                         control={form.control}
                         name="caption"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Caption</FormLabel>
                                 <FormControl>
-                                     <Textarea
+                                    <Textarea
                                         placeholder="Talk about what you did for this activity"
-                                        rows={3}
-                                        className="resize-none border-0"
+                                        rows={4}
+                                        className="resize-none pt-2 px-2"
                                         {...field}
                                     />
                                 </FormControl>
@@ -87,6 +93,53 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
                         )}
                     />
 
+                    <FormField
+                        control={form.control}
+                        name="mediaUrls"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div>
+                                        <div className="border w-full aspect-video h-2xl bg-gray-50 flex items-center justify-center">
+                                            <CarouselMediaDisplay media={field.value}  onDeleteMedia={onRemoveMedia}/>
+                                        </div>
+                                        <div
+                                            className="border-dashed border-2 border-gray-300 rounded p-4 flex flex-col items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition"
+                                            onClick={() => document.getElementById('media-upload-input')?.click()}
+                                            onDrop={e => {
+                                                e.preventDefault();
+                                                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
+                                                field.onChange([...field.value, ...files]);
+                                            }}
+                                            onDragOver={e => e.preventDefault()}
+                                        >
+                                            <input
+                                                id="media-upload-input"
+                                                type="file"
+                                                accept="image/*,video/*"
+                                                multiple
+                                                style={{ display: 'none' }}
+                                                onChange={e => {
+                                                    const files = Array.from(e.target.files || []).filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
+                                                    field.onChange([...field.value, ...files]);
+                                                }}
+                                            />
+                                            <span className="text-sm text-muted-foreground mb-2">Click or drag & drop images/videos (max 5)</span>
+                                            <Button type="button" variant="outline" size="sm">Upload Media</Button>
+                                        </div>
+                                        {field.value && field.value.length > 0 && (
+                                            <ul className="mt-2 text-xs text-muted-foreground">
+                                                {field.value.map((file: File, idx: number) => (
+                                                    <li key={idx} className="truncate">{file.name}</li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         control={form.control}
@@ -131,7 +184,7 @@ export function FormCreateHabit({ onSuccess }: FormCreateHabitProps) {
                     <DialogClose asChild>
                         <Button type="button" variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit">Create Habit</Button>
+                    <Button type="submit">Post Activity</Button>
                 </DialogFooter>
             </form>
         </Form>
