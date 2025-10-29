@@ -70,7 +70,7 @@ function Habits() {
           </div>
         )}
       </div>
-      <DialogCreateActivity open={isCreateActivityDialogOpen} onOpenChange={setIsCreateActivityDialogOpen} />
+      <DialogCreateActivity open={isCreateActivityDialogOpen} onOpenChange={setIsCreateActivityDialogOpen} habitId={selectedHabitId ?? ""} />
     </div>
   )
 }

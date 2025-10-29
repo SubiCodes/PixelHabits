@@ -13,9 +13,10 @@ import { FormCreateActivity } from "./FormCreateActivity";
 interface DialogCreateActivityProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  habitId: string;
 }
 
-export function DialogCreateActivity({ open, onOpenChange }: DialogCreateActivityProps) {
+export function DialogCreateActivity({ open, onOpenChange, habitId }: DialogCreateActivityProps) {
   const handleClose = () => {
     onOpenChange(false);
   };
@@ -29,7 +30,7 @@ export function DialogCreateActivity({ open, onOpenChange }: DialogCreateActivit
             Add a new activity and gain a green block to your calendar. Fill in the details below and click add when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormCreateActivity onSuccess={handleClose} />
+        <FormCreateActivity onSuccess={handleClose} habitId={habitId} />
       </DialogContent>
     </Dialog>
   );

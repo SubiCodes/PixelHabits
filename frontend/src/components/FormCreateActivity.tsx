@@ -18,16 +18,19 @@ import {
     FormMessage,
     FormDescription,
 } from "@/components/ui/form"
-import { useHabitStore } from "@/store/useHabitStore"
 import { useUser } from "@stackframe/stack"
 import { toast } from "sonner"
+import { useActivityStore } from "@/store/useActivityStore"
+import { access } from "fs"
 
 const formSchema = z.object({
     caption: z.string()
         .min(1, "A caption is required")
         .min(3, "Caption must be at least 3 characters")
         .max(200, "Caption must be less than 200 characters"),
-    mediaUrls: z.array(z.instanceof(File)).max(5, "You can upload up to 5 files"),
+    mediaUrls: z.array(z.instanceof(File))
+        .min(1, "At least one media file is required")
+        .max(5, "You can upload up to 5 files"),
     isPublic: z.boolean(),
 })
 
@@ -35,11 +38,12 @@ type FormValues = z.infer<typeof formSchema>
 
 interface FormCreateActivityProps {
     onSuccess?: () => void
+    habitId: string
 }
 
-export function FormCreateActivity({ onSuccess }: FormCreateActivityProps) {
+export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityProps) {
 
-    const habitStore = useHabitStore();
+    const activityStore = useActivityStore();
     const user = useUser();
 
     const form = useForm<FormValues>({
@@ -62,12 +66,21 @@ export function FormCreateActivity({ onSuccess }: FormCreateActivityProps) {
             toast.error("User not authenticated");
             return;
         }
-
-        // const habitPayload = { ownerId: user.id, ...data };
-        // habitStore.addHabit(habitPayload);
+        const activityData = {
+            ownerId: user.id,
+            habitId,
+            caption: data.caption,
+            isPublic: data.isPublic,
+        };
+        const formData = new FormData();
+        formData.append("activity", JSON.stringify(activityData));
+        data.mediaUrls.forEach((file: File) => {
+            formData.append("mediaUrls", file);
+        });
+        activityStore.addActivity(formData);
 
         if (onSuccess) {
-            onSuccess()
+            onSuccess();
         }
     }
 
@@ -101,7 +114,7 @@ export function FormCreateActivity({ onSuccess }: FormCreateActivityProps) {
                                 <FormControl>
                                     <div>
                                         <div className="border w-full aspect-video h-2xl bg-gray-50 flex items-center justify-center">
-                                            <CarouselMediaDisplay media={field.value}  onDeleteMedia={onRemoveMedia}/>
+                                            <CarouselMediaDisplay media={field.value} onDeleteMedia={onRemoveMedia} />
                                         </div>
                                         <div
                                             className="border-dashed border-2 border-gray-300 rounded p-4 flex flex-col items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition"

@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException } from '@nestjs/common';
+
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, NotFoundException, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
@@ -8,7 +10,17 @@ export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}
 
   @Post()
-  async create(@Body() createActivityDto: CreateActivityDto) {
+  @UseInterceptors(AnyFilesInterceptor())
+  async create(
+    @Body() body: any,
+    @UploadedFiles() files: Array<Express.Multer.File>
+  ) {
+    // Parse the activity JSON string from body.activity
+    const activityData = typeof body.activity === 'string' ? JSON.parse(body.activity) : body.activity;
+    const createActivityDto: CreateActivityDto = {
+      ...activityData,
+      mediaUrls: files,
+    };
     return this.activitiesService.create(createActivityDto);
   }
 

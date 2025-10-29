@@ -35,12 +35,12 @@ interface HabitStore {
     editHabit: (habit: PartialHabit, habitId: string) => Promise<void>
     deletingHabit: boolean
     deleteHabit: (habitId: string) => Promise<void>
+    addActivityToHabit: (habitId: string, activity: Activity) => void
 }
 
 // Create the store
 export const useHabitStore = create<HabitStore>((set) => ({
     habits: [],
-
     gettingUserHabits: false,
     getHabitsByUserId: async (ownerId: string, requestingUserId: string) => {
         try {
@@ -55,7 +55,6 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ gettingUserHabits: false });
         }
     },
-
     addingHabit: false,
     addHabit: async (habit) => {
         try {
@@ -82,7 +81,6 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ addingHabit: false });
         }
     },
-
     editingHabit: false,
     editHabit: async (habit: PartialHabit, habitId: string) => {
         try {
@@ -111,7 +109,6 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ editingHabit: false });
         }
     },
-
     deletingHabit: false,
     deleteHabit: async (habitId: string) => {
         try {
@@ -139,5 +136,18 @@ export const useHabitStore = create<HabitStore>((set) => ({
         } finally {
             set({ deletingHabit: false });
         }
-    }
+    },
+    addActivityToHabit: (habitId, activity) => {
+        set((state) => ({
+            habits: state.habits.map((habit) =>
+                habit.id === habitId
+                    ? {
+                        ...habit,
+                        activities: habit.activities ? [...habit.activities, activity] : [activity],
+                        streak: typeof habit.streak === 'number' ? habit.streak + 1 : 1,
+                    }
+                    : habit
+            ),
+        }));
+    },
 }))
