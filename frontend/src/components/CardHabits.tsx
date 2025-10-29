@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { MoreVertical, Pencil, PlusIcon, Trash2 } from 'lucide-react'
 import { Habit } from '@/store/useHabitStore'
 import { DialogEditHabit } from './DialogEditHabit'
 import {
@@ -13,15 +13,37 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DialogDeleteHabit } from './DialogDeleteHabit'
+import Lottie from 'lottie-react';
+import streakInactive from '../../public/json-animations/StreakInactive.json';
+import streak3to49 from '../../public/json-animations/Streak3To49.json';
+import streak50to99 from '../../public/json-animations/Streak50to99.json';
+import streak100 from '../../public/json-animations/Streak100.json';
+
 
 interface CardHabitsProps {
     habit: Habit
 }
 
 function CardHabits({ habit }: CardHabitsProps) {
-    // Calculate total days and maxPage for pagination
+    // Calculate today's date and activity dates set first
     const today = new Date();
     today.setHours(0,0,0,0);
+    const activityDatesSet = new Set((habit.activities || []).map((activity) => new Date(activity.createdAt).toDateString()));
+    // Get today's date string
+    const todayStr = today.toDateString();
+    // Check if there is activity today
+    const hasActivityToday = activityDatesSet.has(todayStr);
+
+    // Select the correct animation
+    let streakAnimation = streakInactive;
+    if (hasActivityToday && habit.streak && habit.streak >= 3 && habit.streak < 50) {
+        streakAnimation = streak3to49;
+    } else if (hasActivityToday && habit.streak && habit.streak >= 50 && habit.streak < 100) {
+        streakAnimation = streak50to99;
+    } else if (hasActivityToday && habit.streak && habit.streak >= 100) {
+        streakAnimation = streak100;
+    }
+    // Calculate total days and maxPage for pagination
     const startDate = new Date(habit.createdAt);
     startDate.setHours(0,0,0,0);
     const totalDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
@@ -37,8 +59,7 @@ function CardHabits({ habit }: CardHabitsProps) {
     })
 
 
-    // Get activity dates as ISO strings for easy comparison
-    const activityDatesSet = new Set((habit.activities || []).map((activity) => new Date(activity.createdAt).toDateString()))
+    // ...existing code...
 
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
@@ -142,9 +163,29 @@ function CardHabits({ habit }: CardHabitsProps) {
                             </div>
                         )}
                     </div>
-                    <p className="text-muted-foreground mt-2 text-center text-xs" role="region">
-                        Days with activities are highlighted in green. Hover to see the date.
-                    </p>
+                </div>
+                {/* Enhanced Bottom UI: Streak and Add Activity */}
+                <div className="flex items-end justify-between mt-6 w-full px-2 py-3 bg-linear-to-r from-gray-50 via-white to-gray-50 rounded-lg shadow-sm border">
+                    {/* Streak Animation Bottom Left */}
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white border rounded-lg shadow flex items-center justify-center" style={{ width: 56, height: 56 }}>
+                            <Lottie animationData={streakAnimation} loop={true} autoplay={true} style={{ width: '80%', height: '80%' }} />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted-foreground">Current Streak</span>
+                            <span className="text-base font-bold text-green-600">{habit.streak || 0} days</span>
+                        </div>
+                    </div>
+                    {/* Add Activity Button Bottom Right */}
+                    <div className="flex items-center h-full">
+                        <button
+                            className="bg-white border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
+                            style={{ width: 56, height: 56 }}
+                            aria-label="Add Activity"
+                        >
+                            <PlusIcon className="w-4 h-4" />
+                        </button>
+                    </div>
                 </div>
             </CardHeader>
         </Card>
