@@ -73,9 +73,14 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
 
                     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="shrink-0">
+                            <span
+                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
+                                tabIndex={0}
+                                role="button"
+                                aria-label="Open menu"
+                            >
                                 <MoreVertical className="h-4 w-4" />
-                            </Button>
+                            </span>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-48">
                             <DialogEditHabit

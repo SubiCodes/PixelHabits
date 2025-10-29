@@ -14,11 +14,11 @@ function Habits() {
   const habits = useHabitStore((state) => state.habits);
 
   const [isCreateActivityDialogOpen, setIsCreateActivityDialogOpen] = useState<boolean>(false);
-  const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);  
+  const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
 
   const openCreateActivityDialog = async (habitId: string) => {
     setSelectedHabitId(habitId);
-    setIsCreateActivityDialogOpen(true);  
+    setIsCreateActivityDialogOpen(true);
   }
 
   useEffect(() => {
@@ -60,12 +60,13 @@ function Habits() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
             {habits.map((habit) => (
-              <button  key={habit.id}>
+              <>
                 <CardHabits
                   habit={habit}
                   openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
+                  key={habit.id}
                 />
-              </button>
+              </>
             ))}
           </div>
         )}
