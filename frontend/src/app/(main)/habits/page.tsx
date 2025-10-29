@@ -19,7 +19,7 @@ function Habits() {
   }, [user]);
 
   return (
-    <div className="w-full">
+    <div className="w-full max-h-screen overflow-y-auto">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-4 py-4">

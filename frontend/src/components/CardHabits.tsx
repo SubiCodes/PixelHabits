@@ -13,14 +13,21 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DialogDeleteHabit } from './DialogDeleteHabit'
-import { Calendar } from '@/components/ui/calendar'
 
 interface CardHabitsProps {
     habit: Habit
 }
 
 function CardHabits({ habit }: CardHabitsProps) {
+    // Calculate total days and maxPage for pagination
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const startDate = new Date(habit.createdAt);
+    startDate.setHours(0,0,0,0);
+    const totalDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const maxPage = totalDays > 100 ? Math.ceil(totalDays / 100) - 1 : 0;
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [page, setPage] = useState(0) // 0 = latest, 1 = previous, etc.
 
     // Format the date
     const formattedDate = new Date(habit.createdAt).toLocaleDateString('en-US', {
@@ -30,8 +37,8 @@ function CardHabits({ habit }: CardHabitsProps) {
     })
 
 
-    // Get activity dates
-    const activityDates = (habit.activities || []).map((activity) => new Date(activity.createdAt))
+    // Get activity dates as ISO strings for easy comparison
+    const activityDatesSet = new Set((habit.activities || []).map((activity) => new Date(activity.createdAt).toDateString()))
 
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
@@ -75,19 +82,68 @@ function CardHabits({ habit }: CardHabitsProps) {
                         {habit.description}
                     </CardDescription>
                 )}
-                {/* Calendar showing activity days */}
+                {/* Custom grid showing activity days */}
                 <div className="mt-4">
-                    <Calendar
-                        mode="multiple"
-                        selected={activityDates}
-                        month={new Date(habit.createdAt)}
-                        disabled={{ before: new Date(habit.createdAt) }}
-                        toMonth={new Date()}
-                        numberOfMonths={1}
-                        className="rounded-lg border w-full [&_.rdp-day]:pointer-events-none [&_.rdp-day:hover]:bg-transparent"
-                    />
+                    <div className="flex flex-col items-center">
+                        <div
+                            className="grid grid-cols-20 gap-1 justify-center"
+                            style={{ gridAutoRows: '20px', gridAutoFlow: 'row' }}
+                        >
+                            {(() => {
+                                const boxes = [];
+                                let gridStartDate = new Date(today);
+                                gridStartDate.setDate(today.getDate() - (page * 100 + 99));
+                                if (gridStartDate < startDate) {
+                                    gridStartDate = new Date(startDate);
+                                }
+                                for (let i = 0; i < 100; i++) {
+                                    const boxDate = new Date(gridStartDate);
+                                    boxDate.setDate(gridStartDate.getDate() + i);
+                                    if (boxDate > today) {
+                                        boxes.push(
+                                            <div
+                                                key={boxDate.toDateString() + i}
+                                                className="w-5 h-5 border rounded flex items-center justify-center bg-white"
+                                            />
+                                        );
+                                        continue;
+                                    }
+                                    const dateStr = boxDate.toDateString();
+                                    const hasActivity = activityDatesSet.has(dateStr);
+                                    boxes.push(
+                                        <div
+                                            key={dateStr + i}
+                                            className={`w-5 h-5 border rounded flex items-center justify-center cursor-pointer ${hasActivity ? 'bg-green-500' : 'bg-white'}`}
+                                            title={boxDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                        />
+                                    );
+                                }
+                                return boxes;
+                            })()}
+                        </div>
+                        {/* Pagination controls */}
+                        {maxPage > 0 && (
+                            <div className="flex justify-between items-center w-full mt-2">
+                                <button
+                                    className="px-2 py-1 text-xs border rounded disabled:opacity-50"
+                                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                                    disabled={page === 0}
+                                >
+                                    Previous
+                                </button>
+                                <span className="text-xs mx-2">Page {page + 1} of {maxPage + 1}</span>
+                                <button
+                                    className="px-2 py-1 text-xs border rounded disabled:opacity-50"
+                                    onClick={() => setPage((p) => Math.min(maxPage, p + 1))}
+                                    disabled={page === maxPage}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
+                    </div>
                     <p className="text-muted-foreground mt-2 text-center text-xs" role="region">
-                        Days with activities are highlighted in green
+                        Days with activities are highlighted in green. Hover to see the date.
                     </p>
                 </div>
             </CardHeader>
