@@ -1,16 +1,25 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DialogCreateHabit } from '@/components/DialogCreateHabit'
 import { useHabitStore } from '@/store/useHabitStore'
 import CardHabits from '@/components/CardHabits'
 import { useUser } from '@stackframe/stack'
+import { DialogCreateActivity } from '@/components/DialogCreateActivity'
 
 function Habits() {
   const user = useUser();
   const habits = useHabitStore((state) => state.habits);
+
+  const [isCreateActivityDialogOpen, setIsCreateActivityDialogOpen] = useState<boolean>(false);
+  const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);  
+
+  const openCreateActivityDialog = async (habitId: string) => {
+    setSelectedHabitId(habitId);
+    setIsCreateActivityDialogOpen(true);  
+  }
 
   useEffect(() => {
     if (user) {
@@ -27,10 +36,10 @@ function Habits() {
             <h1 className="text-2xl font-bold">My Habits</h1>
             <p className="text-sm text-muted-foreground mt-0.5">Track and build your daily habits</p>
           </div>
-          
-          <DialogCreateHabit 
+
+          <DialogCreateHabit
             trigger={
-              <Button 
+              <Button
                 size="default"
                 className="gap-2 rounded-full shadow-md hover:shadow-lg transition-shadow"
               >
@@ -51,14 +60,17 @@ function Habits() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
             {habits.map((habit) => (
-              <CardHabits
-                key={habit.id}
-                habit={habit}
-              />
+              <button  key={habit.id}>
+                <CardHabits
+                  habit={habit}
+                  openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
+                />
+              </button>
             ))}
           </div>
         )}
       </div>
+      <DialogCreateActivity open={isCreateActivityDialogOpen} onOpenChange={setIsCreateActivityDialogOpen} />
     </div>
   )
 }

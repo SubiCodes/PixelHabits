@@ -22,9 +22,10 @@ import streak100 from '../../public/json-animations/Streak100.json';
 
 interface CardHabitsProps {
     habit: Habit
+    openCreateActivityDialog: () => void;
 }
 
-function CardHabits({ habit }: CardHabitsProps) {
+function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
     // Calculate today's date and activity dates set first
     const today = new Date();
     today.setHours(0,0,0,0);
@@ -179,9 +180,10 @@ function CardHabits({ habit }: CardHabitsProps) {
                     {/* Add Activity Button Bottom Right */}
                     <div className="flex items-center h-full">
                         <button
-                            className="bg-white border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
+                            className="bg-white cursor-pointer border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
                             style={{ width: 56, height: 56 }}
                             aria-label="Add Activity"
+                            onClick={openCreateActivityDialog}
                         >
                             <PlusIcon className="w-4 h-4" />
                         </button>
