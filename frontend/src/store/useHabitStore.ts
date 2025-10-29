@@ -21,6 +21,7 @@ export interface Habit {
     isPublic: boolean;
     createdAt: Date;
     activities?: Activity[];
+    streak?: number;
 }
 
 export type PartialHabit = Partial<Omit<Habit, 'id' | 'ownerId' | 'createdAt'>>
