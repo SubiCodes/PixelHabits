@@ -18,6 +18,7 @@ import streakInactive from '../../public/json-animations/StreakInactive.json';
 import streak3to49 from '../../public/json-animations/Streak3To49.json';
 import streak50to99 from '../../public/json-animations/Streak50to99.json';
 import streak100 from '../../public/json-animations/Streak100.json';
+import { useRouter } from 'next/navigation'
 
 
 interface CardHabitsProps {
@@ -26,9 +27,12 @@ interface CardHabitsProps {
 }
 
 function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
+
+    const router = useRouter();
+
     // Calculate today's date and activity dates set first
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     const activityDatesSet = new Set((habit.activities || []).map((activity) => new Date(activity.createdAt).toDateString()));
     // Get today's date string
     const todayStr = today.toDateString();
@@ -46,7 +50,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
     }
     // Calculate total days and maxPage for pagination
     const startDate = new Date(habit.createdAt);
-    startDate.setHours(0,0,0,0);
+    startDate.setHours(0, 0, 0, 0);
     const totalDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     const maxPage = totalDays > 100 ? Math.ceil(totalDays / 100) - 1 : 0;
     const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -57,16 +61,17 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
-    })
+    });
 
-
-    // ...existing code...
+    const openHabit = () => {
+        router.push(`/habits/${habit.id}`);
+    };
 
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
             <CardHeader>
                 <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0" style={{ cursor: 'pointer' }} onClick={openHabit}>
                         <CardTitle className="text-xl">{habit.title}</CardTitle>
                         <span className="text-sm text-muted-foreground">{formattedDate}</span>
                     </div>
@@ -78,6 +83,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                                 tabIndex={0}
                                 role="button"
                                 aria-label="Open menu"
+                                onClick={e => e.stopPropagation()}
                             >
                                 <MoreVertical className="h-4 w-4" />
                             </span>
@@ -86,7 +92,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                             <DialogEditHabit
                                 habit={habit}
                                 trigger={
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
                                         <Pencil className="mr-2 h-4 w-4" />
                                         <span>Edit Habit</span>
                                     </DropdownMenuItem>
@@ -95,7 +101,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                             <DialogDeleteHabit
                                 habit={habit}
                                 trigger={
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
                                         <Trash2 className="mr-2 h-4 w-4 text-destructive" />
                                         <span className="text-destructive">Delete Habit</span>
                                     </DropdownMenuItem>
@@ -105,12 +111,12 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                     </DropdownMenu>
                 </div>
                 {habit.description && (
-                    <CardDescription className="mt-2 text-sm">
+                    <CardDescription className="mt-2 text-sm cursor-pointer" onClick={openHabit}>
                         {habit.description}
                     </CardDescription>
                 )}
                 {/* Custom grid showing activity days */}
-                <div className="mt-4">
+                <div className="mt-4 cursor-pointer" onClick={openHabit}>
                     <div className="flex flex-col items-center">
                         <div
                             className="grid grid-cols-20 gap-1 justify-center"
@@ -173,7 +179,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                 {/* Enhanced Bottom UI: Streak and Add Activity */}
                 <div className="flex items-end justify-between mt-6 w-full px-2 py-3 bg-linear-to-r from-gray-50 via-white to-gray-50 rounded-lg shadow-sm border">
                     {/* Streak Animation Bottom Left */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3" onClick={openHabit}>
                         <div className="bg-white border rounded-lg shadow flex items-center justify-center" style={{ width: 56, height: 56 }}>
                             <Lottie animationData={streakAnimation} loop={true} autoplay={true} style={{ width: '80%', height: '80%' }} />
                         </div>
@@ -188,7 +194,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                             className="bg-white cursor-pointer border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
                             style={{ width: 56, height: 56 }}
                             aria-label="Add Activity"
-                            onClick={openCreateActivityDialog}
+                            onClick={e => { e.stopPropagation(); openCreateActivityDialog(); }}
                         >
                             <PlusIcon className="w-4 h-4" />
                         </button>

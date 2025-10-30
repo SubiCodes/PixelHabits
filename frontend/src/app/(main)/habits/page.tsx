@@ -60,13 +60,11 @@ function Habits() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
             {habits.map((habit) => (
-              <>
-                <CardHabits
-                  habit={habit}
-                  openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
-                  key={habit.id}
-                />
-              </>
+              <CardHabits
+                habit={habit}
+                openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
+                key={habit.id}
+              />
             ))}
           </div>
         )}
