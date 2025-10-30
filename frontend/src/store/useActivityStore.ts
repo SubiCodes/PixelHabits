@@ -26,6 +26,10 @@ export type PartialActivity = Partial<Omit<Activity, 'id' | 'ownerId' | 'created
 interface ActivityStore {
     addingActivity: boolean;
     addActivity: (activity: FormData) => Promise<void>;
+    habitActivities: Activity[];
+    gettingActivities: boolean;
+    getActivitiesByHabitId: (habitId: string, userId: string) => Promise<void>;
+    gettingActivitiesError: boolean;
 }
 
 export const useActivityStore = create<ActivityStore>((set) => ({
@@ -62,5 +66,32 @@ export const useActivityStore = create<ActivityStore>((set) => ({
         } finally {
             set({ addingActivity: false });
         }
-    }
+    },
+    habitActivities: [],
+    gettingActivities: false,
+    getActivitiesByHabitId: async (habitId: string, userId: string) => {
+        try {
+            set({ gettingActivities: true, gettingActivitiesError: false });
+            const res = await api.get(`/activities?habitId=${habitId}&requestingUserId=${userId}`);
+            set({ habitActivities: res.data });
+        } catch (err) {
+            console.log('API response (error):', err);
+            set({ gettingActivitiesError: true });
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to get activities', {
+                    id: 'get-activities',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to get activities', {
+                    id: 'create-habit',
+                    description: 'An unexpected error occurred',
+                });
+            };
+        } finally {
+            set({ gettingActivities: false });
+        }
+    },
+    gettingActivitiesError: false,
 }))
