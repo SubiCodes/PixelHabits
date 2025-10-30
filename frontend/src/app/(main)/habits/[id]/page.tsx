@@ -12,6 +12,7 @@ import streak3to49 from '../../../../lottie-jsons/Streak3To49.json';
 import streak50to99 from '../../../../lottie-jsons/Streak50to99.json';
 import streak100 from '../../../../lottie-jsons/Streak100.json';
 import ResponsiveCalendarGrid from '@/components/ResponsiveCalendarGrid';
+import CardActivity from '@/components/CardActivity';
 
 function Habit({ params }: { params: Promise<{ id: string }> }) {
 
@@ -74,6 +75,11 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                         <div className="bg-white rounded-xl shadow p-4 border w-full">
                             <ResponsiveCalendarGrid habit={habit} />
                         </div>
+                    </div>
+                    <div className='flex-1 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2'>
+                        {habitActivities.map((activity) => (
+                            <CardActivity key={activity.id} activity={activity} />
+                        ))}
                     </div>
                 </>
             )}
