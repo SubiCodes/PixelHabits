@@ -72,8 +72,8 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                             </div>
                         </div>
                     </div>
-                    <div ref={calendarParentRef} className="w-full min-w-full">
-                        <ResponsiveCalendarGrid habit={habit} mainContentRef={calendarParentRef} />
+                    <div ref={calendarParentRef} className="w-full min-w-full px-1">
+                        <ResponsiveCalendarGrid habit={habit} />
                     </div>
                 </>
             )}
