@@ -8,10 +8,12 @@ import { useHabitStore } from '@/store/useHabitStore'
 import CardHabits from '@/components/CardHabits'
 import { useUser } from '@stackframe/stack'
 import { DialogCreateActivity } from '@/components/DialogCreateActivity'
+import LoadingPage from '@/components/LoadingPage'
 
 function Habits() {
   const user = useUser();
   const habits = useHabitStore((state) => state.habits);
+  const gettingUserHabits = useHabitStore((state) => state.gettingUserHabits);
 
   const [isCreateActivityDialogOpen, setIsCreateActivityDialogOpen] = useState<boolean>(false);
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
@@ -26,6 +28,10 @@ function Habits() {
       useHabitStore.getState().getHabitsByUserId(user.id, user.id);
     }
   }, [user]);
+
+  if (gettingUserHabits) {
+    return <LoadingPage />;
+  }
 
   return (
     <div className="w-full max-h-screen overflow-y-auto">
