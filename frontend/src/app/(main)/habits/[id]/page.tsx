@@ -46,19 +46,19 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
     }
 
     return (
-        <div className='w-full max-h-screen overflow-y-auto flex flex-col p-2 gap-2'>
+    <div className="w-full flex flex-col gap-2 p-2">
             {/* Header Section */}
             {habit && (
                 <>
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-white rounded-xl shadow border">
+                    <header className="w-full bg-gradient-to-r from-green-100 via-white to-green-50 rounded-t-xl shadow p-8 border-b flex flex-col md:flex-row items-center justify-between mb-0">
                         <div className="flex-1 min-w-0">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">{habit.title}</h1>
+                            <h1 className="text-4xl font-extrabold text-green-700 mb-2 tracking-tight">{habit.title}</h1>
                             {habit.description && (
-                                <p className="text-lg text-muted-foreground mb-2">{habit.description}</p>
+                                <p className="text-lg text-gray-700 mb-2">{habit.description}</p>
                             )}
                         </div>
-                        <div className="flex items-center gap-3">
-                            <div className="bg-white border rounded-lg shadow flex items-center justify-center" style={{ width: 56, height: 56 }}>
+                        <div className="flex flex-col items-center ml-6">
+                            <div className="bg-white border-2 border-green-200 rounded-full shadow flex items-center justify-center mb-2" style={{ width: 64, height: 64 }}>
                                 <Lottie
                                     animationData={streakAnimation}
                                     loop={true}
@@ -66,14 +66,14 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                                     style={{ width: '80%', height: '80%' }}
                                 />
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-xs text-muted-foreground">Current Streak</span>
-                                <span className="text-base font-bold text-green-600">{habit.streak || 0} days</span>
-                            </div>
+                            <span className="text-xs text-green-700 font-semibold">Current Streak</span>
+                            <span className="text-lg font-bold text-green-600">{habit.streak || 0} days</span>
                         </div>
-                    </div>
-                    <div ref={calendarParentRef} className="w-full min-w-full px-1">
-                        <ResponsiveCalendarGrid habit={habit} />
+                    </header>
+                    <div ref={calendarParentRef} className="w-full">
+                        <div className="bg-white rounded-xl shadow p-4 border w-full">
+                            <ResponsiveCalendarGrid habit={habit} />
+                        </div>
                     </div>
                 </>
             )}
