@@ -14,19 +14,20 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { DialogDeleteHabit } from './DialogDeleteHabit'
 import Lottie from 'lottie-react';
-import streakInactive from '../../public/json-animations/StreakInactive.json';
-import streak3to49 from '../../public/json-animations/Streak3To49.json';
-import streak50to99 from '../../public/json-animations/Streak50to99.json';
-import streak100 from '../../public/json-animations/Streak100.json';
+import streakInactive from '../lottie-jsons/StreakInactive.json';
+import streak3to49 from '../lottie-jsons/Streak3To49.json';
+import streak50to99 from '../lottie-jsons/Streak50to99.json';
+import streak100 from '../lottie-jsons/Streak100.json';
 import { useRouter } from 'next/navigation'
 
 
 interface CardHabitsProps {
-    habit: Habit
-    openCreateActivityDialog: () => void;
+    habit: Habit;
+    openCreateActivityDialog?: () => void;
+    boxCount?: number;
 }
 
-function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
+function CardHabits({ habit, openCreateActivityDialog, boxCount = 100 }: CardHabitsProps) {
 
     const router = useRouter();
 
@@ -52,7 +53,7 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
     const startDate = new Date(habit.createdAt);
     startDate.setHours(0, 0, 0, 0);
     const totalDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    const maxPage = totalDays > 100 ? Math.ceil(totalDays / 100) - 1 : 0;
+    const maxPage = totalDays > boxCount ? Math.ceil(totalDays / boxCount) - 1 : 0;
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [page, setPage] = useState(0) // 0 = latest, 1 = previous, etc.
 
@@ -119,17 +120,17 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                 <div className="mt-4 cursor-pointer" onClick={openHabit}>
                     <div className="flex flex-col items-center">
                         <div
-                            className="grid grid-cols-20 gap-1 justify-center"
-                            style={{ gridAutoRows: '20px', gridAutoFlow: 'row' }}
+                            className="grid gap-1 justify-center"
+                            style={{ gridTemplateColumns: `repeat(${Math.ceil(boxCount / 5)}, minmax(0, 1fr))`, gridAutoRows: '20px' }}
                         >
                             {(() => {
                                 const boxes = [];
                                 let gridStartDate = new Date(today);
-                                gridStartDate.setDate(today.getDate() - (page * 100 + 99));
+                                gridStartDate.setDate(today.getDate() - (page * boxCount + (boxCount - 1)));
                                 if (gridStartDate < startDate) {
                                     gridStartDate = new Date(startDate);
                                 }
-                                for (let i = 0; i < 100; i++) {
+                                for (let i = 0; i < boxCount; i++) {
                                     const boxDate = new Date(gridStartDate);
                                     boxDate.setDate(gridStartDate.getDate() + i);
                                     if (boxDate > today) {
@@ -189,16 +190,18 @@ function CardHabits({ habit, openCreateActivityDialog }: CardHabitsProps) {
                         </div>
                     </div>
                     {/* Add Activity Button Bottom Right */}
-                    <div className="flex items-center h-full">
-                        <button
-                            className="bg-white cursor-pointer border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
-                            style={{ width: 56, height: 56 }}
-                            aria-label="Add Activity"
-                            onClick={e => { e.stopPropagation(); openCreateActivityDialog(); }}
-                        >
-                            <PlusIcon className="w-4 h-4" />
-                        </button>
-                    </div>
+                    {openCreateActivityDialog && (
+                        <div className="flex items-center h-full">
+                            <button
+                                className="bg-white cursor-pointer border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
+                                style={{ width: 56, height: 56 }}
+                                aria-label="Add Activity"
+                                onClick={e => { e.stopPropagation(); openCreateActivityDialog(); }}
+                            >
+                                <PlusIcon className="w-4 h-4" />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </CardHeader>
         </Card>

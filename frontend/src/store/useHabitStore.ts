@@ -29,6 +29,7 @@ interface HabitStore {
     habits: Habit[]
     gettingUserHabits: boolean
     getHabitsByUserId: (ownerId: string, requestingUserId: string) => Promise<void>
+    getHabit: (habitId: string) => Habit | undefined
     addingHabit: boolean
     addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => Promise<void>
     editingHabit: boolean
@@ -54,6 +55,10 @@ export const useHabitStore = create<HabitStore>((set) => ({
         } finally {
             set({ gettingUserHabits: false });
         }
+    },
+    getHabit: (habitId: string): Habit | undefined => {
+        // This function is safe because Zustand store is already created
+        return useHabitStore.getState().habits.find((habit: Habit) => habit.id === habitId);
     },
     addingHabit: false,
     addHabit: async (habit) => {
