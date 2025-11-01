@@ -19,6 +19,7 @@ import streak3to49 from '../lottie-jsons/Streak3To49.json';
 import streak50to99 from '../lottie-jsons/Streak50to99.json';
 import streak100 from '../lottie-jsons/Streak100.json';
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 
 interface CardHabitsProps {
@@ -67,6 +68,14 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
     const openHabit = () => {
         router.push(`/habits/${habit.id}`);
     };
+    
+    const openCreateActivity = () => {
+        if (!hasActivityToday && openCreateActivityDialog) {
+            openCreateActivityDialog();
+        } else {
+            toast.error("You've already logged an activity for today!");
+        }
+    }
 
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
@@ -208,7 +217,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
                                 className="bg-white cursor-pointer border rounded-lg shadow flex items-center justify-center font-semibold text-green-600 hover:bg-green-50 transition-all duration-150"
                                 style={{ width: 56, height: 56 }}
                                 aria-label="Add Activity"
-                                onClick={e => { e.stopPropagation(); openCreateActivityDialog(); }}
+                                onClick={e => { e.stopPropagation(); openCreateActivity(); }}
                             >
                                 <PlusIcon className="w-4 h-4" />
                             </button>
