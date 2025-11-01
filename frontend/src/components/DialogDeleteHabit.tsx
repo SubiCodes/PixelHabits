@@ -12,20 +12,30 @@ import {
 import { ReactNode, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Habit, useHabitStore } from "@/store/useHabitStore"
+import { useRouter } from "next/navigation"
 
 interface DialogDeleteHabitProps {
     trigger: ReactNode
     habit: Habit
+    atHabitPage?: boolean
 }
 
 
-export function DialogDeleteHabit({ trigger, habit }: DialogDeleteHabitProps) {
+export function DialogDeleteHabit({ trigger, habit, atHabitPage }: DialogDeleteHabitProps) {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
 
     const habitStore = useHabitStore();
 
     const handleClose = () => {
         setOpen(false)
+    };
+
+    const deleteHabit = async () => {
+        await habitStore.deleteHabit(habit.id);
+        if (atHabitPage) {
+            router.back();
+        }
     }
 
     return (
@@ -42,7 +52,7 @@ export function DialogDeleteHabit({ trigger, habit }: DialogDeleteHabitProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-destructive active:bg-destructive/80 hover:bg-destructive hover:cursor-pointer" onClick={() => habitStore.deleteHabit(habit.id)}>
+                    <AlertDialogAction className="bg-destructive active:bg-destructive/80 hover:bg-destructive hover:cursor-pointer" onClick={() => deleteHabit()}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

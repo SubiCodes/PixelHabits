@@ -106,6 +106,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                                     />
                                     <DialogDeleteHabit
                                         habit={habit}
+                                        atHabitPage={true}
                                         trigger={
                                             <DropdownMenuItem onSelect={e => e.preventDefault()}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
