@@ -48,6 +48,7 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ gettingUserHabits: true });
             const res = await api.get(`/habits?ownerId=${ownerId}&requestingUserId=${requestingUserId}`);
             set({ habits: res.data });
+            console.log('Fetched habits:', res.data);
         } catch (error) {
             toast.error('Failed to fetch habits', {
                 description: 'An unexpected error occurred',

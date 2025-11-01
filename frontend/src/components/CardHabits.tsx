@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
+import { toZonedTime , format } from 'date-fns-tz';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+// ...existing code...
 import { MoreVertical, Pencil, PlusIcon, Trash2 } from 'lucide-react'
 import { Habit } from '@/store/useHabitStore'
 import { DialogEditHabit } from './DialogEditHabit'
@@ -28,16 +29,21 @@ interface CardHabitsProps {
     boxCount?: number;
 }
 
-function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabitsProps) {
 
+
+const PH_TZ = 'Asia/Manila';
+function getPHDateString(date: Date) {
+    // Get the date in Asia/Manila timezone, format as yyyy-MM-dd
+    return format(toZonedTime (date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
+}
+
+function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabitsProps) {
     const router = useRouter();
 
-    // Calculate today's date and activity dates set first
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const activityDatesSet = new Set((habit.activities || []).map((activity) => new Date(activity.createdAt).toDateString()));
-    // Get today's date string
-    const todayStr = today.toDateString();
+    // Calculate today's PH date and activity dates set (PH)
+    const now = new Date();
+    const todayStr = getPHDateString(now);
+    const activityDatesSet = new Set((habit.activities || []).map((activity) => getPHDateString(new Date(activity.createdAt))));
     // Check if there is activity today
     const hasActivityToday = activityDatesSet.has(todayStr);
 
@@ -53,7 +59,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
     // Calculate total days and maxPage for pagination
     const startDate = new Date(habit.createdAt);
     startDate.setHours(0, 0, 0, 0);
-    const totalDays = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const totalDays = Math.floor((now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     const maxPage = totalDays > boxCount ? Math.ceil(totalDays / boxCount) - 1 : 0;
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [page, setPage] = useState(0) // 0 = latest, 1 = previous, etc.
@@ -68,7 +74,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
     const openHabit = () => {
         router.push(`/habits/${habit.id}`);
     };
-    
+
     const openCreateActivity = () => {
         if (!hasActivityToday && openCreateActivityDialog) {
             openCreateActivityDialog();
@@ -134,15 +140,15 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
                         >
                             {(() => {
                                 const boxes = [];
-                                let gridStartDate = new Date(today);
-                                gridStartDate.setDate(today.getDate() - (page * boxCount + (boxCount - 1)));
+                                let gridStartDate = new Date(now);
+                                gridStartDate.setDate(now.getDate() - (page * boxCount + (boxCount - 1)));
                                 if (gridStartDate < startDate) {
                                     gridStartDate = new Date(startDate);
                                 }
                                 for (let i = 0; i < boxCount; i++) {
                                     const boxDate = new Date(gridStartDate);
                                     boxDate.setDate(gridStartDate.getDate() + i);
-                                    if (boxDate > today) {
+                                    if (boxDate > now) {
                                         boxes.push(
                                             <div
                                                 key={boxDate.toDateString() + i}
@@ -151,10 +157,10 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
                                         );
                                         continue;
                                     }
-                                    const dateStr = boxDate.toDateString();
+                                    const dateStr = getPHDateString(boxDate);
                                     const hasActivity = activityDatesSet.has(dateStr);
                                     // Past day, no activity
-                                    if (!hasActivity && boxDate < today) {
+                                    if (!hasActivity && boxDate < now) {
                                         boxes.push(
                                             <div
                                                 key={dateStr + i}
