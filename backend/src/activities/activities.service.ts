@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { CloudinaryUploadService } from 'src/cloudinary/cloudinary-upload.service';
@@ -13,9 +13,37 @@ export class ActivitiesService {
 
   // Create activity with optional media files
   async create(createActivityDto: CreateActivityDto) {
+
+
+    //Check if habit exists
+    const habit = await this.databaseService.habit.findUnique({
+      where: { id: createActivityDto.habitId },
+      include: { activities: true },
+    });
+    if (!habit) {
+      throw new NotFoundException({
+        statusCode: 404,
+        error: 'NOT_FOUND',
+        message: 'Habit not found',
+        suggestion: 'This habit may have been deleted',
+        timestamp: new Date().toISOString(),
+      });
+    };
+
+    const today = new Date();
+    const todayStr = today.toDateString();
+    const hasActivityToday = habit.activities.some(activity => {
+      const activityDate = new Date(activity.createdAt);
+      return activityDate.toDateString() === todayStr;
+    });
+
+    if (hasActivityToday) {
+       throw new ConflictException('An activity for today already exists');
+    }
+
     if (createActivityDto.mediaUrls && createActivityDto.mediaUrls.length > 0) {
       this.cloudinaryUploadService.validateFiles(createActivityDto.mediaUrls);
-    }
+    };
 
     const mediaUrls = await this.cloudinaryUploadService.uploadFiles(createActivityDto.mediaUrls, 'pixel_habits_activities');
 
