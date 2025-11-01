@@ -54,11 +54,8 @@ function CardActivity({ activity }: CardActivityProps) {
   }
 
   return (
-    <div className="w-full min-w-full max-w-full border rounded shadow bg-white">
+    <div className="w-full min-w-full max-w-full border rounded-xs shadow bg-white cursor-pointer">
       {mediaElement}
-      <div className="p-4">
-        <p className="text-sm text-gray-700">{activity.caption}</p>
-      </div>
     </div>
   );
 }
