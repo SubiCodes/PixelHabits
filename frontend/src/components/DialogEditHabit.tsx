@@ -16,9 +16,10 @@ import { FormEditHabit } from "./FormEditHabit"
 interface DialogCreateHabitProps {
   trigger: ReactNode
   habit: Habit
+  atHabitPage?: boolean
 }
 
-export function DialogEditHabit({ trigger, habit }: DialogCreateHabitProps) {
+export function DialogEditHabit({ trigger, habit, atHabitPage }: DialogCreateHabitProps) {
   const [open, setOpen] = useState(false)
 
   const handleClose = () => {
@@ -37,7 +38,7 @@ export function DialogEditHabit({ trigger, habit }: DialogCreateHabitProps) {
             Update the details of your habit below and click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormEditHabit onSuccess={handleClose} habit={habit} />
+        <FormEditHabit onSuccess={handleClose} habit={habit} atHabitPage={atHabitPage} />
       </DialogContent>
     </Dialog>
   )

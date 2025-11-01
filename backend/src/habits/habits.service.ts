@@ -31,7 +31,7 @@ export class HabitsService {
       const activityDates = Array.from(new Set(
         (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
       ));
-  activityDates.sort();
+      activityDates.sort();
       let streak = 0;
       if (activityDates.length > 0) {
         const now = new Date();
@@ -39,8 +39,8 @@ export class HabitsService {
         const yesterday = new Date(now);
         yesterday.setDate(now.getDate() - 1);
         const yesterdayStr = getPHDateString(yesterday);
-  const lastActivityDateStr = activityDates[activityDates.length - 1];
-  const lastDateStr = lastActivityDateStr;
+        const lastActivityDateStr = activityDates[activityDates.length - 1];
+        const lastDateStr = lastActivityDateStr;
         if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
           streak = 1;
           for (let i = activityDates.length - 1; i > 0; i--) {
@@ -75,7 +75,7 @@ export class HabitsService {
     const activityDates = Array.from(new Set(
       (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
     ));
-  activityDates.sort();
+    activityDates.sort();
     let streak = 0;
     if (activityDates.length > 0) {
       const now = new Date();
@@ -83,8 +83,8 @@ export class HabitsService {
       const yesterday = new Date(now);
       yesterday.setDate(now.getDate() - 1);
       const yesterdayStr = getPHDateString(yesterday);
-  const lastActivityDateStr = activityDates[activityDates.length - 1];
-  const lastDateStr = lastActivityDateStr;
+      const lastActivityDateStr = activityDates[activityDates.length - 1];
+      const lastDateStr = lastActivityDateStr;
       if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
         streak = 1;
         for (let i = activityDates.length - 1; i > 0; i--) {
@@ -109,6 +109,7 @@ export class HabitsService {
     return this.databaseService.habit.update({
       where: { id },
       data: updateHabitDto,
+      include: { activities: true }
     });
   }
 

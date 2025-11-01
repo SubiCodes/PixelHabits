@@ -35,9 +35,10 @@ type FormValues = z.infer<typeof formSchema>
 interface FormCreateHabitProps {
     onSuccess?: () => void
     habit: Habit
+    atHabitPage?: boolean
 }
 
-export function FormEditHabit({ onSuccess, habit }: FormCreateHabitProps) {
+export function FormEditHabit({ onSuccess, habit, atHabitPage = false }: FormCreateHabitProps) {
 
     const habitStore = useHabitStore();
     const user = useUser();
@@ -57,7 +58,7 @@ export function FormEditHabit({ onSuccess, habit }: FormCreateHabitProps) {
             return;
         }
 
-        habitStore.editHabit(data, habit.id);
+        habitStore.editHabit(data, habit.id, atHabitPage);
 
         if (onSuccess) {
             onSuccess()

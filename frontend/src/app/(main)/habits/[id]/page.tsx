@@ -26,9 +26,10 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
 
     const { id } = React.use(params);
     const user = useUser();
-    const habit = useHabitStore((state) => state.getHabit(id));
+    const habit = useHabitStore((state) => state.habit);
+    const getHabit = useHabitStore((state) => state.getHabit);
 
-     const calendarParentRef = React.useRef<HTMLDivElement>(null);
+    const calendarParentRef = React.useRef<HTMLDivElement>(null);
 
     const habitActivities = useActivityStore((state) => state.habitActivities);
     const gettingActivities = useActivityStore((state) => state.gettingActivities);
@@ -37,8 +38,9 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
 
     useEffect(() => {
         if (!user) return;
+        getHabit(id);
         getActivitiesByHabitId(id, user.id);
-    }, [id, user, getActivitiesByHabitId]);
+    }, [id, user, getActivitiesByHabitId, getHabit]);
 
     if (gettingActivities) {
         return <LoadingPage />;
@@ -94,6 +96,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                                 <DropdownMenuContent align="end" className="w-48">
                                     <DialogEditHabit
                                         habit={habit}
+                                        atHabitPage={true}
                                         trigger={
                                             <DropdownMenuItem onSelect={e => e.preventDefault()}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13z" /></svg>

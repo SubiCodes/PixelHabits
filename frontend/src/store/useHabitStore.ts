@@ -29,11 +29,12 @@ interface HabitStore {
     habits: Habit[]
     gettingUserHabits: boolean
     getHabitsByUserId: (ownerId: string, requestingUserId: string) => Promise<void>
+    habit: Habit | null
     getHabit: (habitId: string) => Habit | undefined
     addingHabit: boolean
     addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => Promise<void>
     editingHabit: boolean
-    editHabit: (habit: PartialHabit, habitId: string) => Promise<void>
+    editHabit: (habit: PartialHabit, habitId: string, atHabitPage?: boolean) => Promise<void>
     deletingHabit: boolean
     deleteHabit: (habitId: string) => Promise<void>
     addActivityToHabit: (habitId: string, activity: Activity) => void
@@ -57,9 +58,11 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ gettingUserHabits: false });
         }
     },
+    habit: null,
     getHabit: (habitId: string): Habit | undefined => {
-        // This function is safe because Zustand store is already created
-        return useHabitStore.getState().habits.find((habit: Habit) => habit.id === habitId);
+        const habit = useHabitStore.getState().habits.find((habit: Habit) => habit.id === habitId);
+        set({ habit: habit });
+        return;
     },
     addingHabit: false,
     addHabit: async (habit) => {
@@ -88,14 +91,18 @@ export const useHabitStore = create<HabitStore>((set) => ({
         }
     },
     editingHabit: false,
-    editHabit: async (habit: PartialHabit, habitId: string) => {
+    editHabit: async (habit: PartialHabit, habitId: string, atHabitPage?: boolean) => {
         try {
             set({ editingHabit: true });
             toast.loading('Updating habit...', { id: 'edit-habit' });
             const res = await api.patch(`/habits/${habitId}`, habit);
-            set((state) => ({
-                habits: state.habits.map((h) => (h.id === habitId ? res.data : h)),
-            }));
+            if (atHabitPage) {
+                set({ habit: res.data });
+            } else {
+                set((state) => ({
+                    habits: state.habits.map((h) => (h.id === habitId ? res.data : h)),
+                }));
+            }
             toast.success('Habit updated successfully!', { id: 'edit-habit' });
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.data) {
