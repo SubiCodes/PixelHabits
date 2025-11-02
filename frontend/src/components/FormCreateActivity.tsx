@@ -114,7 +114,7 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                                 <FormControl>
                                     <div>
                                         <div className="border w-full max-w-full h-2xl bg-gray-50 flex items-center justify-center">
-                                            {/* <CarouselMediaDisplay media={field.value} onDeleteMedia={onRemoveMedia} /> */}
+                                            <CarouselMediaDisplay media={form.getValues("mediaUrls")} onDeleteMedia={onRemoveMedia}/>
                                         </div>
                                         <div
                                             className="border-dashed border-2 border-gray-300 rounded p-4 flex flex-col items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition"
