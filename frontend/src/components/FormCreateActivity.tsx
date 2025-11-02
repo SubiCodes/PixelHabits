@@ -113,8 +113,8 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                             <FormItem>
                                 <FormControl>
                                     <div>
-                                        <div className="border w-full aspect-video h-2xl bg-gray-50 flex items-center justify-center">
-                                            <CarouselMediaDisplay media={field.value} onDeleteMedia={onRemoveMedia} />
+                                        <div className="border w-full max-w-full h-2xl bg-gray-50 flex items-center justify-center">
+                                            {/* <CarouselMediaDisplay media={field.value} onDeleteMedia={onRemoveMedia} /> */}
                                         </div>
                                         <div
                                             className="border-dashed border-2 border-gray-300 rounded p-4 flex flex-col items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition"
@@ -140,13 +140,6 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                                             <span className="text-sm text-muted-foreground mb-2">Click or drag & drop images/videos (max 5)</span>
                                             <Button type="button" variant="outline" size="sm">Upload Media</Button>
                                         </div>
-                                        {field.value && field.value.length > 0 && (
-                                            <ul className="mt-2 text-xs text-muted-foreground">
-                                                {field.value.map((file: File, idx: number) => (
-                                                    <li key={idx} className="truncate">{file.name}</li>
-                                                ))}
-                                            </ul>
-                                        )}
                                     </div>
                                 </FormControl>
                                 <FormMessage />

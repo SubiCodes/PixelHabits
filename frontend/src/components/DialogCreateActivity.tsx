@@ -23,10 +23,10 @@ export function DialogCreateActivity({ open, onOpenChange, habitId }: DialogCrea
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] lg:min-w-xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[98%] md:min-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add an Activity</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="max-w-md">
             Add a new activity and gain a green block to your calendar. Fill in the details below and click add when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
