@@ -22,7 +22,7 @@ interface CarouselMediaForDisplayProps {
     isLiked?: boolean;
 }
 
-function CarouselMediaForDisplay({ 
+function CarouselMediaWithActionButtons({ 
     media, 
     posterName, 
     posterAvatar, 
@@ -187,4 +187,4 @@ function CarouselMediaForDisplay({
     )
 }
 
-export default CarouselMediaForDisplay
+export default CarouselMediaWithActionButtons

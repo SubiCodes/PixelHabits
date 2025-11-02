@@ -7,8 +7,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { ReactNode } from "react"
 import { X } from "lucide-react"
-import CarouselMediaForDisplay from "./CarouselMediaForDisplay"
 import { Activity } from "@/store/useHabitStore"
+import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 
 interface DialogCreateHabitProps {
     trigger?: ReactNode
@@ -60,7 +60,7 @@ export function DialogViewActivity({trigger, open, close, activity}: DialogCreat
                 {/* Media Display with Overlay */}
                 <div className="relative w-full h-[600px] flex items-center justify-center bg-black overflow-hidden">
                     {activity?.mediaUrls && activity?.mediaUrls.length > 0 ? (
-                        <CarouselMediaForDisplay 
+                        <CarouselMediaWithActionButtons 
                             media={activity.mediaUrls}
                             posterName={posterName}
                             posterAvatar={posterAvatar}
