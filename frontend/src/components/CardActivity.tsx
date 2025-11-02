@@ -16,9 +16,10 @@ export interface Activity {
 
 interface CardActivityProps {
   activity: Activity;
+  openActivity: () => void
 }
 
-function CardActivity({ activity }: CardActivityProps) {
+function CardActivity({ activity, openActivity }: CardActivityProps) {
   const firstMedia = activity.mediaUrls[0];
   let mediaElement = null;
 
@@ -54,9 +55,9 @@ function CardActivity({ activity }: CardActivityProps) {
   }
 
   return (
-    <div className="w-full min-w-full max-w-full border rounded-xs shadow bg-white cursor-pointer">
+    <button className="w-full min-w-full max-w-full border rounded-xs shadow bg-white cursor-pointer hover:shadow-lg transition-shadow" onClick={() => openActivity()}>
       {mediaElement}
-    </div>
+    </button>
   );
 }
 

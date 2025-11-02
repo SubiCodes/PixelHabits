@@ -25,6 +25,15 @@ function CarouselMediaDisplay({ media, onDeleteMedia }: CarouselMediaDisplayProp
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
 
+    const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
+        const video = e.currentTarget;
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    };
+
     const renderMedia = (item: MediaType, index: number) => {
         if (typeof item === "string") {
             const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(item);
@@ -35,7 +44,13 @@ function CarouselMediaDisplay({ media, onDeleteMedia }: CarouselMediaDisplayProp
                 );
             } else if (isVideo) {
                 return (
-                    <video src={item} controls className="w-full h-full object-contain bg-black" />
+                    <video 
+                        src={item} 
+                        className="w-full h-full object-contain bg-black cursor-pointer" 
+                        onClick={handleVideoClick}
+                        playsInline
+                        loop
+                    />
                 );
             }
         } else if (item instanceof File) {
@@ -48,7 +63,13 @@ function CarouselMediaDisplay({ media, onDeleteMedia }: CarouselMediaDisplayProp
                 );
             } else if (isVideo) {
                 return (
-                    <video src={url} controls className="w-full h-full object-contain bg-black" />
+                    <video 
+                        src={url} 
+                        className="w-full h-full object-contain bg-black cursor-pointer" 
+                        onClick={handleVideoClick}
+                        playsInline
+                        loop
+                    />
                 );
             }
         }
@@ -116,7 +137,7 @@ function CarouselMediaDisplay({ media, onDeleteMedia }: CarouselMediaDisplayProp
                         ))}
                     </CarouselContent>
                 </Carousel>
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
                     {current} / {count}
                 </div>
             </div>

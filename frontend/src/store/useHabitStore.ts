@@ -9,8 +9,13 @@ const api = axios.create({
 
 export interface Activity {
     id: string;
+    ownerId: string;
+    habitId: string;
+    caption: string | null;
+    mediaUrls: (string | File)[];
+    isPublic: boolean;
     createdAt: string | Date;
-    // Add other fields as needed
+    updatedAt: string | Date;
 }
 
 export interface Habit {

@@ -3,7 +3,7 @@
 import CardHabits from '@/components/CardHabits';
 import LoadingPage from '@/components/LoadingPage';
 import { useActivityStore } from '@/store/useActivityStore';
-import { useHabitStore } from '@/store/useHabitStore';
+import { Activity, useHabitStore } from '@/store/useHabitStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
@@ -21,8 +21,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DialogEditHabit } from '@/components/DialogEditHabit';
 import { DialogDeleteHabit } from '@/components/DialogDeleteHabit';
+import { DialogViewActivity } from '@/components/DialogViewActivity';
 
 function Habit({ params }: { params: Promise<{ id: string }> }) {
+
+    const [isActivityOpen, setIsActivityOpen] = useState<boolean>(false);
+    const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+    const openActivity = async (activity: Activity) => {
+        setSelectedActivity(activity);
+        setIsActivityOpen(true);
+    };
 
     const { id } = React.use(params);
     const user = useUser();
@@ -125,12 +133,12 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                     </div>
                     <div className='flex-1 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2'>
                         {habitActivities.map((activity) => (
-                            <CardActivity key={activity.id} activity={activity} />
+                            <CardActivity key={activity.id} activity={activity} openActivity={() => openActivity(activity)} />
                         ))}
                     </div>
                 </>
             )}
-            {/* ...rest of page... */}
+            <DialogViewActivity open={isActivityOpen} close={() => setIsActivityOpen(false)} activity={selectedActivity}/>
         </div>
     )
 }
