@@ -47,20 +47,20 @@ export const useActivityStore = create<ActivityStore>((set) => ({
             });
             console.log('API response (success):', res);
             console.log('PASSED DATA:', activity);
-            toast.success('Activity added');
+            toast.success('Activity added', { id: 'add-activity' });
             const { useHabitStore } = await import('./useHabitStore');
             useHabitStore.getState().addActivityToHabit(habitId, res.data);
         } catch (err) {
             console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
-                toast.error(message || 'Failed to create habit', {
-                    id: 'create-habit',
+                toast.error(message || 'Failed to add activity', {
+                    id: 'add-activity',
                     description: suggestion || 'Please try again later',
                 });
             } else {
-                toast.error('Failed to create habit', {
-                    id: 'create-habit',
+                toast.error('Failed to add activity', {
+                    id: 'add-activity',
                     description: 'An unexpected error occurred',
                 });
             }
