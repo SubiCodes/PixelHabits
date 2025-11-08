@@ -28,6 +28,8 @@ interface ActivityStore {
     addActivity: (activity: FormData) => Promise<void>;
     editActivity: (activityId: string, activity: Activity, mediasToDelete: string[]) => Promise<void>;
     editingActivity: boolean;
+    deleteActivity: (activityId: string) => Promise<void>;
+    deletingActivity: boolean;
     habitActivities: Activity[];
     gettingActivities: boolean;
     getActivitiesByHabitId: (habitId: string, userId: string) => Promise<void>;
@@ -75,26 +77,16 @@ export const useActivityStore = create<ActivityStore>((set) => ({
         try {
             set({ editingActivity: true });
             toast.loading('Editing activity...', { id: 'edit-activity' });
-
-            // Step 1: Collect File objects and create a payload with placeholders
-            // Files are marked as '0' so the server knows which positions need replacement
             const mediaFiles: File[] = [];
             const mediaUrlsPayload = activity.mediaUrls.map((media) => {
                 if (media instanceof File) {
-                    // Collect the File object to send separately
                     mediaFiles.push(media);
-                    // Return placeholder '0' so server knows a file goes here
                     return '0';
                 }
-                // Keep existing URL strings unchanged
                 return media as string;
             });
 
-            // Step 2: Build FormData for multipart/form-data request
             const form = new FormData();
-
-            // Append the activity JSON with placeholder mediaUrls
-            // Only include fields that the backend UpdateActivityDto expects
             const activityPayload = {
                 caption: activity.caption,
                 isPublic: activity.isPublic,
@@ -102,27 +94,20 @@ export const useActivityStore = create<ActivityStore>((set) => ({
                 mediaUrlsToDelete: mediasToDelete,
             };
             form.append('activity', JSON.stringify(activityPayload));
-
-            // Append each File object in order (server will use these to replace placeholders)
             for (const file of mediaFiles) {
                 form.append('files', file);
             }
-
-            // Step 3: Send PATCH request to update activity
-            // axios will auto-detect FormData and set Content-Type with boundary
             const res = await api.patch(`/activities/${activityId}`, form);
 
             console.log('API response (success):', res);
             console.log('Updated activity:', res.data);
             
-            // Update the habitActivities state with the updated activity
             set((state) => ({
                 habitActivities: state.habitActivities.map((activity) =>
                     activity.id === activityId ? res.data : activity
                 ),
             }));
 
-            // Show success toast with explicit description
             toast.success('Activity updated successfully', { 
                 id: 'edit-activity',
                 description: 'Your changes have been saved'
@@ -142,9 +127,38 @@ export const useActivityStore = create<ActivityStore>((set) => ({
                     id: 'edit-activity',
                     description: 'An unexpected error occurred',
                 });
+                }
+            } finally {
+            set({ editingActivity: false });
+        }
+    },
+    deletingActivity: false,
+    deleteActivity: async (activityId: string) => {
+        try {
+            set({ deletingActivity: true });
+            toast.loading('Deleting activity...', { id: 'delete-activity' });
+            await api.delete(`/activities/${activityId}`);
+            set((state) => ({
+                habitActivities: state.habitActivities.filter((activity) => activity.id !== activityId),
+            }));
+            toast.success('Activity deleted successfully', { id: 'delete-activity' });
+        } catch (err) {
+            console.log('API response (error):', err);
+            set({ gettingActivitiesError: true });
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to delete activity', {
+                    id: 'delete-activity',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to delete activity', {
+                    id: 'delete-activity',
+                    description: 'An unexpected error occurred',
+                });
             }
         } finally {
-            set({ editingActivity: false });
+            set({ deletingActivity: false });
         }
     },
     habitActivities: [],
