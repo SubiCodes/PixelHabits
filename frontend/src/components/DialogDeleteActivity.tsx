@@ -39,8 +39,8 @@ export function DialogDeleteActivity({ open, activity, closeViews }: DialogDelet
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-destructive active:bg-destructive/80 hover:bg-destructive hover:cursor-pointer" onClick={() => deleteActivity()}>
+                    <AlertDialogCancel disabled={activityStore?.deletingActivity}>Cancel</AlertDialogCancel>
+                    <AlertDialogAction disabled={activityStore?.deletingActivity} className="bg-destructive active:bg-destructive/80 hover:bg-destructive hover:cursor-pointer" onClick={() => deleteActivity()}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
