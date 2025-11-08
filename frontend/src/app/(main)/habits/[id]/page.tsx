@@ -1,6 +1,5 @@
 "use client"
 
-import CardHabits from '@/components/CardHabits';
 import LoadingPage from '@/components/LoadingPage';
 import { Activity, useActivityStore } from '@/store/useActivityStore';
 import { useHabitStore } from '@/store/useHabitStore';
@@ -23,6 +22,7 @@ import { DialogEditHabit } from '@/components/DialogEditHabit';
 import { DialogDeleteHabit } from '@/components/DialogDeleteHabit';
 import { DialogViewActivity } from '@/components/DialogViewActivity';
 import { DialogEditActivity } from '@/components/DialogEditActivity';
+import { DialogDeleteActivity } from '@/components/DialogDeleteActivity';
 
 function Habit({ params }: { params: Promise<{ id: string }> }) {
 
@@ -44,6 +44,16 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
         setIsActivityOpen(false);
         setIsEditActivityDialogOpen(false);
     };
+    const [selectedActivityId, setSelectedActivityId] = useState<string | null>(null);
+    const [isDeleteActivityDialogOpen, setIsDeleteActivityDialogOpen] = useState<boolean>(false);
+    const openDeleteActivityDialog = (activityId: string) => {
+        setSelectedActivityId(activityId);
+        setIsDeleteActivityDialogOpen(true);
+    }
+    const closeViewAndDeleteDialogs = () => {
+        setIsActivityOpen(false);
+        setIsDeleteActivityDialogOpen(false);
+    }
 
     const { id } = React.use(params);
     const user = useUser();
@@ -156,9 +166,14 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                 close={() => setIsActivityOpen(false)}
                 activity={selectedActivity}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
-                deleteFunc={(activity) => console.log("Under Construction", activity?.id)}
+                deleteFunc={() => openDeleteActivityDialog(selectedActivity?.id || "")}
             />
             <DialogEditActivity open={isEditActivityDialogOpen} onOpenChange={setIsEditActivityDialogOpen} activity={selectedActivity ?? null} onEditSuccess={closeViewAndEditDialogs} />
+            <DialogDeleteActivity
+                open={isDeleteActivityDialogOpen}
+                activity={selectedActivity}
+                closeViews={closeViewAndDeleteDialogs}
+            />
         </div>
     )
 }

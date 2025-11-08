@@ -22,7 +22,7 @@ interface DialogCreateHabitProps {
     close: () => void
     activity: Activity | null
     editFunc?: (activity: Activity | null) => void
-    deleteFunc?: (activity: Activity | null) => void
+    deleteFunc?: () => void
 }
 
 export function DialogViewActivity({trigger, open, close, activity, editFunc, deleteFunc}: DialogCreateHabitProps) {
@@ -63,7 +63,7 @@ export function DialogViewActivity({trigger, open, close, activity, editFunc, de
                                         <Edit className="mr-2 h-4 w-4" />
                                         <span>Edit Activity</span>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem variant="destructive" onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(activity); } }}>
+                                    <DropdownMenuItem variant="destructive" onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(); } }}>
                                         <Trash2 className="mr-2 h-4 w-4 text-destructive" />
                                         <span className="text-destructive">Delete Activity</span>
                                     </DropdownMenuItem>

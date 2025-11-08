@@ -15,39 +15,27 @@ import { useRouter } from "next/navigation"
 import { Activity, useActivityStore } from "@/store/useActivityStore"
 
 interface DialogDeleteActivityProps {
-    trigger: ReactNode
-    activity: Activity
-    atHabitPage?: boolean
+    open: boolean;
+    activity: Activity | null
+    closeViews: () => void
 }
 
 
-export function DialogDeleteActivity({ trigger, activity, atHabitPage }: DialogDeleteActivityProps) {
-    const [open, setOpen] = useState(false);
-    const router = useRouter();
+export function DialogDeleteActivity({ open, activity, closeViews }: DialogDeleteActivityProps) {
 
     const activityStore = useActivityStore();
-
-    const handleClose = () => {
-        setOpen(false)
-    };
-
     const deleteActivity = async () => {
-        await activityStore.deleteActivity(activity.id);
-        if (atHabitPage) {
-            router.back();
-        }
+        await activityStore.deleteActivity(activity?.id ?? "");
+        closeViews();
     }
 
     return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                {trigger}
-            </AlertDialogTrigger>
+        <AlertDialog open={open}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action will permanently delete your activity &quot;{activity.caption}&quot;? This action cannot be undone and may cause you to lose your streak 🔥.
+                        This action will permanently delete your activity &quot;{activity?.caption}&quot;? This action cannot be undone and may cause you to lose your streak 🔥.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
