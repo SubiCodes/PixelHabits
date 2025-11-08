@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DialogCreateHabit } from '@/components/DialogCreateHabit'
-import { useHabitStore } from '@/store/useHabitStore'
 import CardHabits from '@/components/CardHabits'
 import { useUser } from '@stackframe/stack'
 import { DialogCreateActivity } from '@/components/DialogCreateActivity'
 import LoadingPage from '@/components/LoadingPage'
+import { useHabitStore } from '@/store/useHabitStore'
 
 function Habits() {
   const user = useUser();

@@ -2,8 +2,8 @@
 
 import CardHabits from '@/components/CardHabits';
 import LoadingPage from '@/components/LoadingPage';
-import { useActivityStore } from '@/store/useActivityStore';
-import { Activity, useHabitStore } from '@/store/useHabitStore';
+import { Activity, useActivityStore } from '@/store/useActivityStore';
+import { useHabitStore } from '@/store/useHabitStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
@@ -22,15 +22,21 @@ import {
 import { DialogEditHabit } from '@/components/DialogEditHabit';
 import { DialogDeleteHabit } from '@/components/DialogDeleteHabit';
 import { DialogViewActivity } from '@/components/DialogViewActivity';
+import { DialogEditActivity } from '@/components/DialogEditActivity';
 
 function Habit({ params }: { params: Promise<{ id: string }> }) {
 
     const [isActivityOpen, setIsActivityOpen] = useState<boolean>(false);
+    const [isEditActivityDialogOpen, setIsEditActivityDialogOpen] = useState<boolean>(false);
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
     const openActivity = async (activity: Activity) => {
         setSelectedActivity(activity);
         setIsActivityOpen(true);
     };
+    const openEditActivityDialog = async (activity: Activity) => {
+        setSelectedActivity(activity);
+        setIsEditActivityDialogOpen(true);
+    }
 
     const { id } = React.use(params);
     const user = useUser();
@@ -98,7 +104,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                                         className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-0 rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
                                         aria-label="Open habit options"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="6" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="18" r="1.5" /></svg>
                                     </button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-48">
@@ -138,7 +144,14 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                     </div>
                 </>
             )}
-            <DialogViewActivity open={isActivityOpen} close={() => setIsActivityOpen(false)} activity={selectedActivity}/>
+            <DialogViewActivity
+                open={isActivityOpen}
+                close={() => setIsActivityOpen(false)}
+                activity={selectedActivity}
+                editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
+                deleteFunc={(activity) => console.log("Under Construction", activity?.id)}
+            />
+            <DialogEditActivity open={isEditActivityDialogOpen} onOpenChange={setIsEditActivityDialogOpen} activity={selectedActivity ?? null} />
         </div>
     )
 }

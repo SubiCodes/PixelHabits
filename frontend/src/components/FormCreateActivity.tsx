@@ -190,7 +190,7 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                     <DialogClose asChild>
                         <Button type="button" variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit">Post Activity</Button>
+                    <Button type="submit">Save Changes</Button>
                 </DialogFooter>
             </form>
         </Form>

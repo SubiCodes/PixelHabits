@@ -18,17 +18,17 @@ import {
     FormMessage,
     FormDescription,
 } from "@/components/ui/form"
-import { useUser } from "@stackframe/stack"
 import { toast } from "sonner"
-import { useActivityStore } from "@/store/useActivityStore"
-import { access } from "fs"
+import { Activity } from "@/store/useHabitStore"
+import { useEffect } from "react"
 
 const formSchema = z.object({
     caption: z.string()
         .min(1, "A caption is required")
         .min(3, "Caption must be at least 3 characters")
         .max(200, "Caption must be less than 200 characters"),
-    mediaUrls: z.array(z.instanceof(File))
+    // allow either existing URLs (string) or new File objects
+    mediaUrls: z.array(z.union([z.string(), z.instanceof(File)]))
         .min(1, "At least one media file is required")
         .max(5, "You can upload up to 5 files"),
     isPublic: z.boolean(),
@@ -38,13 +38,12 @@ type FormValues = z.infer<typeof formSchema>
 
 interface FormEditActivityProps {
     onSuccess?: () => void
-    habitId: string
+    activity: Activity | null
 }
 
-export function FormEditActivity({ onSuccess, habitId }: FormEditActivityProps) {
+export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps) {
 
-    const activityStore = useActivityStore();
-    const user = useUser();
+    // activityStore / user not needed for edit defaults; backend update not implemented yet
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -55,6 +54,17 @@ export function FormEditActivity({ onSuccess, habitId }: FormEditActivityProps) 
         },
     });
 
+    // When activity prop changes, populate form defaults
+    useEffect(() => {
+        if (!activity) return;
+        form.reset({
+            caption: activity.caption ?? "",
+            // activity.mediaUrls may be string[] or (string|File)[]
+            mediaUrls: (activity.mediaUrls as unknown as FormValues["mediaUrls"]) ?? [],
+            isPublic: activity.isPublic ?? false,
+        });
+    }, [activity, form]);
+
     const onRemoveMedia = (index: number) => {
         const currentMedia = form.getValues("mediaUrls");
         const updatedMedia = currentMedia.filter((_, i) => i !== index);
@@ -62,26 +72,11 @@ export function FormEditActivity({ onSuccess, habitId }: FormEditActivityProps) 
     }
 
     const onSubmit = (data: FormValues) => {
-        if (!user?.id) {
-            toast.error("User not authenticated");
-            return;
-        }
-        const activityData = {
-            ownerId: user.id,
-            habitId,
-            caption: data.caption,
-            isPublic: data.isPublic,
-        };
-        const formData = new FormData();
-        formData.append("activity", JSON.stringify(activityData));
-        data.mediaUrls.forEach((file: File) => {
-            formData.append("mediaUrls", file);
-        });
-        activityStore.addActivity(formData);
-
-        if (onSuccess) {
-            onSuccess();
-        }
+        // Editing endpoint is not implemented in the activity store yet.
+        // For now, just log the update payload and call onSuccess to close the form.
+        console.log('Edit activity submit:', data);
+        toast.success('Activity updated (local only)');
+        if (onSuccess) onSuccess();
     }
 
     return (

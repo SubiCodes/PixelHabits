@@ -5,8 +5,14 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 import { ReactNode } from "react"
-import { X } from "lucide-react"
+import { Ellipsis, X } from "lucide-react"
 import { Activity } from "@/store/useHabitStore"
 import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 
@@ -15,9 +21,11 @@ interface DialogCreateHabitProps {
     open: boolean
     close: () => void
     activity: Activity | null
+    editFunc?: (activity: Activity | null) => void
+    deleteFunc?: (activity: Activity | null) => void
 }
 
-export function DialogViewActivity({trigger, open, close, activity}: DialogCreateHabitProps) {
+export function DialogViewActivity({trigger, open, close, activity, editFunc, deleteFunc}: DialogCreateHabitProps) {
 
     // Predefined data for now
     const posterName = "John Doe";
@@ -43,7 +51,23 @@ export function DialogViewActivity({trigger, open, close, activity}: DialogCreat
         <AlertDialog open={open} onOpenChange={close}>
             <AlertDialogContent className="pb-2 px-2 pt-0 max-w-md h-auto">
                 <AlertDialogHeader className="border-b border-black grid grid-cols-3 w-full items-center py-2">
-                    <div/>
+                    <div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="bg-transparent">
+                                    <Ellipsis size={16} color="black" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof editFunc === 'function') { editFunc(activity); } }}>
+                                    Edit Activity
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(activity); } }}>
+                                    Delete Activity
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                     <AlertDialogTitle className="font-bold text-center">View Activity</AlertDialogTitle>
                     <div className="flex justify-end">
                         <Button
