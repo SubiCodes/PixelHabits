@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { DialogDeleteHabit } from './DialogDeleteHabit'
 import Lottie from 'lottie-react';
-import streakInactive from '../lottie-jsons/StreakInactive.json';
-import streak3to49 from '../lottie-jsons/Streak3To49.json';
-import streak50to99 from '../lottie-jsons/Streak50to99.json';
-import streak100 from '../lottie-jsons/Streak100.json';
+import streakInactive from '../../lottie-jsons/StreakInactive.json';
+import streak3to49 from '../../lottie-jsons/Streak3To49.json';
+import streak50to99 from '../../lottie-jsons/Streak50to99.json';
+import streak100 from '../../lottie-jsons/Streak100.json';
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 

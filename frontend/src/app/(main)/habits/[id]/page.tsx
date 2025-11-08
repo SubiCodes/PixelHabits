@@ -11,18 +11,18 @@ import streak3to49 from '../../../../lottie-jsons/Streak3To49.json';
 import streak50to99 from '../../../../lottie-jsons/Streak50to99.json';
 import streak100 from '../../../../lottie-jsons/Streak100.json';
 import ResponsiveCalendarGrid from '@/components/ResponsiveCalendarGrid';
-import CardActivity from '@/components/CardActivity';
+import CardActivity from '@/components/activity_components/CardActivity';
 import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import { DialogEditHabit } from '@/components/DialogEditHabit';
-import { DialogDeleteHabit } from '@/components/DialogDeleteHabit';
-import { DialogViewActivity } from '@/components/DialogViewActivity';
-import { DialogEditActivity } from '@/components/DialogEditActivity';
-import { DialogDeleteActivity } from '@/components/DialogDeleteActivity';
+import { DialogEditHabit } from '@/components/habit_components/DialogEditHabit';
+import { DialogDeleteHabit } from '@/components/habit_components/DialogDeleteHabit';
+import { DialogViewActivity } from '@/components/activity_components/DialogViewActivity';
+import { DialogEditActivity } from '@/components/activity_components/DialogEditActivity';
+import { DialogDeleteActivity } from '@/components/activity_components/DialogDeleteActivity';
 
 function Habit({ params }: { params: Promise<{ id: string }> }) {
 

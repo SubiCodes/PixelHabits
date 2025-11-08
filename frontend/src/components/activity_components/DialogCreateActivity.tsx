@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { FormCreateActivity } from "./FormCreateActivity";
+import { FormCreateActivity } from "../FormCreateActivity";
 
 
 interface DialogCreateActivityProps {

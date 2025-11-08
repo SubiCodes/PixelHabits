@@ -14,7 +14,7 @@ import {
 import { ReactNode } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
 import { Activity } from "@/store/useHabitStore"
-import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
+import CarouselMediaWithActionButtons from "../CarouselMediaWithActionButtons"
 
 interface DialogCreateHabitProps {
     trigger?: ReactNode

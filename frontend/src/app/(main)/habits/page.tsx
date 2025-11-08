@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { DialogCreateHabit } from '@/components/DialogCreateHabit'
-import CardHabits from '@/components/CardHabits'
+import { DialogCreateHabit } from '@/components/habit_components/DialogCreateHabit'
+import CardHabits from '@/components/habit_components/CardHabits'
 import { useUser } from '@stackframe/stack'
-import { DialogCreateActivity } from '@/components/DialogCreateActivity'
+import { DialogCreateActivity } from '@/components/activity_components/DialogCreateActivity'
 import LoadingPage from '@/components/LoadingPage'
 import { useHabitStore } from '@/store/useHabitStore'
 
