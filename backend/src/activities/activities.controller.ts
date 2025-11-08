@@ -45,14 +45,20 @@ export class ActivitiesController {
   }
 
   @Patch(':id')
+  @UseInterceptors(AnyFilesInterceptor())
   async update(
     @Param('id') id: string,
-    @Body() updateActivityDto: UpdateActivityDto,
+    @Body() body: any,
+    @UploadedFiles() files: Array<Express.Multer.File>
   ) {
+    const activityData = typeof body.activity === 'string' ? JSON.parse(body.activity as string) : body.activity;
+    const updateActivityDto: UpdateActivityDto = activityData;
+    
     return this.activitiesService.update(
       id,
       updateActivityDto,
       updateActivityDto.mediaUrlsToDelete,
+      files,
     );
   }
 

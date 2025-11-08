@@ -13,8 +13,6 @@ export class ActivitiesService {
 
   // Create activity with optional media files
   async create(createActivityDto: CreateActivityDto) {
-
-
     //Check if habit exists
     const habit = await this.databaseService.habit.findUnique({
       where: { id: createActivityDto.habitId },
@@ -85,10 +83,10 @@ export class ActivitiesService {
     });
   }
 
-  async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[]) {
+  async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[], files?: Array<Express.Multer.File>) {
     //Validate mediaUrls if provided
-    if (updateActivityDto.mediaUrls && updateActivityDto.mediaUrls.length > 0) {
-      this.cloudinaryUploadService.validateFiles(updateActivityDto.mediaUrls);
+    if (files && files.length > 0) {
+      this.cloudinaryUploadService.validateFiles(files);
     }
 
     //Get existing activity to access current mediaUrls
@@ -96,16 +94,34 @@ export class ActivitiesService {
       where: { id },
     });
 
-    //Process mediaUrls: strings pass through, files get uploaded
-    let mediaUrls = existingActivity?.mediaUrls || [];
+    //Process mediaUrls: use the DTO mediaUrls which has placeholders and user's desired order
+    let mediaUrls = (updateActivityDto.mediaUrls && Array.isArray(updateActivityDto.mediaUrls))
+      ? [...(updateActivityDto.mediaUrls as string[])]
+      : (existingActivity?.mediaUrls || []);
+    let newMedias: string[] = [];
 
-    if (updateActivityDto.mediaUrls && updateActivityDto.mediaUrls.length > 0) {
-      mediaUrls = await this.cloudinaryUploadService.uploadFiles(updateActivityDto.mediaUrls, 'pixel_habits_activities');
+    if (files && files.length > 0) {
+      const uploadedMedias= await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
+      newMedias = uploadedMedias;
     }
 
-    //Delete media URLs from Cloudinary
+    //Change the 0's to the new uploads
+    let newMediaState = 0;
+    for (let i = 0; i < mediaUrls.length; i++) {
+      if (mediaUrls[i] === '0') {
+        if (newMediaState < newMedias.length) {
+          mediaUrls[i] = newMedias[newMediaState];
+          newMediaState++;
+        } else {
+          mediaUrls.splice(i, 1);
+          i--;
+        }
+      }
+    }
+
     if (mediaUrlsToDelete && mediaUrlsToDelete.length > 0) {
       await this.cloudinaryUploadService.deleteFiles(mediaUrlsToDelete);
+      mediaUrls = mediaUrls.filter(url => !mediaUrlsToDelete.includes(url));
     }
 
     return this.databaseService.activity.update({
