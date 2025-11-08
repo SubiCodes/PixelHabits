@@ -47,7 +47,7 @@ export function DialogDeleteActivity({ trigger, activity, atHabitPage }: DialogD
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action will permanently delete your activity &quot;{activity.caption}&quot;? This action cannot be undone.
+                        This action will permanently delete your activity &quot;{activity.caption}&quot;? This action cannot be undone and may cause you to lose your streak 🔥.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
