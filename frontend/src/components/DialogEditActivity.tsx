@@ -15,11 +15,14 @@ interface DialogEditActivityProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   activity: Activity | null;
+  onEditSuccess?: () => void;
 }
 
-export function DialogEditActivity({ open, onOpenChange, activity }: DialogEditActivityProps) {
+export function DialogEditActivity({ open, onOpenChange, activity, onEditSuccess }: DialogEditActivityProps) {
   const handleClose = () => {
     onOpenChange(false);
+    // Call onEditSuccess callback if provided
+    onEditSuccess?.();
   };
 
   return (

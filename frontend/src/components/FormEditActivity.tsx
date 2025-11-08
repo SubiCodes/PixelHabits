@@ -198,7 +198,6 @@ export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps)
         };
         
         await editActivity(activity.id, updatedActivity, removedMediaUrls);
-        // Close the dialog after successful update
         if (onSuccess) onSuccess();
     }
 

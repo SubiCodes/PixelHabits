@@ -33,10 +33,17 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
         setSelectedActivity(activity);
         setIsActivityOpen(true);
     };
+    const closeActivity = () => {
+        setIsActivityOpen(false);
+    };
     const openEditActivityDialog = async (activity: Activity) => {
         setSelectedActivity(activity);
         setIsEditActivityDialogOpen(true);
-    }
+    };
+    const closeViewAndEditDialogs = () => {
+        setIsActivityOpen(false);
+        setIsEditActivityDialogOpen(false);
+    };
 
     const { id } = React.use(params);
     const user = useUser();
@@ -151,7 +158,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
                 deleteFunc={(activity) => console.log("Under Construction", activity?.id)}
             />
-            <DialogEditActivity open={isEditActivityDialogOpen} onOpenChange={setIsEditActivityDialogOpen} activity={selectedActivity ?? null} />
+            <DialogEditActivity open={isEditActivityDialogOpen} onOpenChange={setIsEditActivityDialogOpen} activity={selectedActivity ?? null} onEditSuccess={closeViewAndEditDialogs} />
         </div>
     )
 }
