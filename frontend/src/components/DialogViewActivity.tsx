@@ -12,7 +12,7 @@ import {
     DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import { ReactNode } from "react"
-import { Ellipsis, X } from "lucide-react"
+import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
 import { Activity } from "@/store/useHabitStore"
 import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 
@@ -58,14 +58,16 @@ export function DialogViewActivity({trigger, open, close, activity, editFunc, de
                                     <Ellipsis size={16} color="black" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof editFunc === 'function') { editFunc(activity); } }}>
-                                    Edit Activity
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(activity); } }}>
-                                    Delete Activity
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof editFunc === 'function') { editFunc(activity); } }}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        <span>Edit Activity</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem variant="destructive" onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(activity); } }}>
+                                        <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                                        <span className="text-destructive">Delete Activity</span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                     <AlertDialogTitle className="font-bold text-center">View Activity</AlertDialogTitle>
