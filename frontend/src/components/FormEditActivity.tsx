@@ -198,8 +198,7 @@ export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps)
         };
         
         await editActivity(activity.id, updatedActivity, removedMediaUrls);
-        
-        toast.success('Activity updated');
+        // Close the dialog after successful update
         if (onSuccess) onSuccess();
     }
 
@@ -338,7 +337,7 @@ export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps)
                     <DialogClose asChild>
                         <Button type="button" variant="outline">Cancel</Button>
                     </DialogClose>
-                    <Button type="submit">Save Changes</Button>
+                    <Button type="submit" disabled={form.formState.isSubmitting}>Save Changes</Button>
                 </DialogFooter>
             </form>
         </Form>

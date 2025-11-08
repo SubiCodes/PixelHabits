@@ -114,11 +114,19 @@ export const useActivityStore = create<ActivityStore>((set) => ({
 
             console.log('API response (success):', res);
             console.log('Updated activity:', res.data);
-            toast.success('Activity updated', { id: 'edit-activity' });
+            
+            // Update the habitActivities state with the updated activity
+            set((state) => ({
+                habitActivities: state.habitActivities.map((activity) =>
+                    activity.id === activityId ? res.data : activity
+                ),
+            }));
 
-            // TODO: Update habit store with new activity data if needed
-            // const { useHabitStore } = await import('./useHabitStore');
-            // useHabitStore.getState().updateActivityInHabit(activityId, res.data);
+            // Show success toast with explicit description
+            toast.success('Activity updated successfully', { 
+                id: 'edit-activity',
+                description: 'Your changes have been saved'
+            });
 
         } catch (err) {
             console.log('API response (error):', err);
