@@ -148,8 +148,15 @@ function CarouselMediaWithActionButtons({
             {/* Control buttons on the right - overlaying media */}
             <div className="absolute right-4 bottom-4 flex flex-col-reverse gap-4 z-20">
                 <Avatar className="h-12 w-12 border-2 border-white shadow-lg cursor-pointer">
-                    <AvatarImage src={posterAvatar} alt={posterName} />
-                    <AvatarFallback>{posterName.charAt(0)}</AvatarFallback>
+                    <AvatarImage 
+                        src={posterAvatar || undefined} 
+                        alt={posterName}
+                        onError={(e) => {
+                            console.error('Avatar image failed to load:', posterAvatar);
+                            (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                    />
+                    <AvatarFallback>{posterName?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
                 </Avatar>
                 <Button
                     variant="ghost"

@@ -19,7 +19,7 @@ export async function getUserById(
 ): Promise<UserData | null> {
   try {
     const user = await db.$queryRawUnsafe<any[]>(
-      `SELECT id, name, email, raw_json FROM neon_auth.users WHERE id = $1`,
+      `SELECT id, raw_json FROM neon_auth.users_sync WHERE id = $1`,
       userId,
     );
 
@@ -27,8 +27,8 @@ export async function getUserById(
 
     return {
       id: user[0].id,
-      name: user[0].name || null,
-      email: user[0].email || null,
+      name: user[0].raw_json?.display_name || null,
+      email: user[0].raw_json?.primary_email || null,
       profileImageUrl: user[0].raw_json?.profile_image_url || null,
     };
   } catch (error) {
@@ -51,7 +51,7 @@ export async function getUsersByIds(
 
   try {
     const users = await db.$queryRawUnsafe<any[]>(
-      `SELECT id, name, email, raw_json FROM neon_auth.users WHERE id = ANY($1::text[])`,
+      `SELECT id, raw_json FROM neon_auth.users_sync WHERE id = ANY($1::text[])`,
       userIds,
     );
 
@@ -59,15 +59,15 @@ export async function getUsersByIds(
     users.forEach(user => {
       userMap.set(user.id, {
         id: user.id,
-        name: user.name || null,
-        email: user.email || null,
+        name: user.raw_json?.display_name || null,
+        email: user.raw_json?.primary_email || null,
         profileImageUrl: user.raw_json?.profile_image_url || null,
       });
     });
 
     return userMap;
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error('Error fetching users from neon_auth.users_sync:', error);
     return new Map();
   }
 }

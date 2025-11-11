@@ -4,6 +4,7 @@ import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Habit } from 'generated/prisma/client';
+import { enrichMultipleWithUserData } from 'src/common/utils/user-data.util';
 
 @Injectable()
 export class HabitsService {
@@ -23,7 +24,7 @@ export class HabitsService {
     });
 
     // Add current streak property to each habit (consecutive days ending at last activity, alive if last activity is today or yesterday)
-    return habits.map(habit => {
+    const habitsWithStreak = habits.map(habit => {
       const PH_TZ = 'Asia/Manila';
       function getPHDateString(date: Date) {
         return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
@@ -60,6 +61,14 @@ export class HabitsService {
       }
       return { ...habit, streak };
     });
+
+    // Enrich activities with user data
+    return Promise.all(
+      habitsWithStreak.map(async (habit) => ({
+        ...habit,
+        activities: await enrichMultipleWithUserData(this.databaseService, habit.activities),
+      })),
+    );
   }
 
   async findOne(id: string): Promise<any | null> {
@@ -68,6 +77,7 @@ export class HabitsService {
       include: { activities: true }
     });
     if (!habit) return null;
+
     const PH_TZ = 'Asia/Manila';
     function getPHDateString(date: Date) {
       return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
@@ -102,7 +112,10 @@ export class HabitsService {
         }
       }
     }
-    return { ...habit, streak };
+
+    // Enrich activities with user data
+    const enrichedActivities = await enrichMultipleWithUserData(this.databaseService, habit.activities);
+    return { ...habit, activities: enrichedActivities, streak };
   }
 
   async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit> {

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ReactNode } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
-import { Activity } from "@/store/useHabitStore"
+import { Activity } from "@/store/useActivityStore"
 import CarouselMediaWithActionButtons from "../CarouselMediaWithActionButtons"
 
 interface DialogCreateHabitProps {
@@ -26,16 +26,6 @@ interface DialogCreateHabitProps {
 }
 
 export function DialogViewActivity({trigger, open, close, activity, editFunc, deleteFunc}: DialogCreateHabitProps) {
-
-    // Predefined data for now
-    const posterName = "John Doe";
-    const posterAvatar = "https://github.com/shadcn.png";
-    const postDate = new Date(activity?.createdAt || new Date()).toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric' 
-    });
-    const caption = activity?.caption || "This is a sample caption for the activity post. Keep up the great work!";
 
     const handleLike = () => {
         console.log("Like clicked");
@@ -88,10 +78,14 @@ export function DialogViewActivity({trigger, open, close, activity, editFunc, de
                     {activity?.mediaUrls && activity?.mediaUrls.length > 0 ? (
                         <CarouselMediaWithActionButtons 
                             media={activity.mediaUrls}
-                            posterName={posterName}
-                            posterAvatar={posterAvatar}
-                            postDate={postDate}
-                            caption={caption}
+                            posterName={activity.user?.name || "Unknown User"}
+                            posterAvatar={activity.user?.profileImageUrl ?? ""}
+                            postDate={activity.createdAt ? new Date(activity.createdAt).toLocaleDateString('en-US', { 
+                                month: 'short', 
+                                day: 'numeric', 
+                                year: 'numeric' 
+                            }) : ""}
+                            caption={activity.caption ?? ""}
                             onLike={handleLike}
                             onComment={handleComment}
                         />
