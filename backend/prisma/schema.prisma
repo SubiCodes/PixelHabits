@@ -41,7 +41,21 @@ model Activity {
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
   
   habit       Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  likes       Like[]
   
   @@map("activities")
+  @@schema("public")
+}
+
+model Like {
+  id          String    @id @default(cuid())
+  ownerId     String    @map("owner_id")
+  activityId  String    @map("activity_id")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  
+  activity    Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  
+  @@unique([ownerId, activityId])
+  @@map("likes")
   @@schema("public")
 }
