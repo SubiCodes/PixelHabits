@@ -127,7 +127,7 @@ function CarouselMediaWithActionButtons({
     return (
         <div className='w-full h-full relative'>
             <Carousel className="w-full h-full flex items-center justify-center" setApi={setApi}>
-                <CarouselContent className="h-full">
+                <CarouselContent className="h-full flex items-center">
                     {Array.from({ length: media.length }).map((_, index) => (
                         <CarouselItem key={index} className="h-full flex items-center justify-center">
                             <div className="w-full h-full flex items-center justify-center">
