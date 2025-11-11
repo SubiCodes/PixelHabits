@@ -3,6 +3,7 @@ import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { CloudinaryUploadService } from 'src/cloudinary/cloudinary-upload.service';
 import { DatabaseService } from 'src/database/database.service';
+import { enrichMultipleWithUserData, enrichWithUserData } from 'src/common/utils/user-data.util';
 
 @Injectable()
 export class ActivitiesService {
@@ -66,7 +67,7 @@ export class ActivitiesService {
       return [];
     }
     const isOwner = habit.ownerId === requestingUserId;
-    return this.databaseService.activity.findMany({
+    const activities = await this.databaseService.activity.findMany({
       where: {
         habitId,
         ...(isOwner ? {} : { isPublic: true }),
@@ -75,12 +76,20 @@ export class ActivitiesService {
         createdAt: 'desc',
       },
     });
+
+    // Enrich activities with user data from neon_auth schema
+    return enrichMultipleWithUserData(this.databaseService, activities);
   }
 
-  findOne(id: string) {
-    return this.databaseService.activity.findUnique({
+  async findOne(id: string) {
+    const activity = await this.databaseService.activity.findUnique({
       where: { id },
     });
+
+    if (!activity) return null;
+
+    // Enrich single activity with user data
+    return enrichWithUserData(this.databaseService, activity);
   }
 
   async update(id: string, updateActivityDto: UpdateActivityDto, mediaUrlsToDelete?: string[], files?: Array<Express.Multer.File>) {
