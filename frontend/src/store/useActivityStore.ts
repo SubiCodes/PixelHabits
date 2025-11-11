@@ -16,6 +16,12 @@ export interface Activity {
     isPublic: boolean;
     createdAt: string | Date;
     updatedAt: string | Date;
+    user?: {
+        id: string;
+        name: string | null;
+        email: string | null;
+        profileImageUrl: string | null;
+    } | null;
 }
 
 // For uploading (no id, ownerId, createdAt, updatedAt)
