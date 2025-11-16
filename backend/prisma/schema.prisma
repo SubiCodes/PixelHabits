@@ -12,7 +12,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "neon_auth"]
+  schemas  = ["public"]
 }
 
 model Habit {
@@ -42,6 +42,7 @@ model Activity {
   
   habit       Habit     @relation(fields: [habitId], references: [id], onDelete: Cascade)
   likes       Like[]
+  comments    Comment[]
   
   @@map("activities")
   @@schema("public")
@@ -57,5 +58,18 @@ model Like {
   
   @@unique([ownerId, activityId])
   @@map("likes")
+  @@schema("public")
+}
+
+model Comment {
+  id          String    @id @default(cuid())
+  ownerId     String    @map("owner_id")
+  commentText String    @map("comment_text")
+  activityId  String    @map("activity_id")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  
+  activity    Activity  @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  
+  @@map("comments")
   @@schema("public")
 }
