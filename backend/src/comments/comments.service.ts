@@ -43,7 +43,24 @@ export class CommentsService {
     });
   }
 
-  update(id: string, updateCommentDto: UpdateCommentDto) {
+  async update(id: string, updateCommentDto: UpdateCommentDto) {
+    // Check if comment exists first (helps with pooling issues)
+    const comment = await this.databaseService.comments.findUnique({
+      where: { id }
+    });
+
+    if (!comment) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          error: 'NOT_FOUND',
+          message: 'Comment not found',
+          timestamp: new Date().toISOString(),
+        },
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     return this.databaseService.comments.update({
       where: { id },
       data: {
