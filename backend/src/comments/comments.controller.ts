@@ -12,7 +12,7 @@ export class CommentsController {
     return this.commentsService.create(createCommentDto);
   }
 
-  @Get('userId')
+  @Get(':userId')
   findAll(@Param('userId') userId: string) {
     return this.commentsService.findAll(userId);
   }
