@@ -6,9 +6,10 @@ import { HabitsModule } from './habits/habits.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { ActivitiesModule } from './activities/activities.module';
 import { ViewsModule } from './views/views.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule],
   controllers: [AppController],
   providers: [AppService],
 })
