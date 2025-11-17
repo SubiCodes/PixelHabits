@@ -6,9 +6,9 @@ import { DatabaseService } from 'src/database/database.service';
 export class ViewsService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  create(createViewDto: CreateViewDto) {
+  async create(createViewDto: CreateViewDto) {
 
-    const existingView = this.databaseService.views.findFirst({
+    const existingView = await this.databaseService.views.findFirst({
       where: {
         ownerId: createViewDto.owner_id,
         activityId: createViewDto.activity_id,
