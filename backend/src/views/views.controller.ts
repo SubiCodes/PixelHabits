@@ -11,8 +11,8 @@ export class ViewsController {
     return this.viewsService.create(createViewDto);
   }
 
-  @Get()
-  findAll(userId: string) {
+  @Get(':userId')
+  findAll(@Param('userId') userId: string) {
     return this.viewsService.findAll(userId);
   }
 
