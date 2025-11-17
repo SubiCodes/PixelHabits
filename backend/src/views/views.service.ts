@@ -22,9 +22,9 @@ export class ViewsService {
     return userViews;
   }
 
-  remove(id: number) {
-    this.databaseService.views.delete({
-      where: { id: id.toString() }
-    })
+  remove(id: string) {
+    return this.databaseService.views.delete({
+      where: { id }
+    });
   }
 }

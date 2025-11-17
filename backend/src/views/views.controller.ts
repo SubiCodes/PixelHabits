@@ -18,6 +18,6 @@ export class ViewsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.viewsService.remove(+id);
+    return this.viewsService.remove(id);
   }
 }
