@@ -37,19 +37,22 @@ export class CommentsService {
     });
   }
 
-  findAll() {
-    return `This action returns all comments`;
+  findAll(userId: string) {
+    return this.databaseService.comments.findMany({
+      where: { ownerId: userId }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  update(id: string, updateCommentDto: UpdateCommentDto) {
+    return this.databaseService.comments.update({
+      where: { id },
+      data: {
+        commentText: updateCommentDto.comment_text,
+      }
+    });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
-  }
-
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} comment`;
   }
 }
