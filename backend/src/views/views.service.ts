@@ -15,8 +15,11 @@ export class ViewsService {
     });
   }
 
-  findAll() {
-    return `This action returns all views`;
+  findAll(userId: string) {
+    const userViews = this.databaseService.views.findMany({
+      where: { ownerId: userId }
+    });
+    return userViews;
   }
 
   remove(id: number) {
