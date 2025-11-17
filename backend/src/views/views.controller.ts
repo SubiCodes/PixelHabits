@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ViewsService } from './views.service';
 import { CreateViewDto } from './dto/create-view.dto';
-import { UpdateViewDto } from './dto/update-view.dto';
 
 @Controller('views')
 export class ViewsController {
@@ -13,18 +12,8 @@ export class ViewsController {
   }
 
   @Get()
-  findAll() {
-    return this.viewsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.viewsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateViewDto: UpdateViewDto) {
-    return this.viewsService.update(+id, updateViewDto);
+  findAll(userId: string) {
+    return this.viewsService.findAll(userId);
   }
 
   @Delete(':id')
