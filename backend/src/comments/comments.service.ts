@@ -53,6 +53,8 @@ export class CommentsService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} comment`;
+    return this.databaseService.comments.delete({
+      where: { id }
+    });
   }
 }
