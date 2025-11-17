@@ -7,6 +7,18 @@ export class ViewsService {
   constructor(private readonly databaseService: DatabaseService) { }
 
   create(createViewDto: CreateViewDto) {
+
+    const existingView = this.databaseService.views.findFirst({
+      where: {
+        ownerId: createViewDto.owner_id,
+        activityId: createViewDto.activity_id,
+      }
+    });
+
+    if (existingView) {
+      return existingView;
+    }
+
     return this.databaseService.views.create({
       data: {
         ownerId: createViewDto.owner_id,
