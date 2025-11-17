@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { LikesController } from './likes.controller';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  imports: [DatabaseService],
+  imports: [DatabaseModule],
   controllers: [LikesController],
   providers: [LikesService],
 })
