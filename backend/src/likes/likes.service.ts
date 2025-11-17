@@ -28,8 +28,10 @@ export class LikesService {
     }
   }
 
-  findAll() {
-    return `This action returns all likes`;
+  findAll(userId: string) {
+    return this.databaseService.likes.findMany({
+      where: { ownerId: userId }
+    });
   }
 
 }
