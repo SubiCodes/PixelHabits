@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateViewDto } from './dto/create-view.dto';
 import { UpdateViewDto } from './dto/update-view.dto';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ViewsService {
+  constructor(private readonly databaseService: DatabaseService) { }
+
   create(createViewDto: CreateViewDto) {
     return 'This action adds a new view';
   }
