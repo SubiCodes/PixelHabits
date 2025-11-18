@@ -69,5 +69,6 @@ model views {
   ownerId    String   @map("owner_id")
   activities Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
+  @@unique([ownerId, activityId])
   @@schema("public")
 }
