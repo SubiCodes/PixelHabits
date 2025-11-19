@@ -68,8 +68,6 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
     user_likes = df_likes[df_likes['owner_id'] == user_id]
     user_comments = df_comments[df_comments['owner_id'] == user_id]
     
-    print(f"DEBUG recommender: User {user_id} has {len(user_views)} views, {len(user_likes)} likes, {len(user_comments)} comments")
-    
     for _, row in user_views.iterrows():
         engagement_scores[row['activity_id']] = engagement_scores.get(row['activity_id'], 0) + 1
     for _, row in user_likes.iterrows():
@@ -111,13 +109,9 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
 
     # 6. Filter unseen activities and return top N
     engaged_ids = set(engagement_scores.keys())
-    print(f"DEBUG recommender: Total activities: {len(df_act)}")
-    print(f"DEBUG recommender: Engaged activities: {len(engaged_ids)}")
     
     unseen = df_act[~df_act['id'].isin(engaged_ids)]
-    print(f"DEBUG recommender: Unseen activities: {len(unseen)}")
     
     recommendations = unseen.sort_values('similarity_score', ascending=False).head(top_n)
-    print(f"DEBUG recommender: Final recommendations: {len(recommendations)}")
 
     return recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]

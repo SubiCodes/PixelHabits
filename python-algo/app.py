@@ -86,12 +86,6 @@ def get_user_recommendations(request: RecommendationRequest):
         views_data = [{'id': v.id, 'owner_id': v.ownerId, 'activity_id': v.activityId, 'created_at': v.createdAt} for v in request.views]
         comments_data = [{'id': c.id, 'owner_id': c.ownerId, 'comment_text': c.commentText, 'activity_id': c.activityId, 'created_at': c.createdAt} for c in request.comments]
         
-        # Debug logging
-        print(f"DEBUG: User {request.userId}")
-        print(f"DEBUG: Activities: {len(activities_data)}")
-        print(f"DEBUG: Likes: {len(likes_data)}")
-        print(f"DEBUG: Views: {len(views_data)}")
-        print(f"DEBUG: Comments: {len(comments_data)}")
         
         # Convert to pandas DataFrames
         df_activities = pd.DataFrame(activities_data)
@@ -109,10 +103,6 @@ def get_user_recommendations(request: RecommendationRequest):
             top_n=request.topN,
             cold_start_strategy=request.coldStartStrategy
         )
-        
-        print(f"DEBUG: Recommendations returned: {len(recs)}")
-        if len(recs) > 0:
-            print(f"DEBUG: Sample recommendation: {recs.iloc[0].to_dict()}")
         
         # Convert DataFrame to list of dicts for JSON response
         recommendations = recs.to_dict('records')
