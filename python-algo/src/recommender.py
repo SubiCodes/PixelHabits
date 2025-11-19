@@ -4,7 +4,44 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 
-def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id, top_n=10):
+
+def _handle_cold_start(df_activities, strategy='popular', top_n=10):
+    """
+    Handle cold start problem for new users with no interaction history
+    
+    Parameters:
+    - df_activities: DataFrame of all activities
+    - strategy: 'newest', 'popular', or 'random'
+    - top_n: Number of recommendations to return
+    
+    Returns: DataFrame with recommendations
+    """
+    df = df_activities.copy()
+    
+    if strategy == 'newest':
+        # Return newest public activities
+        result = df[df['is_public'] == True].sort_values('created_at', ascending=False).head(top_n)
+        
+    elif strategy == 'popular':
+        # Return most engaging activities (would need engagement counts from DB)
+        # For now, prioritize public activities with recent dates
+        result = df[df['is_public'] == True].sort_values('created_at', ascending=False).head(top_n)
+        
+    elif strategy == 'random':
+        # Random selection of public activities
+        result = df[df['is_public'] == True].sample(n=min(top_n, len(df)))
+        
+    else:
+        # Default to newest
+        result = df[df['is_public'] == True].sort_values('created_at', ascending=False).head(top_n)
+    
+    # Add a default similarity score for consistency
+    result['similarity_score'] = 0.0
+    
+    return result[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+
+
+def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id, top_n=10, cold_start_strategy='popular'):
     """
     Get personalized recommendations for a user using Content-Based Filtering
 
@@ -15,6 +52,10 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
     - df_comments: DataFrame of user's comments
     - user_id: The user to generate recommendations for
     - top_n: Number of recommendations to return
+    - cold_start_strategy: Strategy for new users ('newest', 'popular', 'random')
+        - 'newest': Return most recent activities
+        - 'popular': Return activities with most engagement (likes/comments)
+        - 'random': Return random selection
 
     Returns: DataFrame with top N recommended activities
     """
@@ -51,8 +92,8 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
             weights.append(score)
 
     if len(user_liked_indices) == 0:
-        # User has no interactions, return newest activities
-        return df_act.sort_values('created_at', ascending=False).head(top_n)
+        # COLD START: User has no interactions
+        return _handle_cold_start(df_act, cold_start_strategy, top_n)
 
     user_profile = np.average(X_normalized[user_liked_indices], axis=0, weights=weights)
 
