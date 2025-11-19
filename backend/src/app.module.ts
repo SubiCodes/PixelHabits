@@ -8,9 +8,10 @@ import { ActivitiesModule } from './activities/activities.module';
 import { ViewsModule } from './views/views.module';
 import { LikesModule } from './likes/likes.module';
 import { CommentsModule } from './comments/comments.module';
+import { ContentsModule } from './contents/contents.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule],
   controllers: [AppController],
   providers: [AppService],
 })
