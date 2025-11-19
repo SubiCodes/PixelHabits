@@ -12,25 +12,23 @@ export class ContentsService {
 
     async getRecommendedContent(userId: string) {
         const activities = await this.databaseService.activity.findMany({});
-        const likes = await this.databaseService.likes.findMany({});
-        const comments = await this.databaseService.comments.findMany({});
-        const views = await this.databaseService.views.findMany({});
+        const likes = await this.databaseService.likes.findMany({where: {ownerId: userId}});
+        const comments = await this.databaseService.comments.findMany({where: {ownerId: userId}});
+        const views = await this.databaseService.views.findMany({where: {ownerId: userId}});
 
         const mlUrl = process.env.MICROSERVICE_ML_URL || 'http://localhost:8000';
         const response = await firstValueFrom(
             this.httpService.post(`${mlUrl}/recommendations`, {
-                user_id: userId,
+                userId,
                 activities,
                 likes,
                 views,
                 comments,
-                top_n: 10,
-                cold_start_strategy: 'popular',
+                topN: 10,
+                coldStartStrategy: 'popular',
             })
         );
-
         const recommendedIds = response.data.recommendations.map(rec => rec.id);
-        
         const recommendations = await this.databaseService.activity.findMany({
             where: { id: { in: recommendedIds } },
         });

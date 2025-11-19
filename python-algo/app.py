@@ -9,41 +9,41 @@ app = FastAPI()
 # Define the structure of data NestJS will send
 class Activity(BaseModel):
     id: str
-    owner_id: str
-    habit_id: str
+    ownerId: str
+    habitId: str
     caption: str | None
-    media_urls: list[str]
-    is_public: bool
-    created_at: str
-    updated_at: str
+    mediaUrls: list[str]
+    isPublic: bool
+    createdAt: str
+    updatedAt: str
 
 class Like(BaseModel):
     id: str
-    owner_id: str
-    activity_id: str
-    created_at: str
+    ownerId: str
+    activityId: str
+    createdAt: str
 
 class View(BaseModel):
     id: str
-    owner_id: str
-    activity_id: str
-    created_at: str
+    ownerId: str
+    activityId: str
+    createdAt: str
 
 class Comment(BaseModel):
     id: str
-    owner_id: str
-    comment_text: str
-    activity_id: str
-    created_at: str
+    ownerId: str
+    commentText: str
+    activityId: str
+    createdAt: str
 
 class RecommendationRequest(BaseModel):
-    user_id: str
+    userId: str
     activities: list[Activity]
     likes: list[Like]
     views: list[View]
     comments: list[Comment]
-    top_n: int = 10
-    cold_start_strategy: str = "popular"
+    topN: int = 10
+    coldStartStrategy: str = "popular"
 
 
 # Hello World endpoint
@@ -68,11 +68,30 @@ def get_user_recommendations(request: RecommendationRequest):
     - cold_start_strategy: 'newest', 'popular', or 'random' (optional, default 'popular')
     """
     try:
-        # Convert Pydantic models to dictionaries
-        activities_data = [activity.model_dump() for activity in request.activities]
-        likes_data = [like.model_dump() for like in request.likes]
-        views_data = [view.model_dump() for view in request.views]
-        comments_data = [comment.model_dump() for comment in request.comments]
+        # Convert Pydantic models to dictionaries with snake_case keys for ML model
+        activities_data = []
+        for activity in request.activities:
+            activities_data.append({
+                'id': activity.id,
+                'owner_id': activity.ownerId,
+                'habit_id': activity.habitId,
+                'caption': activity.caption,
+                'media_urls': activity.mediaUrls,
+                'is_public': activity.isPublic,
+                'created_at': activity.createdAt,
+                'updated_at': activity.updatedAt,
+            })
+        
+        likes_data = [{'id': l.id, 'owner_id': l.ownerId, 'activity_id': l.activityId, 'created_at': l.createdAt} for l in request.likes]
+        views_data = [{'id': v.id, 'owner_id': v.ownerId, 'activity_id': v.activityId, 'created_at': v.createdAt} for v in request.views]
+        comments_data = [{'id': c.id, 'owner_id': c.ownerId, 'comment_text': c.commentText, 'activity_id': c.activityId, 'created_at': c.createdAt} for c in request.comments]
+        
+        # Debug logging
+        print(f"DEBUG: User {request.userId}")
+        print(f"DEBUG: Activities: {len(activities_data)}")
+        print(f"DEBUG: Likes: {len(likes_data)}")
+        print(f"DEBUG: Views: {len(views_data)}")
+        print(f"DEBUG: Comments: {len(comments_data)}")
         
         # Convert to pandas DataFrames
         df_activities = pd.DataFrame(activities_data)
@@ -86,16 +105,20 @@ def get_user_recommendations(request: RecommendationRequest):
             df_likes=df_likes,
             df_views=df_views,
             df_comments=df_comments,
-            user_id=request.user_id,
-            top_n=request.top_n,
-            cold_start_strategy=request.cold_start_strategy
+            user_id=request.userId,
+            top_n=request.topN,
+            cold_start_strategy=request.coldStartStrategy
         )
+        
+        print(f"DEBUG: Recommendations returned: {len(recs)}")
+        if len(recs) > 0:
+            print(f"DEBUG: Sample recommendation: {recs.iloc[0].to_dict()}")
         
         # Convert DataFrame to list of dicts for JSON response
         recommendations = recs.to_dict('records')
         
         return {
-            "user_id": request.user_id,
+            "userId": request.userId,
             "recommendations": recommendations,
             "count": len(recommendations)
         }

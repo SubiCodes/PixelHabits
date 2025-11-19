@@ -5,7 +5,7 @@ import { ContentsService } from './contents.service';
 export class ContentsController {
   constructor(private readonly contentsService: ContentsService) {}
 
-  @Post('userId')
+  @Post(':userId')
   async getContents(@Param('userId') userId: string) {
     return this.contentsService.getRecommendedContent(userId);
   }
