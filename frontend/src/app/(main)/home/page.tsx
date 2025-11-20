@@ -1,6 +1,8 @@
+"use client"
+
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
-import React, { use, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 export default function Home() {
 
@@ -26,13 +28,9 @@ export default function Home() {
       </div>
 
       {/* Feed Content */}
-      <div className="divide-y divide-border">
+      <div className="divide-y divide-border border">
         {/* Placeholder for activity posts */}
-        <div className="p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-          <p className="text-muted-foreground text-center py-8">
-            Activities shared by others will appear here
-          </p>
-        </div>
+        
       </div>
     </div>
   )
