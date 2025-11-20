@@ -1,6 +1,21 @@
-import React from 'react'
+import { useActivityFeedStore } from '@/store/useActivityFeedStore';
+import { useUser } from '@stackframe/stack';
+import React, { use, useEffect } from 'react'
 
 export default function Home() {
+
+  const user = useUser();
+
+  const feed = useActivityFeedStore((state) => state.activityFeed);
+  const fetchFeed = useActivityFeedStore((state) => state.getActivityFeed);
+  const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
+  const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchFeed(user.id);
+  }, [])
+
   return (
     <div className="w-full">
       {/* Header */}
