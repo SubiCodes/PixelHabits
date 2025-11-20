@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, ConfigDict
 import pandas as pd
 from src.recommender import get_recommendations
 
@@ -8,42 +8,52 @@ app = FastAPI()
 
 # Define the structure of data NestJS will send
 class Activity(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    
     id: str
-    ownerId: str
-    habitId: str
+    owner_id: str = Field(alias="ownerId")
+    habit_id: str = Field(alias="habitId")
     caption: str | None
-    mediaUrls: list[str]
-    isPublic: bool
-    createdAt: str
-    updatedAt: str
+    media_urls: list[str] = Field(alias="mediaUrls")
+    is_public: bool = Field(alias="isPublic")
+    created_at: str = Field(alias="createdAt")
+    updated_at: str = Field(alias="updatedAt")
 
 class Like(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    
     id: str
-    ownerId: str
-    activityId: str
-    createdAt: str
+    owner_id: str = Field(alias="ownerId")
+    activity_id: str = Field(alias="activityId")
+    created_at: str = Field(alias="createdAt")
 
 class View(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    
     id: str
-    ownerId: str
-    activityId: str
-    createdAt: str
+    owner_id: str = Field(alias="ownerId")
+    activity_id: str = Field(alias="activityId")
+    created_at: str = Field(alias="createdAt")
 
 class Comment(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    
     id: str
-    ownerId: str
-    commentText: str
-    activityId: str
-    createdAt: str
+    owner_id: str = Field(alias="ownerId")
+    comment_text: str = Field(alias="commentText")
+    activity_id: str = Field(alias="activityId")
+    created_at: str = Field(alias="createdAt")
 
 class RecommendationRequest(BaseModel):
-    userId: str
+    model_config = ConfigDict(populate_by_name=True)
+    
+    user_id: str = Field(alias="userId")
     activities: list[Activity]
     likes: list[Like]
     views: list[View]
     comments: list[Comment]
-    topN: int = 10
-    coldStartStrategy: str = "popular"
+    top_n: int = Field(default=10, alias="topN")
+    cold_start_strategy: str = Field(default="popular", alias="coldStartStrategy")
 
 
 # Hello World endpoint
@@ -67,52 +77,40 @@ def get_user_recommendations(request: RecommendationRequest):
     - top_n: Number of recommendations (optional, default 10)
     - cold_start_strategy: 'newest', 'popular', or 'random' (optional, default 'popular')
     """
+    # ...existing code...
     try:
-        # Convert Pydantic models to dictionaries with snake_case keys for ML model
-        activities_data = []
-        for activity in request.activities:
-            activities_data.append({
-                'id': activity.id,
-                'owner_id': activity.ownerId,
-                'habit_id': activity.habitId,
-                'caption': activity.caption,
-                'media_urls': activity.mediaUrls,
-                'is_public': activity.isPublic,
-                'created_at': activity.createdAt,
-                'updated_at': activity.updatedAt,
-            })
-        
-        likes_data = [{'id': l.id, 'owner_id': l.ownerId, 'activity_id': l.activityId, 'created_at': l.createdAt} for l in request.likes]
-        views_data = [{'id': v.id, 'owner_id': v.ownerId, 'activity_id': v.activityId, 'created_at': v.createdAt} for v in request.views]
-        comments_data = [{'id': c.id, 'owner_id': c.ownerId, 'comment_text': c.commentText, 'activity_id': c.activityId, 'created_at': c.createdAt} for c in request.comments]
-        
-        
+        # Convert Pydantic models to dictionaries (using snake_case field names)
+        activities_data = [activity.model_dump() for activity in request.activities]
+        likes_data = [like.model_dump() for like in request.likes]
+        views_data = [view.model_dump() for view in request.views]
+        comments_data = [comment.model_dump() for comment in request.comments]
+
         # Convert to pandas DataFrames
         df_activities = pd.DataFrame(activities_data)
         df_likes = pd.DataFrame(likes_data)
         df_views = pd.DataFrame(views_data)
         df_comments = pd.DataFrame(comments_data)
-        
+
         # Get recommendations from ML model
         recs = get_recommendations(
             df_activities=df_activities,
             df_likes=df_likes,
             df_views=df_views,
             df_comments=df_comments,
-            user_id=request.userId,
-            top_n=request.topN,
-            cold_start_strategy=request.coldStartStrategy
+            user_id=request.user_id,
+            top_n=request.top_n,
+            cold_start_strategy=request.cold_start_strategy
         )
-        
+
         # Convert DataFrame to list of dicts for JSON response
         recommendations = recs.to_dict('records')
-        
-        return {
-            "userId": request.userId,
+
+        response = {
+            "userId": request.user_id,
             "recommendations": recommendations,
             "count": len(recommendations)
         }
-        
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 

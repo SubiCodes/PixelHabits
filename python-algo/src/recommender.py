@@ -63,10 +63,11 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
     # 1. Calculate engagement scores (FILTER BY USER!)
     engagement_scores = {}
     
-    # Filter by the specific user
-    user_views = df_views[df_views['owner_id'] == user_id]
-    user_likes = df_likes[df_likes['owner_id'] == user_id]
-    user_comments = df_comments[df_comments['owner_id'] == user_id]
+    # Filter by the specific user (check if DataFrames are not empty first)
+    user_views = df_views[df_views['owner_id'] == user_id] if not df_views.empty else pd.DataFrame()
+    user_likes = df_likes[df_likes['owner_id'] == user_id] if not df_likes.empty else pd.DataFrame()
+    user_comments = df_comments[df_comments['owner_id'] == user_id] if not df_comments.empty else pd.DataFrame()
+    
     
     for _, row in user_views.iterrows():
         engagement_scores[row['activity_id']] = engagement_scores.get(row['activity_id'], 0) + 1
@@ -74,6 +75,7 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
         engagement_scores[row['activity_id']] = engagement_scores.get(row['activity_id'], 0) + 2
     for _, row in user_comments.iterrows():
         engagement_scores[row['activity_id']] = engagement_scores.get(row['activity_id'], 0) + 3
+    
 
     # 2. Prepare activity features
     df_act = df_activities.copy()
@@ -96,10 +98,12 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
         if len(idx) > 0:
             user_liked_indices.append(idx[0])
             weights.append(score)
+    
 
     if len(user_liked_indices) == 0:
         # COLD START: User has no interactions
         return _handle_cold_start(df_act, cold_start_strategy, top_n)
+    
 
     user_profile = np.average(X_normalized[user_liked_indices], axis=0, weights=weights)
 
