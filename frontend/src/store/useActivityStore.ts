@@ -10,6 +10,12 @@ const api = axios.create({
 export interface Activity {
     id: string;
     ownerId: string;
+    owner?: {
+        id: string;
+        name: string;
+        email: string;
+        profileImageUrl: string;
+    }
     habitId: string;
     caption: string;
     mediaUrls: (string | File)[];
@@ -99,14 +105,14 @@ export const useActivityStore = create<ActivityStore>((set) => ({
 
             console.log('API response (success):', res);
             console.log('Updated activity:', res.data);
-            
+
             set((state) => ({
                 habitActivities: state.habitActivities.map((activity) =>
                     activity.id === activityId ? res.data : activity
                 ),
             }));
 
-            toast.success('Activity updated successfully', { 
+            toast.success('Activity updated successfully', {
                 id: 'edit-activity',
                 description: 'Your changes have been saved'
             });
@@ -125,8 +131,8 @@ export const useActivityStore = create<ActivityStore>((set) => ({
                     id: 'edit-activity',
                     description: 'An unexpected error occurred',
                 });
-                }
-            } finally {
+            }
+        } finally {
             set({ editingActivity: false });
         }
     },
