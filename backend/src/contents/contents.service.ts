@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { DatabaseService } from '../database/database.service';
 import { firstValueFrom } from 'rxjs';
+import { enrichWithUserData } from '../common/utils/user-enrichment.util';
 
 @Injectable()
 export class ContentsService {
@@ -33,6 +34,8 @@ export class ContentsService {
             where: { id: { in: recommendedIds } },
         });
 
-        return recommendations;
+        const recommendationsWithUserData = await enrichWithUserData(recommendations);
+
+        return recommendationsWithUserData;
     }
 }

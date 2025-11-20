@@ -1,5 +1,6 @@
 "use client"
 
+import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect } from 'react'
@@ -19,7 +20,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center justify-between px-4 py-3">
@@ -28,9 +29,12 @@ export default function Home() {
       </div>
 
       {/* Feed Content */}
-      <div className="divide-y divide-border border">
-        {/* Placeholder for activity posts */}
-        
+      <div className="flex flex-1 min-h-full min-w-full items-center justify-center ">
+        {feed && (
+          <div className="w-full h-full">
+            {/* <CarouselMediaWithActionButtons /> */}
+          </div>
+        )}
       </div>
     </div>
   )
