@@ -49,8 +49,6 @@ export const useActivityStore = create<ActivityStore>((set) => ({
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('API response (success):', res);
-            console.log('PASSED DATA:', activity);
             toast.success('Activity added', { id: 'add-activity' });
             const { useHabitStore } = await import('./useHabitStore');
             useHabitStore.getState().addActivityToHabit(habitId, res.data);
