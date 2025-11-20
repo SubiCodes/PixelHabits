@@ -1,3 +1,4 @@
+
 "use client"
 
 import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
@@ -21,20 +22,25 @@ export default function Home() {
 
   return (
     <div className="w-full h-full">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="flex items-center justify-between px-4 py-3">
-          <h1 className="text-xl font-bold">Home</h1>
-        </div>
-      </div>
-
       {/* Feed Content */}
-      <div className="flex flex-1 min-h-full min-w-full items-center justify-center ">
-        {feed && (
-          <div className="w-full h-full">
-            {/* <CarouselMediaWithActionButtons /> */}
-          </div>
-        )}
+      <div
+        className="flex-1 overflow-y-scroll h-dvh w-full snap-y snap-mandatory scrollbar-none"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
+        {feed && feed.map((activity) => (
+          <section
+            key={activity.id}
+            className="w-full h-dvh flex items-center justify-center snap-start"
+          >
+            <CarouselMediaWithActionButtons
+              media={activity.mediaUrls}
+              posterName={activity?.owner?.name ?? ""}
+              posterAvatar={activity?.owner?.profileImageUrl ?? ""}
+              postDate={new Date(activity.createdAt).toLocaleDateString()}
+              caption={activity.caption ?? ""}
+            />
+          </section>
+        ))}
       </div>
     </div>
   )
