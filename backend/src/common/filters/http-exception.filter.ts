@@ -23,9 +23,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const errorResponse = {
       statusCode: status,
       error: this.getErrorCode(status),
-      message: typeof exceptionResponse === 'string' 
-        ? exceptionResponse 
-        : (exceptionResponse as any).message || 'An error occurred',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      message:
+        typeof exceptionResponse === 'string'
+          ? exceptionResponse
+          : // eslint-disable-next-line prettier/prettier
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            (exceptionResponse as any).message || 'An error occurred',
       timestamp: new Date().toISOString(),
     };
 
