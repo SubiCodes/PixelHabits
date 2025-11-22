@@ -19,35 +19,66 @@ async function generateMockLikesViews(ownerIds: string[]) {
     // Each owner can like and view each activity (skip if owner is the activity owner)
     for (const ownerId of ownerIds) {
       if (ownerId === activity.ownerId) continue;
-      // Like
-      try {
-        await prisma.likes.create({
-          data: {
-            id: uuidv4(),
-            ownerId,
-            activityId: activity.id,
-            createdAt: new Date().toISOString(),
-          },
-        });
-        likeCount++;
-        console.log(`[LIKE] ownerId: ${ownerId} liked activityId: ${activity.id}`);
-      } catch (err) {
-        console.error(`[LIKE ERROR] ownerId: ${ownerId}, activityId: ${activity.id}`, err);
+      // Randomly decide if this user likes/views this activity
+      const likeChance = Math.random();
+      const viewChance = Math.random();
+      // Like (50% chance)
+      if (likeChance < 0.5) {
+        try {
+          const existingLike = await prisma.likes.findUnique({
+            where: {
+              ownerId_activityId: {
+                ownerId,
+                activityId: activity.id,
+              },
+            },
+          });
+          if (!existingLike) {
+            await prisma.likes.create({
+              data: {
+                id: uuidv4(),
+                ownerId,
+                activityId: activity.id,
+                createdAt: new Date().toISOString(),
+              },
+            });
+            likeCount++;
+            console.log(`[LIKE] ownerId: ${ownerId} liked activityId: ${activity.id}`);
+          } else {
+            console.log(`[LIKE SKIP] ownerId: ${ownerId} already liked activityId: ${activity.id}`);
+          }
+        } catch (err) {
+          console.error(`[LIKE ERROR] ownerId: ${ownerId}, activityId: ${activity.id}`, err);
+        }
       }
-      // View
-      try {
-        await prisma.views.create({
-          data: {
-            id: uuidv4(),
-            ownerId,
-            activityId: activity.id,
-            createdAt: new Date().toISOString(),
-          },
-        });
-        viewCount++;
-        console.log(`[VIEW] ownerId: ${ownerId} viewed activityId: ${activity.id}`);
-      } catch (err) {
-        console.error(`[VIEW ERROR] ownerId: ${ownerId}, activityId: ${activity.id}`, err);
+      // View (80% chance)
+      if (viewChance < 0.8) {
+        try {
+          const existingView = await prisma.views.findUnique({
+            where: {
+              ownerId_activityId: {
+                ownerId,
+                activityId: activity.id,
+              },
+            },
+          });
+          if (!existingView) {
+            await prisma.views.create({
+              data: {
+                id: uuidv4(),
+                ownerId,
+                activityId: activity.id,
+                createdAt: new Date().toISOString(),
+              },
+            });
+            viewCount++;
+            console.log(`[VIEW] ownerId: ${ownerId} viewed activityId: ${activity.id}`);
+          } else {
+            console.log(`[VIEW SKIP] ownerId: ${ownerId} already viewed activityId: ${activity.id}`);
+          }
+        } catch (err) {
+          console.error(`[VIEW ERROR] ownerId: ${ownerId}, activityId: ${activity.id}`, err);
+        }
       }
     }
   }
