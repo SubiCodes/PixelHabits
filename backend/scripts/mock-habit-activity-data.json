@@ -1,575 +1,602 @@
 {
   "habits": [
     {
-      "id": "5707bd90-ff2c-434f-9a91-59f16f3f4d87",
+      "id": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
       "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
-      "title": "Habit 5707bd",
-      "description": "Self-improvement habit (5707bd): Focus on gym, coding, studying, or writing.",
+      "title": "Habit 1c4196",
+      "description": "Self-improvement habit (1c4196): Focus on gym, coding, studying, or writing.",
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.328Z",
-      "updatedAt": "2025-11-22T15:44:02.329Z"
+      "createdAt": "2025-11-22T15:47:04.066Z",
+      "updatedAt": "2025-11-22T15:47:04.067Z"
     },
     {
-      "id": "bbc5c174-3fc3-453a-ab71-dbb7f4ae664d",
+      "id": "73081777-81f9-4f56-91b4-8fa79a922a5f",
       "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
-      "title": "Habit bbc5c1",
-      "description": "Self-improvement habit (bbc5c1): Focus on gym, coding, studying, or writing.",
+      "title": "Habit 730817",
+      "description": "Self-improvement habit (730817): Focus on gym, coding, studying, or writing.",
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.330Z",
-      "updatedAt": "2025-11-22T15:44:02.330Z"
+      "createdAt": "2025-11-22T15:47:04.070Z",
+      "updatedAt": "2025-11-22T15:47:04.070Z"
     },
     {
-      "id": "b808e29a-3f4a-4572-89d2-c2d8e3c473fa",
+      "id": "d9ec0311-8141-4468-8079-cf332aac25e3",
       "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
-      "title": "Habit b808e2",
-      "description": "Self-improvement habit (b808e2): Focus on gym, coding, studying, or writing.",
+      "title": "Habit d9ec03",
+      "description": "Self-improvement habit (d9ec03): Focus on gym, coding, studying, or writing.",
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.332Z",
-      "updatedAt": "2025-11-22T15:44:02.332Z"
+      "createdAt": "2025-11-22T15:47:04.072Z",
+      "updatedAt": "2025-11-22T15:47:04.072Z"
     },
     {
-      "id": "1863eb32-f3fe-4cb6-af1b-8f4c6bca0c17",
+      "id": "156427b0-ce8c-4d67-9c97-2f9490db9943",
       "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
-      "title": "Habit 1863eb",
-      "description": "Self-improvement habit (1863eb): Focus on gym, coding, studying, or writing.",
+      "title": "Habit 156427",
+      "description": "Self-improvement habit (156427): Focus on gym, coding, studying, or writing.",
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.333Z",
-      "updatedAt": "2025-11-22T15:44:02.333Z"
+      "createdAt": "2025-11-22T15:47:04.073Z",
+      "updatedAt": "2025-11-22T15:47:04.073Z"
     },
     {
-      "id": "8d5456fb-fd70-44dd-9512-4bdef084ee06",
+      "id": "cf843ea0-164c-4068-afdf-0424704363c1",
       "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
-      "title": "Habit 8d5456",
-      "description": "Self-improvement habit (8d5456): Focus on gym, coding, studying, or writing.",
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
+      "title": "Habit cf843e",
+      "description": "Self-improvement habit (cf843e): Focus on gym, coding, studying, or writing.",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.074Z",
+      "updatedAt": "2025-11-22T15:47:04.074Z"
     },
     {
-      "id": "41981dd3-2d29-4b56-b24e-5031607a806c",
+      "id": "f7852bba-d712-44fc-bd5c-9e681aff1802",
       "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
-      "title": "Habit 41981d",
-      "description": "Self-improvement habit (41981d): Focus on gym, coding, studying, or writing.",
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
+      "title": "Habit f7852b",
+      "description": "Self-improvement habit (f7852b): Focus on gym, coding, studying, or writing.",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.075Z",
+      "updatedAt": "2025-11-22T15:47:04.075Z"
     },
     {
-      "id": "3c4f25ca-bfc3-4c50-8073-50cebf53241d",
+      "id": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
       "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
-      "title": "Habit 3c4f25",
-      "description": "Self-improvement habit (3c4f25): Focus on gym, coding, studying, or writing.",
+      "title": "Habit 4a94de",
+      "description": "Self-improvement habit (4a94de): Focus on gym, coding, studying, or writing.",
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.335Z",
-      "updatedAt": "2025-11-22T15:44:02.335Z"
+      "createdAt": "2025-11-22T15:47:04.076Z",
+      "updatedAt": "2025-11-22T15:47:04.076Z"
     },
     {
-      "id": "5821967c-b146-4828-8bac-bde9130bf842",
+      "id": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
       "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
-      "title": "Habit 582196",
-      "description": "Self-improvement habit (582196): Focus on gym, coding, studying, or writing.",
+      "title": "Habit 1e405d",
+      "description": "Self-improvement habit (1e405d): Focus on gym, coding, studying, or writing.",
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
+      "createdAt": "2025-11-22T15:47:04.078Z",
+      "updatedAt": "2025-11-22T15:47:04.078Z"
     },
     {
-      "id": "6edd3c0e-ca02-451b-a118-04ad2f38903c",
+      "id": "24e5ba1a-1bec-4af4-9bf0-8ca10977952d",
       "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
-      "title": "Habit 6edd3c",
-      "description": "Self-improvement habit (6edd3c): Focus on gym, coding, studying, or writing.",
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "title": "Habit 24e5ba",
+      "description": "Self-improvement habit (24e5ba): Focus on gym, coding, studying, or writing.",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.079Z",
+      "updatedAt": "2025-11-22T15:47:04.079Z"
     },
     {
-      "id": "eaf3f508-ec0c-4f6a-9b11-c71ddb5f6d92",
+      "id": "f8ea2ca2-c025-49d1-bdc7-cbd25e29d336",
       "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
-      "title": "Habit eaf3f5",
-      "description": "Self-improvement habit (eaf3f5): Focus on gym, coding, studying, or writing.",
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "title": "Habit f8ea2c",
+      "description": "Self-improvement habit (f8ea2c): Focus on gym, coding, studying, or writing.",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.080Z",
+      "updatedAt": "2025-11-22T15:47:04.080Z"
     }
   ],
   "activities": [
     {
-      "id": "5101092e-dca1-4b14-8c15-4a88b88944f7",
+      "id": "c6af19fd-d148-4c27-865f-c85ddc98bda2",
       "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
-      "habitId": "5707bd90-ff2c-434f-9a91-59f16f3f4d87",
-      "caption": "Activity 510109 for habit 5707bd",
+      "habitId": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
+      "caption": "Book review (c6af19) for habit 1c4196",
       "mediaUrls": [
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
         "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg"
       ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.330Z",
-      "updatedAt": "2025-11-22T15:44:02.330Z"
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.069Z",
+      "updatedAt": "2025-11-22T15:47:04.069Z"
     },
     {
-      "id": "88c97f7f-0ea7-4154-a72b-1442e1a0a0eb",
+      "id": "6873b913-4f28-44df-b9c2-3468104172dc",
       "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
-      "habitId": "5707bd90-ff2c-434f-9a91-59f16f3f4d87",
-      "caption": "Activity 88c97f for habit 5707bd",
+      "habitId": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
+      "caption": "Skill improvement (6873b9) for habit 1c4196",
       "mediaUrls": [
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg",
-        "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg",
-        "https://images.pexels.com/photos/210661/pexels-photo-210661.jpeg"
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2"
       ],
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.330Z",
-      "updatedAt": "2025-11-22T15:44:02.330Z"
+      "createdAt": "2025-11-22T15:47:04.069Z",
+      "updatedAt": "2025-11-22T15:47:04.069Z"
     },
     {
-      "id": "86c2e656-c16b-45e8-a2db-05cabcb270fd",
+      "id": "242cee2a-f171-4c89-8da1-a0a2961a1d64",
       "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
-      "habitId": "5707bd90-ff2c-434f-9a91-59f16f3f4d87",
-      "caption": "Activity 86c2e6 for habit 5707bd",
+      "habitId": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
+      "caption": "Progress reflection (242cee) for habit 1c4196",
       "mediaUrls": [
-        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg",
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-        "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.330Z",
-      "updatedAt": "2025-11-22T15:44:02.330Z"
-    },
-    {
-      "id": "bcca288b-3231-41a3-9201-1120d61ea046",
-      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
-      "habitId": "bbc5c174-3fc3-453a-ab71-dbb7f4ae664d",
-      "caption": "Activity bcca28 for habit bbc5c1",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg",
-        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.330Z",
-      "updatedAt": "2025-11-22T15:44:02.330Z"
-    },
-    {
-      "id": "6c538560-9d39-40fc-8574-6b5ab0d03334",
-      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
-      "habitId": "bbc5c174-3fc3-453a-ab71-dbb7f4ae664d",
-      "caption": "Activity 6c5385 for habit bbc5c1",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-        "https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg",
-        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.331Z",
-      "updatedAt": "2025-11-22T15:44:02.331Z"
-    },
-    {
-      "id": "ba623951-fea1-4446-ae4a-acb8f7ed6685",
-      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
-      "habitId": "bbc5c174-3fc3-453a-ab71-dbb7f4ae664d",
-      "caption": "Activity ba6239 for habit bbc5c1",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg",
-        "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.331Z",
-      "updatedAt": "2025-11-22T15:44:02.331Z"
-    },
-    {
-      "id": "26fc6b4b-80f6-4db1-be6d-afcb95b2481b",
-      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
-      "habitId": "bbc5c174-3fc3-453a-ab71-dbb7f4ae664d",
-      "caption": "Activity 26fc6b for habit bbc5c1",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg",
-        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.331Z",
-      "updatedAt": "2025-11-22T15:44:02.331Z"
-    },
-    {
-      "id": "e71fc8ca-9d87-456b-82a9-f69d8b882d63",
-      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
-      "habitId": "b808e29a-3f4a-4572-89d2-c2d8e3c473fa",
-      "caption": "Activity e71fc8 for habit b808e2",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.332Z",
-      "updatedAt": "2025-11-22T15:44:02.332Z"
-    },
-    {
-      "id": "04a249f5-59e8-414d-ba3a-3fb4121a1dd5",
-      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
-      "habitId": "b808e29a-3f4a-4572-89d2-c2d8e3c473fa",
-      "caption": "Activity 04a249 for habit b808e2",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg",
-        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.332Z",
-      "updatedAt": "2025-11-22T15:44:02.332Z"
-    },
-    {
-      "id": "4d938cdc-ebae-4897-a709-516b29744e4c",
-      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
-      "habitId": "b808e29a-3f4a-4572-89d2-c2d8e3c473fa",
-      "caption": "Activity 4d938c for habit b808e2",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.332Z",
-      "updatedAt": "2025-11-22T15:44:02.332Z"
-    },
-    {
-      "id": "bfcaafa9-1934-4750-8534-95b4d6893cce",
-      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
-      "habitId": "b808e29a-3f4a-4572-89d2-c2d8e3c473fa",
-      "caption": "Activity bfcaaf for habit b808e2",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-        "https://images.pexels.com/photos/210661/pexels-photo-210661.jpeg",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.332Z",
-      "updatedAt": "2025-11-22T15:44:02.332Z"
-    },
-    {
-      "id": "7bc68709-ea84-4bee-9047-7eded98e170e",
-      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
-      "habitId": "1863eb32-f3fe-4cb6-af1b-8f4c6bca0c17",
-      "caption": "Activity 7bc687 for habit 1863eb",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg",
-        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.333Z",
-      "updatedAt": "2025-11-22T15:44:02.333Z"
-    },
-    {
-      "id": "b39ad013-bf7a-4c58-b721-b1f045cf63a4",
-      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
-      "habitId": "1863eb32-f3fe-4cb6-af1b-8f4c6bca0c17",
-      "caption": "Activity b39ad0 for habit 1863eb",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-        "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg",
-        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.333Z",
-      "updatedAt": "2025-11-22T15:44:02.333Z"
-    },
-    {
-      "id": "7d9a4e04-c90a-42c2-91ec-6bff0631b27c",
-      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
-      "habitId": "1863eb32-f3fe-4cb6-af1b-8f4c6bca0c17",
-      "caption": "Activity 7d9a4e for habit 1863eb",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/210661/pexels-photo-210661.jpeg",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.333Z",
-      "updatedAt": "2025-11-22T15:44:02.333Z"
-    },
-    {
-      "id": "6e3b4009-b9c6-4b38-9199-4a36c069510d",
-      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
-      "habitId": "1863eb32-f3fe-4cb6-af1b-8f4c6bca0c17",
-      "caption": "Activity 6e3b40 for habit 1863eb",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.333Z",
-      "updatedAt": "2025-11-22T15:44:02.333Z"
-    },
-    {
-      "id": "b6c77e97-749b-4b28-8a30-69ca68a1425d",
-      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
-      "habitId": "8d5456fb-fd70-44dd-9512-4bdef084ee06",
-      "caption": "Activity b6c77e for habit 8d5456",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1518611012118-696072aa579a",
-        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
-    },
-    {
-      "id": "6b81bd73-a607-4af8-93a1-cf82131a1d27",
-      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
-      "habitId": "8d5456fb-fd70-44dd-9512-4bdef084ee06",
-      "caption": "Activity 6b81bd for habit 8d5456",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg",
-        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
-    },
-    {
-      "id": "f1dc321e-54fa-4427-8027-397141af21dc",
-      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
-      "habitId": "8d5456fb-fd70-44dd-9512-4bdef084ee06",
-      "caption": "Activity f1dc32 for habit 8d5456",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg",
-        "https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
-    },
-    {
-      "id": "0a330118-1697-475b-bca1-84f7bc566d83",
-      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
-      "habitId": "8d5456fb-fd70-44dd-9512-4bdef084ee06",
-      "caption": "Activity 0a3301 for habit 8d5456",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
-        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg",
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
-    },
-    {
-      "id": "5a294616-0495-4bd7-80da-acc750d12bf6",
-      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
-      "habitId": "41981dd3-2d29-4b56-b24e-5031607a806c",
-      "caption": "Activity 5a2946 for habit 41981d",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg",
-        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg",
         "https://images.unsplash.com/photo-1517836357463-d25dfeac3438"
       ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.334Z",
-      "updatedAt": "2025-11-22T15:44:02.334Z"
-    },
-    {
-      "id": "1b37a187-4276-4b24-8df3-54b1d408111c",
-      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
-      "habitId": "41981dd3-2d29-4b56-b24e-5031607a806c",
-      "caption": "Activity 1b37a1 for habit 41981d",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.335Z",
-      "updatedAt": "2025-11-22T15:44:02.335Z"
-    },
-    {
-      "id": "d1842d69-bc1e-45a3-aa36-69a271c96886",
-      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
-      "habitId": "41981dd3-2d29-4b56-b24e-5031607a806c",
-      "caption": "Activity d1842d for habit 41981d",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg",
-        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg",
-        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg"
-      ],
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.335Z",
-      "updatedAt": "2025-11-22T15:44:02.335Z"
+      "createdAt": "2025-11-22T15:47:04.069Z",
+      "updatedAt": "2025-11-22T15:47:04.069Z"
     },
     {
-      "id": "1f0dbaab-41c4-464f-b48f-9a05297ab597",
-      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
-      "habitId": "3c4f25ca-bfc3-4c50-8073-50cebf53241d",
-      "caption": "Activity 1f0dba for habit 3c4f25",
+      "id": "e359f0ca-5f7f-41f3-adfc-e88d3c95c9d7",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "habitId": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
+      "caption": "Skill improvement (e359f0) for habit 1c4196",
       "mediaUrls": [
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg",
-        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
       ],
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.335Z",
-      "updatedAt": "2025-11-22T15:44:02.335Z"
+      "createdAt": "2025-11-22T15:47:04.069Z",
+      "updatedAt": "2025-11-22T15:47:04.069Z"
     },
     {
-      "id": "f0efdf75-8d8f-4990-a5a5-b83cecdd02e4",
-      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
-      "habitId": "3c4f25ca-bfc3-4c50-8073-50cebf53241d",
-      "caption": "Activity f0efdf for habit 3c4f25",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.335Z",
-      "updatedAt": "2025-11-22T15:44:02.335Z"
-    },
-    {
-      "id": "766f949c-86af-4716-b5b0-b6c01176e5fb",
-      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
-      "habitId": "3c4f25ca-bfc3-4c50-8073-50cebf53241d",
-      "caption": "Activity 766f94 for habit 3c4f25",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
-        "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
-    },
-    {
-      "id": "148b246e-2ba1-4185-beb8-bb591f2348a4",
-      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
-      "habitId": "5821967c-b146-4828-8bac-bde9130bf842",
-      "caption": "Activity 148b24 for habit 582196",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
-    },
-    {
-      "id": "7fd384d9-752e-4c01-87c5-cea3457fc8a6",
-      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
-      "habitId": "5821967c-b146-4828-8bac-bde9130bf842",
-      "caption": "Activity 7fd384 for habit 582196",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
-    },
-    {
-      "id": "2809e951-c70e-4eea-8bbe-aeaefb528c34",
-      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
-      "habitId": "5821967c-b146-4828-8bac-bde9130bf842",
-      "caption": "Activity 2809e9 for habit 582196",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",
-        "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg",
-        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg"
-      ],
-      "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
-    },
-    {
-      "id": "7ed1b8b4-5574-4b0d-8c61-84c04b04119c",
-      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
-      "habitId": "5821967c-b146-4828-8bac-bde9130bf842",
-      "caption": "Activity 7ed1b8 for habit 582196",
+      "id": "239f982c-bded-4f9c-acdb-5a5104429628",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "habitId": "1c419607-11d2-4fcd-b9bb-230d39dd805e",
+      "caption": "Notebook planning (239f98) for habit 1c4196",
       "mediaUrls": [
         "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e"
       ],
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.336Z",
-      "updatedAt": "2025-11-22T15:44:02.336Z"
+      "createdAt": "2025-11-22T15:47:04.070Z",
+      "updatedAt": "2025-11-22T15:47:04.070Z"
     },
     {
-      "id": "84c873fa-85e0-480c-b105-e92fe3d01487",
-      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
-      "habitId": "6edd3c0e-ca02-451b-a118-04ad2f38903c",
-      "caption": "Activity 84c873 for habit 6edd3c",
+      "id": "0fbb550b-1d9a-49bc-b481-af09cb450c7c",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "73081777-81f9-4f56-91b4-8fa79a922a5f",
+      "caption": "Workspace setup (0fbb55) for habit 730817",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg",
+        "https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.070Z",
+      "updatedAt": "2025-11-22T15:47:04.070Z"
+    },
+    {
+      "id": "48886f75-350c-4559-a23a-f872104b7dac",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "73081777-81f9-4f56-91b4-8fa79a922a5f",
+      "caption": "Goal setting (48886f) for habit 730817",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg",
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438",
+        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.071Z",
+      "updatedAt": "2025-11-22T15:47:04.071Z"
+    },
+    {
+      "id": "7ffb9db8-8a96-4f6b-b7d0-5722b2d7f91c",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "73081777-81f9-4f56-91b4-8fa79a922a5f",
+      "caption": "Book review (7ffb9d) for habit 730817",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.071Z",
+      "updatedAt": "2025-11-22T15:47:04.071Z"
+    },
+    {
+      "id": "f3aec8c6-21cd-4e6c-8ccc-30e6496ab71b",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "73081777-81f9-4f56-91b4-8fa79a922a5f",
+      "caption": "Reading (f3aec8) for habit 730817",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg",
+        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg",
+        "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.072Z",
+      "updatedAt": "2025-11-22T15:47:04.072Z"
+    },
+    {
+      "id": "7d0d3e28-9465-41f0-8a53-fa639be3f9f0",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "d9ec0311-8141-4468-8079-cf332aac25e3",
+      "caption": "Workspace setup (7d0d3e) for habit d9ec03",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d",
+        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.072Z",
+      "updatedAt": "2025-11-22T15:47:04.072Z"
+    },
+    {
+      "id": "feb573ce-26b4-498f-9855-968881ca82e0",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "d9ec0311-8141-4468-8079-cf332aac25e3",
+      "caption": "Notebook planning (feb573) for habit d9ec03",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.072Z",
+      "updatedAt": "2025-11-22T15:47:04.072Z"
+    },
+    {
+      "id": "98f9f0c0-e60f-48d9-8621-6738a5b3a1e5",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "d9ec0311-8141-4468-8079-cf332aac25e3",
+      "caption": "Goal setting (98f9f0) for habit d9ec03",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+        "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg",
+        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.073Z",
+      "updatedAt": "2025-11-22T15:47:04.073Z"
+    },
+    {
+      "id": "feb184dd-803d-400b-9ace-2d1b855f0ea8",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "d9ec0311-8141-4468-8079-cf332aac25e3",
+      "caption": "Cycling (feb184) for habit d9ec03",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.073Z",
+      "updatedAt": "2025-11-22T15:47:04.073Z"
+    },
+    {
+      "id": "5edb6a5c-9d3e-40ac-8663-b69df73ffde7",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "156427b0-ce8c-4d67-9c97-2f9490db9943",
+      "caption": "Meditation (5edb6a) for habit 156427",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+        "https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.073Z",
+      "updatedAt": "2025-11-22T15:47:04.073Z"
+    },
+    {
+      "id": "4628d316-4ea0-45c1-8f5d-34b87e34a10d",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "156427b0-ce8c-4d67-9c97-2f9490db9943",
+      "caption": "Progress reflection (4628d3) for habit 156427",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.073Z",
+      "updatedAt": "2025-11-22T15:47:04.073Z"
+    },
+    {
+      "id": "9110f3c3-2795-4f29-aa22-6db0d24dbf25",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "156427b0-ce8c-4d67-9c97-2f9490db9943",
+      "caption": "Yoga practice (9110f3) for habit 156427",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg",
+        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.074Z",
+      "updatedAt": "2025-11-22T15:47:04.074Z"
+    },
+    {
+      "id": "11ac3621-caa4-45df-baeb-c91de70f0d57",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "cf843ea0-164c-4068-afdf-0424704363c1",
+      "caption": "Progress reflection (11ac36) for habit cf843e",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
+        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg",
+        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.074Z",
+      "updatedAt": "2025-11-22T15:47:04.074Z"
+    },
+    {
+      "id": "9b38081b-2b5c-45e1-a953-728c6ddb8fb6",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "cf843ea0-164c-4068-afdf-0424704363c1",
+      "caption": "Progress reflection (9b3808) for habit cf843e",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg",
+        "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.074Z",
+      "updatedAt": "2025-11-22T15:47:04.074Z"
+    },
+    {
+      "id": "a87882d8-7815-4d0e-934b-6e6b0028adb0",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "cf843ea0-164c-4068-afdf-0424704363c1",
+      "caption": "Pushups (a87882) for habit cf843e",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg",
+        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.074Z",
+      "updatedAt": "2025-11-22T15:47:04.074Z"
+    },
+    {
+      "id": "94a57850-2b04-42ce-a79a-a7960d073aac",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "f7852bba-d712-44fc-bd5c-9e681aff1802",
+      "caption": "Book review (94a578) for habit f7852b",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg",
+        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.075Z",
+      "updatedAt": "2025-11-22T15:47:04.075Z"
+    },
+    {
+      "id": "8438d2da-2260-4758-95f4-441355399aaf",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "f7852bba-d712-44fc-bd5c-9e681aff1802",
+      "caption": "Skill improvement (8438d2) for habit f7852b",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
+        "https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg",
+        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.075Z",
+      "updatedAt": "2025-11-22T15:47:04.075Z"
+    },
+    {
+      "id": "0d127e22-b2e6-4b92-b197-9ccb4f93de83",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "f7852bba-d712-44fc-bd5c-9e681aff1802",
+      "caption": "Library research (0d127e) for habit f7852b",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.075Z",
+      "updatedAt": "2025-11-22T15:47:04.075Z"
+    },
+    {
+      "id": "7b030011-0969-4924-85ee-4b05b63d9941",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "f7852bba-d712-44fc-bd5c-9e681aff1802",
+      "caption": "Cycling (7b0300) for habit f7852b",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.076Z",
+      "updatedAt": "2025-11-22T15:47:04.076Z"
+    },
+    {
+      "id": "3220a1b1-42fe-4ff3-91cf-84aefafdbb42",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
+      "caption": "Running (3220a1) for habit 4a94de",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg",
+        "https://images.pexels.com/photos/416778/pexels-photo-416778.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.076Z",
+      "updatedAt": "2025-11-22T15:47:04.076Z"
+    },
+    {
+      "id": "507e4f09-fea2-4c1f-b94a-a03a57a1628e",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
+      "caption": "Pushups (507e4f) for habit 4a94de",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/2261487/pexels-photo-2261487.jpeg",
+        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.077Z",
+      "updatedAt": "2025-11-22T15:47:04.077Z"
+    },
+    {
+      "id": "69186ccd-1a2f-4e0f-b229-3801eefd0e78",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
+      "caption": "Cycling (69186c) for habit 4a94de",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9",
+        "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.077Z",
+      "updatedAt": "2025-11-22T15:47:04.077Z"
+    },
+    {
+      "id": "b0cf9582-6285-4caf-945e-b629815d8df4",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
+      "caption": "Library research (b0cf95) for habit 4a94de",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/375737/pexels-photo-375737.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.077Z",
+      "updatedAt": "2025-11-22T15:47:04.077Z"
+    },
+    {
+      "id": "ba665698-1cf6-4336-80f9-78b3d6c9fce4",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "4a94de7c-f180-40b9-b5df-39df09d2c62f",
+      "caption": "Goal setting (ba6656) for habit 4a94de",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg",
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.077Z",
+      "updatedAt": "2025-11-22T15:47:04.077Z"
+    },
+    {
+      "id": "983da1be-133e-41d3-8462-b94cc41a67e6",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
+      "caption": "Running (983da1) for habit 1e405d",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",
+        "https://images.pexels.com/photos/256455/pexels-photo-256455.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.078Z",
+      "updatedAt": "2025-11-22T15:47:04.078Z"
+    },
+    {
+      "id": "79821ef0-a395-4bff-8f29-6bf8b2b5f3ce",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
+      "caption": "Stretching (79821e) for habit 1e405d",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1518611012118-696072aa579a"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.078Z",
+      "updatedAt": "2025-11-22T15:47:04.078Z"
+    },
+    {
+      "id": "3f7400bf-44d2-4c48-9166-bf7d5d99b2c3",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
+      "caption": "Reading (3f7400) for habit 1e405d",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
+        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg",
+        "https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.078Z",
+      "updatedAt": "2025-11-22T15:47:04.078Z"
+    },
+    {
+      "id": "3ea04e1d-8586-4760-8049-25fc9e8b30e1",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
+      "caption": "Library research (3ea04e) for habit 1e405d",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.079Z",
+      "updatedAt": "2025-11-22T15:47:04.079Z"
+    },
+    {
+      "id": "a109cbc0-cbbe-4720-af3b-fd49309c6e0c",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "1e405d22-48c3-467c-a0b5-fc571970e9c7",
+      "caption": "Workspace setup (a109cb) for habit 1e405d",
       "mediaUrls": [
         "https://images.pexels.com/photos/34950/pexels-photo.jpg"
       ],
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "createdAt": "2025-11-22T15:47:04.079Z",
+      "updatedAt": "2025-11-22T15:47:04.079Z"
     },
     {
-      "id": "6fd41a42-29ed-4345-90b2-b4f280b0d3eb",
+      "id": "317b41e9-838c-4379-bf76-8b2a71d3cd85",
       "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
-      "habitId": "6edd3c0e-ca02-451b-a118-04ad2f38903c",
-      "caption": "Activity 6fd41a for habit 6edd3c",
+      "habitId": "24e5ba1a-1bec-4af4-9bf0-8ca10977952d",
+      "caption": "Stretching (317b41) for habit 24e5ba",
       "mediaUrls": [
-        "https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg",
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
-    },
-    {
-      "id": "3e477257-580e-45a5-8eea-5c7363c74025",
-      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
-      "habitId": "6edd3c0e-ca02-451b-a118-04ad2f38903c",
-      "caption": "Activity 3e4772 for habit 6edd3c",
-      "mediaUrls": [
-        "https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg"
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
       ],
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "createdAt": "2025-11-22T15:47:04.079Z",
+      "updatedAt": "2025-11-22T15:47:04.079Z"
     },
     {
-      "id": "c8cf7140-6f53-46cc-9017-cf2c604cf3fb",
+      "id": "01e8f0c1-87d8-42bb-a4d7-7e2beecbd69f",
       "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
-      "habitId": "6edd3c0e-ca02-451b-a118-04ad2f38903c",
-      "caption": "Activity c8cf71 for habit 6edd3c",
+      "habitId": "24e5ba1a-1bec-4af4-9bf0-8ca10977952d",
+      "caption": "Goal setting (01e8f0) for habit 24e5ba",
       "mediaUrls": [
+        "https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:47:04.080Z",
+      "updatedAt": "2025-11-22T15:47:04.080Z"
+    },
+    {
+      "id": "7643e771-5edc-43bb-8e51-8cffb664f077",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "24e5ba1a-1bec-4af4-9bf0-8ca10977952d",
+      "caption": "Goal setting (7643e7) for habit 24e5ba",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
         "https://images.pexels.com/photos/261909/pexels-photo-261909.jpeg",
-        "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg"
+        "https://images.pexels.com/photos/1181359/pexels-photo-1181359.jpeg"
       ],
       "isPublic": false,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "createdAt": "2025-11-22T15:47:04.080Z",
+      "updatedAt": "2025-11-22T15:47:04.080Z"
     },
     {
-      "id": "6708367a-9a47-439d-92cc-2ee0ad38aba4",
+      "id": "9fdf0619-887d-40b1-8ca9-f6a32ab41824",
       "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
-      "habitId": "eaf3f508-ec0c-4f6a-9b11-c71ddb5f6d92",
-      "caption": "Activity 670836 for habit eaf3f5",
+      "habitId": "f8ea2ca2-c025-49d1-bdc7-cbd25e29d336",
+      "caption": "Healthy meal prep (9fdf06) for habit f8ea2c",
       "mediaUrls": [
-        "https://images.pexels.com/photos/414519/pexels-photo-414519.jpeg",
-        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2"
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
+        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg",
+        "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg"
       ],
       "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.337Z",
-      "updatedAt": "2025-11-22T15:44:02.337Z"
+      "createdAt": "2025-11-22T15:47:04.080Z",
+      "updatedAt": "2025-11-22T15:47:04.080Z"
     },
     {
-      "id": "1a7e637f-62c1-425b-b67b-f86fee912a77",
+      "id": "b748fa60-a742-41a3-b205-c6d5e2a92612",
       "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
-      "habitId": "eaf3f508-ec0c-4f6a-9b11-c71ddb5f6d92",
-      "caption": "Activity 1a7e63 for habit eaf3f5",
+      "habitId": "f8ea2ca2-c025-49d1-bdc7-cbd25e29d336",
+      "caption": "Running (b748fa) for habit f8ea2c",
       "mediaUrls": [
-        "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg"
+        "https://images.pexels.com/photos/1552106/pexels-photo-1552106.jpeg",
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+        "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg"
       ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.338Z",
-      "updatedAt": "2025-11-22T15:44:02.338Z"
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.080Z",
+      "updatedAt": "2025-11-22T15:47:04.080Z"
     },
     {
-      "id": "b9f05057-b892-41c2-90d7-5ff2a8cd286e",
+      "id": "58bbc9e5-3ee8-4fec-96ef-40f8ada238f9",
       "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
-      "habitId": "eaf3f508-ec0c-4f6a-9b11-c71ddb5f6d92",
-      "caption": "Activity b9f050 for habit eaf3f5",
+      "habitId": "f8ea2ca2-c025-49d1-bdc7-cbd25e29d336",
+      "caption": "Yoga practice (58bbc9) for habit f8ea2c",
       "mediaUrls": [
-        "https://images.unsplash.com/photo-1517836357463-d25dfeac3438"
+        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d",
+        "https://images.unsplash.com/photo-1465101178521-c1a4c8a0a8b7"
       ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.338Z",
-      "updatedAt": "2025-11-22T15:44:02.338Z"
-    },
-    {
-      "id": "bb63f1a8-ac2d-495e-97ca-d8dd909d2d7c",
-      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
-      "habitId": "eaf3f508-ec0c-4f6a-9b11-c71ddb5f6d92",
-      "caption": "Activity bb63f1 for habit eaf3f5",
-      "mediaUrls": [
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-        "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg"
-      ],
-      "isPublic": true,
-      "createdAt": "2025-11-22T15:44:02.338Z",
-      "updatedAt": "2025-11-22T15:44:02.338Z"
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:47:04.081Z",
+      "updatedAt": "2025-11-22T15:47:04.081Z"
     }
   ]
 }

@@ -93,11 +93,38 @@ export async function generateMockHabitActivityData(ownerIds: string[]) {
       const ownerId = ownerIds[ownerIdx];
       // Create a habit for this owner
       const habitId = uuidv4();
+      // More realistic habit titles and descriptions
+      const habitTitles = [
+        'Morning Gym Routine',
+        'Daily Coding Practice',
+        'Evening Study Session',
+        'Personal Writing Journal',
+        'Mindful Meditation',
+        'Book Reading Challenge',
+        'Healthy Meal Prep',
+        'Goal Setting Habit',
+        'Cycling for Fitness',
+        'Yoga and Stretching',
+      ];
+      const habitTitle = habitTitles[Math.floor(Math.random() * habitTitles.length)];
+      const habitDescriptions = [
+        'Focus on gym, coding, studying, or writing.',
+        'A daily commitment to self-improvement.',
+        'Track your progress in fitness, learning, and personal growth.',
+        'Build consistency in healthy habits.',
+        'Challenge yourself to grow every day.',
+        'Reflect and improve through regular practice.',
+        'Stay motivated and accountable.',
+        'Make time for personal development.',
+        'Balance physical and mental wellness.',
+        'Achieve your goals step by step.',
+      ];
+      const habitDescription = habitDescriptions[Math.floor(Math.random() * habitDescriptions.length)];
       const habit = {
         id: habitId,
         ownerId,
-        title: `Habit ${habitId.slice(0, 6)}`,
-        description: `Self-improvement habit (${habitId.slice(0, 6)}): Focus on gym, coding, studying, or writing.`,
+        title: habitTitle,
+        description: habitDescription,
         isPublic: Math.random() > 0.5,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -131,21 +158,82 @@ export async function generateMockHabitActivityData(ownerIds: string[]) {
 
         // Find the first media url and use it to infer type
         const firstMedia = mediaUrls[0] || '';
-        let captionType = 'Self-improvement activity';
+        let captionType = '';
         if (gymMedia.some(word => firstMedia.includes(word))) {
-          captionType = 'Gym/Exercise session';
+          const gymCaptions = [
+            'Completed a strength workout at the gym.',
+            'Focused on cardio and endurance training.',
+            'Tried a new exercise routine.',
+            'Tracked progress in weightlifting.',
+            'Enjoyed a group fitness class.',
+            'Practiced yoga and stretching.',
+            'Went for a morning run.',
+            'Finished a cycling session.',
+            'Improved flexibility with stretching.',
+            'Pushed through a tough workout.',
+          ];
+          captionType = gymCaptions[Math.floor(Math.random() * gymCaptions.length)];
         } else if (codingMedia.some(word => firstMedia.includes(word))) {
-          captionType = 'Coding challenge';
+          const codingCaptions = [
+            'Solved a coding challenge.',
+            'Worked on a personal project.',
+            'Practiced JavaScript algorithms.',
+            'Built a new feature for my app.',
+            'Debugged and fixed code issues.',
+            'Learned a new programming concept.',
+            'Refactored old code for better performance.',
+            'Explored a new technology stack.',
+            'Completed a module in an online course.',
+            'Reviewed pull requests.',
+          ];
+          captionType = codingCaptions[Math.floor(Math.random() * codingCaptions.length)];
         } else if (studyMedia.some(word => firstMedia.includes(word))) {
-          captionType = 'Study hour';
+          const studyCaptions = [
+            'Reviewed notes for upcoming exams.',
+            'Read a chapter from a textbook.',
+            'Completed a study session at the library.',
+            'Prepared flashcards for memorization.',
+            'Joined a group study session.',
+            'Summarized key concepts from class.',
+            'Practiced problem-solving exercises.',
+            'Organized study materials.',
+            'Watched educational videos.',
+            'Took practice quizzes.',
+          ];
+          captionType = studyCaptions[Math.floor(Math.random() * studyCaptions.length)];
         } else if (writingMedia.some(word => firstMedia.includes(word))) {
-          captionType = 'Writing journal';
+          const writingCaptions = [
+            'Wrote a journal entry about today.',
+            'Outlined ideas for a new story.',
+            'Reflected on personal growth.',
+            'Drafted a blog post.',
+            'Completed a writing prompt.',
+            'Edited previous journal entries.',
+            'Set writing goals for the week.',
+            'Practiced creative writing.',
+            'Documented daily achievements.',
+            'Started a gratitude journal.',
+          ];
+          captionType = writingCaptions[Math.floor(Math.random() * writingCaptions.length)];
         } else {
           // fallback: pick a random from all types
           const activityTypes = [
-            'Meditation', 'Reading', 'Group exercise', 'Cycling', 'Yoga practice', 'Pushups', 'Running', 'Stretching',
-            'Library research', 'Notebook planning', 'Book review', 'Workspace setup', 'Healthy meal prep',
-            'Goal setting', 'Progress reflection', 'Skill improvement'
+            'Meditated for 10 minutes.',
+            'Read a new book.',
+            'Joined a group exercise.',
+            'Went cycling outdoors.',
+            'Practiced yoga.',
+            'Did pushups.',
+            'Went for a run.',
+            'Stretched after workout.',
+            'Researched at the library.',
+            'Planned in my notebook.',
+            'Reviewed a book.',
+            'Organized my workspace.',
+            'Prepared a healthy meal.',
+            'Set new goals.',
+            'Reflected on progress.',
+            'Worked on skill improvement.',
           ];
           captionType = activityTypes[Math.floor(Math.random() * activityTypes.length)];
         }
@@ -153,7 +241,7 @@ export async function generateMockHabitActivityData(ownerIds: string[]) {
           id: activityId,
           ownerId,
           habitId,
-          caption: `${captionType} (${activityId.slice(0, 6)}) for habit ${habitId.slice(0, 6)}`,
+          caption: captionType,
           mediaUrls,
           isPublic: Math.random() > 0.5,
           createdAt: new Date().toISOString(),
