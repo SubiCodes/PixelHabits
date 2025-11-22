@@ -30,6 +30,17 @@ model comments {
   activityId   String    @map("activity_id")
   createdAt    DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
   activities   activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  replies replies[]
+}
+
+model replies {
+  id         String   @id
+  ownerId    String   @map("owner_id")
+  replyText  String   @map("reply_text")
+  commentId  String   @map("comment_id")
+  createdAt  DateTime @default(now()) @db.Timestamptz(6) @map("created_at")
+  updatedAt  DateTime @db.Timestamptz(6) @map("updated_at")
+  comments   comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 
 model habits {
