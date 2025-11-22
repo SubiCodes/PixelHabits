@@ -115,11 +115,45 @@ export async function generateMockHabitActivityData(ownerIds: string[]) {
         for (let m = 0; m < mediaCount; m++) {
           mediaUrls.push(mediaSamples[Math.floor(Math.random() * mediaSamples.length)]);
         }
+        // Context-aware captions based on media
+        const gymMedia = [
+          'gym', 'weights', 'pushups', 'cycling', 'running', 'stretching', 'group exercise', 'yoga', 'exercise', 'workout'
+        ];
+        const codingMedia = [
+          'code', 'laptop', 'workspace', 'computer', 'developer'
+        ];
+        const studyMedia = [
+          'books', 'study', 'library', 'notebook', 'desk', 'reading', 'research'
+        ];
+        const writingMedia = [
+          'writing', 'journal', 'pen', 'notebook', 'desk', 'reflection', 'planning'
+        ];
+
+        // Find the first media url and use it to infer type
+        const firstMedia = mediaUrls[0] || '';
+        let captionType = 'Self-improvement activity';
+        if (gymMedia.some(word => firstMedia.includes(word))) {
+          captionType = 'Gym/Exercise session';
+        } else if (codingMedia.some(word => firstMedia.includes(word))) {
+          captionType = 'Coding challenge';
+        } else if (studyMedia.some(word => firstMedia.includes(word))) {
+          captionType = 'Study hour';
+        } else if (writingMedia.some(word => firstMedia.includes(word))) {
+          captionType = 'Writing journal';
+        } else {
+          // fallback: pick a random from all types
+          const activityTypes = [
+            'Meditation', 'Reading', 'Group exercise', 'Cycling', 'Yoga practice', 'Pushups', 'Running', 'Stretching',
+            'Library research', 'Notebook planning', 'Book review', 'Workspace setup', 'Healthy meal prep',
+            'Goal setting', 'Progress reflection', 'Skill improvement'
+          ];
+          captionType = activityTypes[Math.floor(Math.random() * activityTypes.length)];
+        }
         const activity = {
           id: activityId,
           ownerId,
           habitId,
-          caption: `Activity ${activityId.slice(0, 6)} for habit ${habitId.slice(0, 6)}`,
+          caption: `${captionType} (${activityId.slice(0, 6)}) for habit ${habitId.slice(0, 6)}`,
           mediaUrls,
           isPublic: Math.random() > 0.5,
           createdAt: new Date().toISOString(),
