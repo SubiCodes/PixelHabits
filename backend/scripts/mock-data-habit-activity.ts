@@ -1,5 +1,3 @@
-import { writeFileSync } from 'fs';
-import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaClient } from '../generated/prisma/client';
 import 'dotenv/config';
@@ -268,10 +266,6 @@ if (require.main === module) {
     }
     const prisma = new PrismaClient();
     const data = await generateMockHabitActivityData(ownerIds);
-    writeFileSync(
-      path.join(__dirname, 'mock-habit-activity-data.json'),
-      JSON.stringify(data, null, 2)
-    );
     console.log('Mock habit/activity data generated for ownerIds:', ownerIds);
 
     // Insert habits
