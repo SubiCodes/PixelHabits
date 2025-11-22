@@ -29,7 +29,18 @@ async function generateMockComments(ownerIds: string[]) {
           `Nice work on "${activity.caption}"!`,
           `I learned something from "${activity.caption}".`,
           `Well said: "${activity.caption}"`,
-          `Keep it up! "${activity.caption}"`
+          `Keep it up! "${activity.caption}"`,
+          // New generic comments not mentioning caption
+          "Awesome!",
+          "Really motivating post!",
+          "This is super helpful.",
+          "Great job!",
+          "I needed this today.",
+          "Thanks for posting!",
+          "Very inspiring.",
+          "Keep going!",
+          "Love the energy here.",
+          "This made my day!"
         ];
         const commentText = commentTemplates[Math.floor(Math.random() * commentTemplates.length)];
         try {
