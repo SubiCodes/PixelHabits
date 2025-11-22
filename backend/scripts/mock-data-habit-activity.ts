@@ -1,6 +1,7 @@
 import { writeFileSync } from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaClient } from '@prisma/client';
 
 interface Habit {
   id: string;
@@ -24,7 +25,7 @@ interface Activity {
 }
 
 // Accepts an array of ownerIds
-export function generateMockHabitActivityData(ownerIds: string[]) {
+export async function generateMockHabitActivityData(ownerIds: string[]) {
   const habits: Habit[] = [];
   const activities: Activity[] = [];
 
@@ -93,16 +94,32 @@ export function generateMockHabitActivityData(ownerIds: string[]) {
 
 // Example usage:
 if (require.main === module) {
-  // Get ownerIds from command-line arguments
-  const ownerIds = process.argv.slice(2);
-  if (ownerIds.length === 0) {
-    console.error('Please provide at least one ownerId as a command-line argument.');
-    process.exit(1);
-  }
-  const data = generateMockHabitActivityData(ownerIds);
-  writeFileSync(
-    path.join(__dirname, 'mock-habit-activity-data.json'),
-    JSON.stringify(data, null, 2)
-  );
-  console.log('Mock habit/activity data generated for ownerIds:', ownerIds);
+  (async () => {
+    // Get ownerIds from command-line arguments
+    const ownerIds = process.argv.slice(2);
+    if (ownerIds.length === 0) {
+      console.error('Please provide at least one ownerId as a command-line argument.');
+      process.exit(1);
+    }
+    const prisma = new PrismaClient();
+    const data = await generateMockHabitActivityData(ownerIds);
+    writeFileSync(
+      path.join(__dirname, 'mock-habit-activity-data.json'),
+      JSON.stringify(data, null, 2)
+    );
+    console.log('Mock habit/activity data generated for ownerIds:', ownerIds);
+
+    // Insert habits
+    for (const habit of data.habits) {
+      await prisma.habits.create({ data: habit });
+      console.log(`[DB] Inserted habit ${habit.id}`);
+    }
+    // Insert activities
+    for (const activity of data.activities) {
+      await prisma.activities.create({ data: activity });
+      console.log(`[DB] Inserted activity ${activity.id}`);
+    }
+    await prisma.$disconnect();
+    console.log('All mock habits and activities uploaded to the database.');
+  })().catch(console.error);
 }

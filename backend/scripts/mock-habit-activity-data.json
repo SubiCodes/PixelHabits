@@ -1,0 +1,618 @@
+{
+  "habits": [
+    {
+      "id": "e1969670-beb0-4a06-a4a6-6080949fe78e",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "title": "Habit e19696",
+      "description": "Description for habit e1969670-beb0-4a06-a4a6-6080949fe78e",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.665Z",
+      "updatedAt": "2025-11-22T15:28:58.666Z"
+    },
+    {
+      "id": "8b0c8656-f721-45cc-8356-cd71064d536b",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "title": "Habit 8b0c86",
+      "description": "Description for habit 8b0c8656-f721-45cc-8356-cd71064d536b",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.668Z",
+      "updatedAt": "2025-11-22T15:28:58.668Z"
+    },
+    {
+      "id": "443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "title": "Habit 443fb5",
+      "description": "Description for habit 443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.669Z",
+      "updatedAt": "2025-11-22T15:28:58.669Z"
+    },
+    {
+      "id": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "title": "Habit a1e41d",
+      "description": "Description for habit a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.671Z",
+      "updatedAt": "2025-11-22T15:28:58.671Z"
+    },
+    {
+      "id": "daa8ab85-e67c-4f5b-9293-924881b235e1",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "title": "Habit daa8ab",
+      "description": "Description for habit daa8ab85-e67c-4f5b-9293-924881b235e1",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.673Z",
+      "updatedAt": "2025-11-22T15:28:58.673Z"
+    },
+    {
+      "id": "59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "title": "Habit 59a2ca",
+      "description": "Description for habit 59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.673Z",
+      "updatedAt": "2025-11-22T15:28:58.673Z"
+    },
+    {
+      "id": "6eaa65c9-eca5-4cab-92d2-7d3df19994de",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "title": "Habit 6eaa65",
+      "description": "Description for habit 6eaa65c9-eca5-4cab-92d2-7d3df19994de",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.674Z",
+      "updatedAt": "2025-11-22T15:28:58.674Z"
+    },
+    {
+      "id": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "title": "Habit 5f9b3e",
+      "description": "Description for habit 5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.675Z",
+      "updatedAt": "2025-11-22T15:28:58.675Z"
+    },
+    {
+      "id": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "title": "Habit 01e0e0",
+      "description": "Description for habit 01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.677Z",
+      "updatedAt": "2025-11-22T15:28:58.677Z"
+    },
+    {
+      "id": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "title": "Habit 5c1f18",
+      "description": "Description for habit 5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.678Z",
+      "updatedAt": "2025-11-22T15:28:58.678Z"
+    }
+  ],
+  "activities": [
+    {
+      "id": "ff0ca43c-e36e-46c1-b6da-79467d20d82d",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "habitId": "e1969670-beb0-4a06-a4a6-6080949fe78e",
+      "caption": "Activity ff0ca4 for habit e19696",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.667Z",
+      "updatedAt": "2025-11-22T15:28:58.667Z"
+    },
+    {
+      "id": "3be4057d-9462-46bf-8e92-51a7dff7733d",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "habitId": "e1969670-beb0-4a06-a4a6-6080949fe78e",
+      "caption": "Activity 3be405 for habit e19696",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg",
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg",
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.667Z",
+      "updatedAt": "2025-11-22T15:28:58.667Z"
+    },
+    {
+      "id": "4daf6bc8-9ed7-40c8-9d28-f4923192d162",
+      "ownerId": "06f14842-74cc-4b4e-9b08-042d232b0c84",
+      "habitId": "e1969670-beb0-4a06-a4a6-6080949fe78e",
+      "caption": "Activity 4daf6b for habit e19696",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.668Z",
+      "updatedAt": "2025-11-22T15:28:58.668Z"
+    },
+    {
+      "id": "37d36f56-c4b5-4a6f-9bd4-b40c8fa350b3",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "8b0c8656-f721-45cc-8356-cd71064d536b",
+      "caption": "Activity 37d36f for habit 8b0c86",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.668Z",
+      "updatedAt": "2025-11-22T15:28:58.668Z"
+    },
+    {
+      "id": "e25fcc2c-588c-4d1b-ab65-1c76c701642d",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "8b0c8656-f721-45cc-8356-cd71064d536b",
+      "caption": "Activity e25fcc for habit 8b0c86",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.669Z",
+      "updatedAt": "2025-11-22T15:28:58.669Z"
+    },
+    {
+      "id": "822844c8-9fb3-413d-aa1b-1f16ca4f28f6",
+      "ownerId": "63b5e5c9-751d-490b-ac2f-5d0f868f5871",
+      "habitId": "8b0c8656-f721-45cc-8356-cd71064d536b",
+      "caption": "Activity 822844 for habit 8b0c86",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.669Z",
+      "updatedAt": "2025-11-22T15:28:58.669Z"
+    },
+    {
+      "id": "11ee2e1e-1e06-4321-afc1-f5eef019656c",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "caption": "Activity 11ee2e for habit 443fb5",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.670Z",
+      "updatedAt": "2025-11-22T15:28:58.670Z"
+    },
+    {
+      "id": "d669d4c8-2896-47d6-a605-830cea2ac979",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "caption": "Activity d669d4 for habit 443fb5",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.670Z",
+      "updatedAt": "2025-11-22T15:28:58.670Z"
+    },
+    {
+      "id": "fe44e711-1efe-42a6-8043-731342512352",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "caption": "Activity fe44e7 for habit 443fb5",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.671Z",
+      "updatedAt": "2025-11-22T15:28:58.671Z"
+    },
+    {
+      "id": "dda682c8-8b96-434f-935b-856a5fe735b0",
+      "ownerId": "676be20d-406f-48a2-a9d3-49f3acb92db4",
+      "habitId": "443fb5c7-710b-47f5-b83a-9bb2fdbdfe49",
+      "caption": "Activity dda682 for habit 443fb5",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.671Z",
+      "updatedAt": "2025-11-22T15:28:58.671Z"
+    },
+    {
+      "id": "420d0076-75a7-46f2-9330-8884318f9276",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "caption": "Activity 420d00 for habit a1e41d",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.671Z",
+      "updatedAt": "2025-11-22T15:28:58.671Z"
+    },
+    {
+      "id": "d815872b-824d-48dd-ad1b-34d8139860f7",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "caption": "Activity d81587 for habit a1e41d",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.672Z",
+      "updatedAt": "2025-11-22T15:28:58.672Z"
+    },
+    {
+      "id": "4d814478-680a-487e-8a12-3284f50adb37",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "caption": "Activity 4d8144 for habit a1e41d",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.672Z",
+      "updatedAt": "2025-11-22T15:28:58.672Z"
+    },
+    {
+      "id": "add34539-311a-4209-9704-d2ba34a7d1aa",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "caption": "Activity add345 for habit a1e41d",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg",
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.672Z",
+      "updatedAt": "2025-11-22T15:28:58.672Z"
+    },
+    {
+      "id": "2d7debb7-9a00-48cf-b300-ccd322475c1b",
+      "ownerId": "7ef8fb58-87cd-4c43-aff6-b0ad215e88d3",
+      "habitId": "a1e41dd3-9623-4de7-aebb-c950fb153982",
+      "caption": "Activity 2d7deb for habit a1e41d",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.672Z",
+      "updatedAt": "2025-11-22T15:28:58.672Z"
+    },
+    {
+      "id": "ad1e2710-11d3-4c2c-8363-7cd02c82c05e",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "daa8ab85-e67c-4f5b-9293-924881b235e1",
+      "caption": "Activity ad1e27 for habit daa8ab",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg",
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.673Z",
+      "updatedAt": "2025-11-22T15:28:58.673Z"
+    },
+    {
+      "id": "bb13af94-65c3-4f1b-93f7-603e08f96c33",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "daa8ab85-e67c-4f5b-9293-924881b235e1",
+      "caption": "Activity bb13af for habit daa8ab",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.673Z",
+      "updatedAt": "2025-11-22T15:28:58.673Z"
+    },
+    {
+      "id": "abdab75d-bfb5-41db-8407-a99304518e5f",
+      "ownerId": "aa026a56-e1e4-470f-a489-6d13ee9f157b",
+      "habitId": "daa8ab85-e67c-4f5b-9293-924881b235e1",
+      "caption": "Activity abdab7 for habit daa8ab",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.673Z",
+      "updatedAt": "2025-11-22T15:28:58.673Z"
+    },
+    {
+      "id": "c7d9494f-7dd6-4a5a-a330-ce1a10857014",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "caption": "Activity c7d949 for habit 59a2ca",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.674Z",
+      "updatedAt": "2025-11-22T15:28:58.674Z"
+    },
+    {
+      "id": "45e3c5ec-b4c7-4bc4-80a3-4f13bb894549",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "caption": "Activity 45e3c5 for habit 59a2ca",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.674Z",
+      "updatedAt": "2025-11-22T15:28:58.674Z"
+    },
+    {
+      "id": "e454025b-541e-40b8-a365-bac73fad9907",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "caption": "Activity e45402 for habit 59a2ca",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.674Z",
+      "updatedAt": "2025-11-22T15:28:58.674Z"
+    },
+    {
+      "id": "fa78dfef-eb61-4b64-8500-0089d375d0a5",
+      "ownerId": "b402cb85-ce78-41e2-a5c9-2c8385a3af0a",
+      "habitId": "59a2cadc-322a-4fe1-ac21-f74f7cd9fb75",
+      "caption": "Activity fa78df for habit 59a2ca",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.674Z",
+      "updatedAt": "2025-11-22T15:28:58.674Z"
+    },
+    {
+      "id": "a674a20a-6ecd-4428-b72f-bb67a5afd9ad",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "6eaa65c9-eca5-4cab-92d2-7d3df19994de",
+      "caption": "Activity a674a2 for habit 6eaa65",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.675Z",
+      "updatedAt": "2025-11-22T15:28:58.675Z"
+    },
+    {
+      "id": "78cf7ac7-4a91-4f0b-a8a1-7553f24b27fc",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "6eaa65c9-eca5-4cab-92d2-7d3df19994de",
+      "caption": "Activity 78cf7a for habit 6eaa65",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.675Z",
+      "updatedAt": "2025-11-22T15:28:58.675Z"
+    },
+    {
+      "id": "afd625ae-2f3a-4d9e-97fc-3e1f166a4e3e",
+      "ownerId": "ccffb4b6-aedc-472b-a044-0a22675d0bc5",
+      "habitId": "6eaa65c9-eca5-4cab-92d2-7d3df19994de",
+      "caption": "Activity afd625 for habit 6eaa65",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.675Z",
+      "updatedAt": "2025-11-22T15:28:58.675Z"
+    },
+    {
+      "id": "57c84f97-3da1-464b-9847-884666f66eab",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "caption": "Activity 57c84f for habit 5f9b3e",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.675Z",
+      "updatedAt": "2025-11-22T15:28:58.675Z"
+    },
+    {
+      "id": "608d09cd-4e98-4de5-97ad-ab3ab00d6541",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "caption": "Activity 608d09 for habit 5f9b3e",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.676Z",
+      "updatedAt": "2025-11-22T15:28:58.676Z"
+    },
+    {
+      "id": "efeb599c-8070-4c41-8a8c-36b2362ed602",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "caption": "Activity efeb59 for habit 5f9b3e",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.676Z",
+      "updatedAt": "2025-11-22T15:28:58.676Z"
+    },
+    {
+      "id": "d97ef636-81ff-4746-b745-95fe81142635",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "caption": "Activity d97ef6 for habit 5f9b3e",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.676Z",
+      "updatedAt": "2025-11-22T15:28:58.676Z"
+    },
+    {
+      "id": "68770a14-46bc-4af9-ba65-1a7f18a0a38c",
+      "ownerId": "f3715679-ccf7-4327-996e-2923562aeec0",
+      "habitId": "5f9b3e18-238d-4312-a5ce-5162b3761a8d",
+      "caption": "Activity 68770a for habit 5f9b3e",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.676Z",
+      "updatedAt": "2025-11-22T15:28:58.676Z"
+    },
+    {
+      "id": "befdc5e9-f140-4668-8670-ff100904b516",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "caption": "Activity befdc5 for habit 01e0e0",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.677Z",
+      "updatedAt": "2025-11-22T15:28:58.677Z"
+    },
+    {
+      "id": "ddbc0c95-3b89-49fc-b7ba-6fbb30c4e2b4",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "caption": "Activity ddbc0c for habit 01e0e0",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.677Z",
+      "updatedAt": "2025-11-22T15:28:58.677Z"
+    },
+    {
+      "id": "130e03f7-f0a5-4956-91b2-a9a4fe4a54f6",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "caption": "Activity 130e03 for habit 01e0e0",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.677Z",
+      "updatedAt": "2025-11-22T15:28:58.677Z"
+    },
+    {
+      "id": "54668f97-5601-4238-b780-549d07dd170a",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "caption": "Activity 54668f for habit 01e0e0",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg",
+        "https://cdn.pixabay.com/photo/2016/11/29/09/32/animal-1867121_1280.jpg",
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.677Z",
+      "updatedAt": "2025-11-22T15:28:58.677Z"
+    },
+    {
+      "id": "77fa92e5-f939-4853-a2f7-0472f6bc4ad2",
+      "ownerId": "f45d3ce2-617a-4ccb-a10d-1c02aff5acac",
+      "habitId": "01e0e09f-f300-478a-98c0-e06a36c37db8",
+      "caption": "Activity 77fa92 for habit 01e0e0",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.678Z",
+      "updatedAt": "2025-11-22T15:28:58.678Z"
+    },
+    {
+      "id": "1d34ead9-e782-4ea7-8f8c-e7eb697c9201",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "habitId": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "caption": "Activity 1d34ea for habit 5c1f18",
+      "mediaUrls": [
+        "https://cdn.pixabay.com/photo/2017/01/20/00/30/mountains-1998925_1280.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.678Z",
+      "updatedAt": "2025-11-22T15:28:58.678Z"
+    },
+    {
+      "id": "e5013a20-25aa-4860-8ba6-f1b7f6e674d5",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "habitId": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "caption": "Activity e5013a for habit 5c1f18",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.678Z",
+      "updatedAt": "2025-11-22T15:28:58.678Z"
+    },
+    {
+      "id": "f78fe8d0-e20e-48f9-9147-8c13ad7f56ba",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "habitId": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "caption": "Activity f78fe8 for habit 5c1f18",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+      ],
+      "isPublic": true,
+      "createdAt": "2025-11-22T15:28:58.678Z",
+      "updatedAt": "2025-11-22T15:28:58.679Z"
+    },
+    {
+      "id": "0f175098-7d5e-48b6-a9ac-6fd057136af0",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "habitId": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "caption": "Activity 0f1750 for habit 5c1f18",
+      "mediaUrls": [
+        "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg",
+        "https://images.pexels.com/photos/34950/pexels-photo.jpg",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.679Z",
+      "updatedAt": "2025-11-22T15:28:58.679Z"
+    },
+    {
+      "id": "8376e0f1-671f-4111-9ae5-35f242cd5faf",
+      "ownerId": "f64590e0-e860-420c-b8f5-b4fd793be28c",
+      "habitId": "5c1f18e7-a1d0-480a-814a-3bc9526e5e97",
+      "caption": "Activity 8376e0 for habit 5c1f18",
+      "mediaUrls": [
+        "https://images.unsplash.com/photo-1519125323398-675f0ddb6308"
+      ],
+      "isPublic": false,
+      "createdAt": "2025-11-22T15:28:58.679Z",
+      "updatedAt": "2025-11-22T15:28:58.679Z"
+    }
+  ]
+}
