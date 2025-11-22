@@ -1,7 +1,8 @@
 import { writeFileSync } from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaClient } from 'generated/prisma/client';
+import { PrismaClient } from '../generated/prisma/client';
+import 'dotenv/config';
 
 interface Habit {
   id: string;
@@ -96,7 +97,7 @@ export async function generateMockHabitActivityData(ownerIds: string[]) {
         id: habitId,
         ownerId,
         title: `Habit ${habitId.slice(0, 6)}`,
-        description: `Description for habit ${habitId}`,
+        description: `Self-improvement habit (${habitId.slice(0, 6)}): Focus on gym, coding, studying, or writing.`,
         isPublic: Math.random() > 0.5,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
