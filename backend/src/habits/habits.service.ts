@@ -1,26 +1,127 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Injectable } from '@nestjs/common';
+import { toZonedTime, format } from 'date-fns-tz';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
+import { DatabaseService } from 'src/database/database.service';
+import { Habit } from './entities/habit.entity';
 
 @Injectable()
 export class HabitsService {
-  create(createHabitDto: CreateHabitDto) {
-    return 'This action adds a new habit';
+  constructor(private readonly databaseService: DatabaseService) { }
+
+  create(createHabitDto: CreateHabitDto): Promise<Habit> {
+    return this.databaseService.habit.create({
+      data: createHabitDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all habits`;
+  async findAll(ownerId: string, requestingUserId: string): Promise<any[]> {
+    const isOwner = ownerId === requestingUserId;
+    const habits = await this.databaseService.habit.findMany({
+      where: { ownerId, ...(isOwner ? {} : { isPublic: true }) },
+      include: { activities: true }
+    });
+
+    // Add current streak property to each habit (consecutive days ending at last activity, alive if last activity is today or yesterday)
+    return habits.map(habit => {
+      const PH_TZ = 'Asia/Manila';
+      function getPHDateString(date: Date) {
+        return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
+      }
+      const activityDates = Array.from(new Set(
+        (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
+      ));
+      activityDates.sort();
+      let streak = 0;
+      if (activityDates.length > 0) {
+        const now = new Date();
+        const todayStr = getPHDateString(now);
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        const yesterdayStr = getPHDateString(yesterday);
+        const lastActivityDateStr = activityDates[activityDates.length - 1];
+        const lastDateStr = lastActivityDateStr;
+        if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
+          streak = 1;
+          for (let i = activityDates.length - 1; i > 0; i--) {
+            const prevStr = activityDates[i - 1];
+            const currStr = activityDates[i];
+            // Parse as local midnight
+            const prevDate = new Date(prevStr + 'T00:00:00');
+            const currDate = new Date(currStr + 'T00:00:00');
+            const diffDays = Math.round((currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+              streak++;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+      return { ...habit, streak };
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} habit`;
+  async findOne(id: string): Promise<any | null> {
+    const habit = await this.databaseService.habit.findUnique({
+      where: { id },
+      include: { activities: true }
+    });
+    if (!habit) return null;
+    const PH_TZ = 'Asia/Manila';
+    function getPHDateString(date: Date) {
+      return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
+    }
+    const activityDates = Array.from(new Set(
+      (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
+    ));
+    activityDates.sort();
+    let streak = 0;
+    if (activityDates.length > 0) {
+      const now = new Date();
+      const todayStr = getPHDateString(now);
+      const yesterday = new Date(now);
+      yesterday.setDate(now.getDate() - 1);
+      const yesterdayStr = getPHDateString(yesterday);
+      const lastActivityDateStr = activityDates[activityDates.length - 1];
+      const lastDateStr = lastActivityDateStr;
+      if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
+        streak = 1;
+        for (let i = activityDates.length - 1; i > 0; i--) {
+          const prevStr = activityDates[i - 1];
+          const currStr = activityDates[i];
+          // Parse as local midnight
+          const prevDate = new Date(prevStr + 'T00:00:00');
+          const currDate = new Date(currStr + 'T00:00:00');
+          const diffDays = Math.round((currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+          if (diffDays === 1) {
+            streak++;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+    return { ...habit, streak };
   }
 
-  update(id: number, updateHabitDto: UpdateHabitDto) {
-    return `This action updates a #${id} habit`;
+  update(id: string, updateHabitDto: UpdateHabitDto): Habit {
+    return this.databaseService.habit.update({
+      where: { id },
+      data: updateHabitDto,
+      include: { activities: true }
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} habit`;
+  remove(id: string): Habit {
+    return this.databaseService.habit.delete({
+      where: { id },
+    });
   }
 }
