@@ -30,9 +30,11 @@ export class CommentsService {
 
     return this.databaseService.comments.create({
       data: {
+        id: crypto.randomUUID(),
         ownerId: createCommentDto.owner_id,
         activityId: createCommentDto.activity_id,
         commentText: createCommentDto.comment_text,
+        createdAt: new Date(),
       }
     });
   }

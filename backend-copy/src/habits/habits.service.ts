@@ -1,23 +1,29 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { Injectable } from '@nestjs/common';
 import { toZonedTime, format } from 'date-fns-tz';
 import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
 import { DatabaseService } from 'src/database/database.service';
-import { Habit } from 'generated/prisma/client';
+import { habits } from 'generated/prisma/client';
 
 @Injectable()
 export class HabitsService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(createHabitDto: CreateHabitDto): Promise<Habit> {
-    return this.databaseService.habit.create({
-      data: createHabitDto,
+  async create(createHabitDto: CreateHabitDto): Promise<habits> {
+    return this.databaseService.habits.create({
+      data: {
+        ...createHabitDto,
+        id: crypto.randomUUID(),
+        updatedAt: new Date(),
+        createdAt: new Date(),
+      },
     });
   }
 
   async findAll(ownerId: string, requestingUserId: string): Promise<any[]> {
     const isOwner = ownerId === requestingUserId;
-    const habits = await this.databaseService.habit.findMany({
+    const habits = await this.databaseService.habits.findMany({
       where: { ownerId, ...(isOwner ? {} : { isPublic: true }) },
       include: { activities: true }
     });
@@ -28,8 +34,12 @@ export class HabitsService {
       function getPHDateString(date: Date) {
         return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
       }
+      const activities = (habit.activities ?? []) as Array<{ createdAt: Date | string }>;
       const activityDates = Array.from(new Set(
-        (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
+        activities.map(a => {
+          const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+          return getPHDateString(date);
+        })
       ));
       activityDates.sort();
       let streak = 0;
@@ -63,7 +73,7 @@ export class HabitsService {
   }
 
   async findOne(id: string): Promise<any | null> {
-    const habit = await this.databaseService.habit.findUnique({
+    const habit = await this.databaseService.habits.findUnique({
       where: { id },
       include: { activities: true }
     });
@@ -72,8 +82,12 @@ export class HabitsService {
     function getPHDateString(date: Date) {
       return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
     }
+    const activities = (habit.activities ?? []) as Array<{ createdAt: Date | string }>;
     const activityDates = Array.from(new Set(
-      (habit.activities || []).map(a => getPHDateString(new Date(a.createdAt)))
+      activities.map(a => {
+        const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+        return getPHDateString(date);
+      })
     ));
     activityDates.sort();
     let streak = 0;
@@ -105,16 +119,16 @@ export class HabitsService {
     return { ...habit, streak };
   }
 
-  async update(id: string, updateHabitDto: UpdateHabitDto): Promise<Habit> {
-    return this.databaseService.habit.update({
+  async update(id: string, updateHabitDto: UpdateHabitDto): Promise<habits> {
+    return this.databaseService.habits.update({
       where: { id },
       data: updateHabitDto,
       include: { activities: true }
     });
   }
 
-  async remove(id: string): Promise<Habit> {
-    return this.databaseService.habit.delete({
+  async remove(id: string): Promise<habits> {
+    return this.databaseService.habits.delete({
       where: { id },
     });
   }

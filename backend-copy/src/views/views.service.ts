@@ -21,8 +21,10 @@ export class ViewsService {
 
     return this.databaseService.views.create({
       data: {
+        id: crypto.randomUUID(),
         ownerId: createViewDto.owner_id,
         activityId: createViewDto.activity_id,
+        createdAt: new Date(),
       }
     });
   }

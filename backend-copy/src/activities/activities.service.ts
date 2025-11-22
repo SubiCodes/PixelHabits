@@ -14,7 +14,7 @@ export class ActivitiesService {
   // Create activity with optional media files
   async create(createActivityDto: CreateActivityDto) {
     //Check if habit exists
-    const habit = await this.databaseService.habit.findUnique({
+    const habit = await this.databaseService.habits.findUnique({
       where: { id: createActivityDto.habitId },
       include: { activities: true },
     });
@@ -36,7 +36,7 @@ export class ActivitiesService {
     });
 
     if (hasActivityToday) {
-       throw new ConflictException('An activity for today already exists');
+      throw new ConflictException('An activity for today already exists');
     }
 
     if (createActivityDto.mediaUrls && createActivityDto.mediaUrls.length > 0) {
@@ -45,20 +45,23 @@ export class ActivitiesService {
 
     const mediaUrls = await this.cloudinaryUploadService.uploadFiles(createActivityDto.mediaUrls, 'pixel_habits_activities');
 
-    return this.databaseService.activity.create({
+    return this.databaseService.activities.create({
       data: {
+        id: crypto.randomUUID(),
         ownerId: createActivityDto.ownerId,
         habitId: createActivityDto.habitId,
-        caption: createActivityDto.caption,
+        caption: createActivityDto.caption ?? "",
         isPublic: createActivityDto.isPublic ?? false,
         mediaUrls,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
   }
 
   //Get all activities for the specific habit, with privacy check
   async findAll(habitId: string, requestingUserId: string) {
-    const habit = await this.databaseService.habit.findUnique({
+    const habit = await this.databaseService.habits.findUnique({
       where: { id: habitId },
       select: { ownerId: true },
     });
@@ -66,7 +69,7 @@ export class ActivitiesService {
       return [];
     }
     const isOwner = habit.ownerId === requestingUserId;
-    return this.databaseService.activity.findMany({
+    return this.databaseService.activities.findMany({
       where: {
         habitId,
         ...(isOwner ? {} : { isPublic: true }),
@@ -78,7 +81,7 @@ export class ActivitiesService {
   }
 
   findOne(id: string) {
-    return this.databaseService.activity.findUnique({
+    return this.databaseService.activities.findUnique({
       where: { id },
     });
   }
@@ -90,7 +93,7 @@ export class ActivitiesService {
     }
 
     //Get existing activity to access current mediaUrls
-    const existingActivity = await this.databaseService.activity.findUnique({
+    const existingActivity = await this.databaseService.activities.findUnique({
       where: { id },
     });
 
@@ -101,7 +104,7 @@ export class ActivitiesService {
     let newMedias: string[] = [];
 
     if (files && files.length > 0) {
-      const uploadedMedias= await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
+      const uploadedMedias = await this.cloudinaryUploadService.uploadFiles(files, 'pixel_habits_activities');
       newMedias = uploadedMedias;
     }
 
@@ -124,7 +127,7 @@ export class ActivitiesService {
       mediaUrls = mediaUrls.filter(url => !mediaUrlsToDelete.includes(url));
     }
 
-    return this.databaseService.activity.update({
+    return this.databaseService.activities.update({
       where: { id },
       data: {
         caption: updateActivityDto.caption ?? existingActivity?.caption,
@@ -135,7 +138,7 @@ export class ActivitiesService {
   }
 
   async remove(id: string) {
-    const existingActivity = await this.databaseService.activity.findUnique({
+    const existingActivity = await this.databaseService.activities.findUnique({
       where: { id },
     });
 
@@ -143,7 +146,7 @@ export class ActivitiesService {
       await this.cloudinaryUploadService.deleteFiles(existingActivity.mediaUrls);
     }
 
-    return await this.databaseService.activity.delete({
+    return await this.databaseService.activities.delete({
       where: { id },
     });
   }

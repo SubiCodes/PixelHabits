@@ -21,8 +21,10 @@ export class LikesService {
     } else {
       return this.databaseService.likes.create({
         data: {
+          id: crypto.randomUUID(),
           ownerId: createLikeDto.owner_id,
           activityId: createLikeDto.activity_id,
+          createdAt: new Date(),
         }
       });
     }

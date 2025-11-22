@@ -1,73 +1,64 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client"
+  output       = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["public"]
+  url      = env("DATABASE_URL")
 }
 
-model Habit {
-  id          String     @id @default(cuid())
-  ownerId     String     @map("owner_id")
-  title       String
-  description String?
-  isPublic    Boolean    @default(false) @map("is_public")
-  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz(6)
-  activities  Activity[]
-
-  @@map("habits")
-  @@schema("public")
-}
-
-model Activity {
-  id        String     @id @default(cuid())
-  ownerId   String     @map("owner_id")
-  habitId   String     @map("habit_id")
-  caption   String?
-  mediaUrls String[]   @map("media_urls")
-  isPublic  Boolean    @default(false) @map("is_public")
-  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt DateTime   @updatedAt @map("updated_at") @db.Timestamptz(6)
-  habit     Habit      @relation(fields: [habitId], references: [id], onDelete: Cascade)
-  comments  comments[]
-  likes     likes[]
-  views     views[]
-
-  @@map("activities")
-  @@schema("public")
+model activities {
+  id         String     @id
+  ownerId    String    @map("owner_id")
+  habitId    String    @map("habit_id")
+  caption    String
+  mediaUrls  String[]  @map("media_urls")
+  isPublic   Boolean   @default(false) @map("is_public")
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+  updatedAt  DateTime  @db.Timestamptz(6) @map("updated_at")
+  habits     habits    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  comments   comments[]
+  likes      likes[]
+  views      views[]
 }
 
 model comments {
-  id         String   @id @default(cuid())
-  ownerId    String   @map("owner_id")
-  commentText    String   @map("comment_text")
-  activityId String   @map("activity_id")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  activities Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id           String     @id
+  ownerId      String    @map("owner_id")
+  commentText  String    @map("comment_text")
+  activityId   String    @map("activity_id")
+  createdAt    DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+  activities   activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+}
 
-  @@schema("public")
+model habits {
+  id          String       @id
+  ownerId     String      @map("owner_id")
+  title       String
+  description String
+  isPublic    Boolean     @default(false) @map("is_public")
+  createdAt   DateTime    @default(now()) @db.Timestamptz(6) @map("created_at")
+  updatedAt   DateTime    @db.Timestamptz(6) @map("updated_at")
+  activities  activities[]
 }
 
 model likes {
-  id         String   @id @default(cuid())
-  ownerId    String   @map("owner_id")
-  activityId String   @map("activity_id")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  activities Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id          String     @id
+  ownerId     String    @map("owner_id")
+  activityId  String    @map("activity_id")
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+  activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
-  @@schema("public")
 }
 
 model views {
-  id         String   @id @default(cuid())
-  activityId String   @map("activity_id")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  ownerId    String   @map("owner_id")
-  activities Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id          String     @id
+  activityId  String    @map("activity_id")
+  createdAt   DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+  ownerId     String    @map("owner_id")
+  activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
-  @@schema("public")
 }

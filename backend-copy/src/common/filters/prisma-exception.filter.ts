@@ -1,25 +1,25 @@
 // src/common/filters/prisma-exception.filter.ts
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { Response } from 'express';
+import { PrismaClientKnownRequestError, PrismaClientValidationError } from '@prisma/client/runtime/library';
 
-@Catch(Prisma.PrismaClientKnownRequestError, Prisma.PrismaClientValidationError)
+@Catch(PrismaClientKnownRequestError, PrismaClientValidationError)
 export class PrismaExceptionFilter implements ExceptionFilter {
-  catch(exception: Prisma.PrismaClientKnownRequestError | Prisma.PrismaClientValidationError, host: ArgumentsHost) {
+  catch(exception: PrismaClientKnownRequestError | PrismaClientValidationError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
+    if (exception instanceof PrismaClientKnownRequestError) {
       return this.handleKnownRequestError(exception, response);
     }
 
-    if (exception instanceof Prisma.PrismaClientValidationError) {
+    if (exception instanceof PrismaClientValidationError) {
       return this.handleValidationError(exception, response);
     }
   }
 
   private handleKnownRequestError(
-    exception: Prisma.PrismaClientKnownRequestError,
+    exception: PrismaClientKnownRequestError,
     response: Response,
   ) {
     console.error('Prisma error:', exception.code, exception.message);
@@ -93,7 +93,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
   }
 
   private handleValidationError(
-    exception: Prisma.PrismaClientValidationError,
+    exception: PrismaClientValidationError,
     response: Response,
   ) {
     console.error('Prisma validation error:', exception.message);
