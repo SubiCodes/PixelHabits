@@ -1,12 +1,17 @@
 import React from 'react'
-import { BeatLoader } from "react-spinners";
+import { BeatLoader, MoonLoader } from "react-spinners";
 
-function LoadingPage() {
+
+type LoadingPageProps = {
+  isMoonLoader?: boolean;
+};
+
+function LoadingPage({ isMoonLoader = false }: LoadingPageProps) {
   return (
     <div className='flex flex-1 items-center justify-center min-h-full min-w-full'>
-      <BeatLoader size={8} color="#4B5563" />
+      {isMoonLoader ? <MoonLoader size={8} color="#4B5563" /> : <BeatLoader size={8} color="#4B5563" />}
     </div>
-  )
+  );
 }
 
 export default LoadingPage
