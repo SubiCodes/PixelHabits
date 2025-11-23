@@ -23,7 +23,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen bg-[#181818]">
       {/* Feed Content */}
       <div
         className="flex-1 overflow-y-scroll w-full snap-y snap-mandatory custom-scrollbar h-full"
