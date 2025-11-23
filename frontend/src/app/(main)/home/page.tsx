@@ -41,7 +41,7 @@ export default function Home() {
         ))}
         {fetchingFeed && (
           <section className="w-full h-dvh flex items-center justify-center snap-start">
-            <LoadingPage />
+            <LoadingPage isMoonLoader={true}/>
           </section>
         )}
       </div>
