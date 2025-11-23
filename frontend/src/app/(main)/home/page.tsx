@@ -2,6 +2,7 @@
 "use client"
 
 import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
+import LoadingPage from '@/components/LoadingPage';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect } from 'react'
@@ -28,10 +29,7 @@ export default function Home() {
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {feed && feed.map((activity) => (
-          <section
-            key={activity.id}
-            className="w-full h-dvh flex items-center justify-center snap-start"
-          >
+          <section key={activity.id} className="w-full h-dvh flex items-center justify-center snap-start">
             <CarouselMediaWithActionButtons
               media={activity.mediaUrls}
               posterName={activity?.owner?.name ?? ""}
@@ -41,6 +39,11 @@ export default function Home() {
             />
           </section>
         ))}
+        {fetchingFeed && (
+          <section className="w-full h-dvh flex items-center justify-center snap-start">
+            <LoadingPage />
+          </section>
+        )}
       </div>
     </div>
   )
