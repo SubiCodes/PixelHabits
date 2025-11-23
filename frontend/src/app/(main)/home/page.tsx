@@ -1,4 +1,3 @@
-
 "use client"
 
 import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
@@ -7,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect } from 'react'
+import './custom-scrollbar.css';
 
 export default function Home() {
 
@@ -23,10 +23,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full h-full bg-gray-900">
+    <div className="w-full h-full bg-gray-900 ">
       {/* Feed Content */}
       <div
-        className="flex-1 overflow-y-scroll h-dvh w-full snap-y snap-mandatory scrollbar-none"
+        className="flex-1 overflow-y-scroll h-dvh w-full snap-y snap-mandatory custom-scrollbar"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {feed && feed.map((activity) => (
