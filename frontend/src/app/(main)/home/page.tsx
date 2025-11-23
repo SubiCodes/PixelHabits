@@ -23,7 +23,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-gray-900">
       {/* Feed Content */}
       <div
         className="flex-1 overflow-y-scroll h-dvh w-full snap-y snap-mandatory scrollbar-none"
@@ -46,9 +46,9 @@ export default function Home() {
           </section>
         )}
         {fetchFeedError && (
-          <section className="w-full h-dvh flex items-center justify-center snap-start">
-            <p className="text-gray-500">Error loading feed. Please try again.</p>
-            <Button onClick={() => fetchFeed(user?.id ?? "")}>Retry</Button>
+          <section className="w-full h-dvh flex flex-col gap-4 items-center justify-center snap-start">
+            <p className="text-gray-300">Error loading feed. Please try again.</p>
+            <Button onClick={() => fetchFeed(user?.id ?? "")} className='bg-white text-black hover:bg-gray-200 cursor-pointer'>Retry</Button>
           </section>
         )}
       </div>
