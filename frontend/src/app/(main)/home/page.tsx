@@ -3,6 +3,7 @@
 
 import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
 import LoadingPage from '@/components/LoadingPage';
+import { Button } from '@/components/ui/button';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect } from 'react'
@@ -42,6 +43,12 @@ export default function Home() {
         {fetchingFeed && (
           <section className="w-full h-dvh flex items-center justify-center snap-start">
             <LoadingPage isMoonLoader={true}/>
+          </section>
+        )}
+        {fetchFeedError && (
+          <section className="w-full h-dvh flex items-center justify-center snap-start">
+            <p className="text-gray-500">Error loading feed. Please try again.</p>
+            <Button onClick={() => fetchFeed(user?.id ?? "")}>Retry</Button>
           </section>
         )}
       </div>
