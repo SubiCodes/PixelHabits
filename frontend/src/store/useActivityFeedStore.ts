@@ -22,6 +22,7 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
         try {
             set({ gettingActivityFeed: true, gettingFeedError: null });
             const feed = await api.post(`/contents/${userId}`);
+            console.log(feed.data)
             set({ activityFeed: feed.data });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
