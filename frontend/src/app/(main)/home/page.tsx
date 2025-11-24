@@ -17,11 +17,12 @@ export default function Home() {
   const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
 
-  //#region Track the currently visible item
+  //Current visible content states
   const [visibleIndex, setVisibleIndex] = useState<number>(0);
   const [visibleId, setVisibleId] = useState<string>('');
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
+  //#region Track the currently visible item
   useEffect(() => {
     if (!user) return;
     fetchFeed(user.id);
@@ -59,6 +60,10 @@ export default function Home() {
     };
   }, [feed]);
   //#endregion
+
+  useEffect(() => {
+    
+  }, [visibleId])
 
   useEffect(() => {
     if (!user) return;
