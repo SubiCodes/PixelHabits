@@ -9,7 +9,7 @@ const api = axios.create({
 
 interface ActivityFeedStore {
     activityFeed: Activity[];
-    getActivityFeed: (userId: string) => Promise<void>;
+    getActivityFeed: (userId: string, activityIds?: string[]) => Promise<void>;
     gettingFeedError: string | null;
     gettingActivityFeed: boolean;
 }
@@ -18,10 +18,10 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
     activityFeed: [],
     gettingActivityFeed: false,
     gettingFeedError: null,
-    getActivityFeed: async (userId: string) => {
+    getActivityFeed: async (userId: string, activityIds?: string[]) => {
         try {
             set({ gettingActivityFeed: true, gettingFeedError: null });
-            const feed = await api.post(`/contents/${userId}`);
+            const feed = await api.post(`/contents/${userId}`, { activityIds });
             set((state) => ({ activityFeed: [...state.activityFeed, ...feed.data] }));
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
