@@ -66,16 +66,19 @@ export default function Home() {
 
   //Fetch new content when user reaches near end of feed
   useEffect(() => {
-    if ((visibleIndex + 1) % 10 === 8) {
-      fetchFeed(user?.id ?? "");
+    if (((visibleIndex + 1) % 10 === 8) && (feed.length - (visibleIndex + 1) === 2)) {
+      const lastTwoIds = feed.slice(-2).map(item => item.id);
+      fetchFeed(user?.id ?? "", lastTwoIds);
     }
   }, [visibleId]);
 
+  //View the currently visible content
   useEffect(() => {
     if (!user) return;
     view(visibleId, user?.id ?? "");
   }, [visibleId])
 
+  //Initial fetch of feed
   useEffect(() => {
     if (!user) return;
     fetchFeed(user.id);
