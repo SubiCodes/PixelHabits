@@ -61,11 +61,16 @@ export default function Home() {
   }, [feed]);
   //#endregion
 
+  //Fetch new content when user reaches near end of feed
   useEffect(() => {
     if ((visibleIndex + 1) % 10 === 8) {
       fetchFeed(user?.id ?? "");
     }
   }, [visibleId]);
+
+  useEffect(() => {
+    
+  }, [visibleId])
 
   useEffect(() => {
     if (!user) return;
