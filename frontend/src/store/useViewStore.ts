@@ -12,18 +12,10 @@ interface ViewStore {
 export const useViewStore = create<ViewStore>((set) => ({
     viewContent: async (activityId: string, userId: string) => {
         try {
+            console.log(`Setting view for activity ${activityId} by user ${userId}`);
             const view = await api.post(`/views`, { activity_id: activityId,  owner_id: userId });
             console.log(view.data);
         } catch (err) {
-            if (axios.isAxiosError(err) && err.response?.data) {
-                const { message, suggestion } = err.response.data;
-                console.error(message || 'Failed to set view', {
-                    id: 'set-view',
-                    description: suggestion || 'Please try again later',
-                });
-            } else {
-                console.error('Failed to set view');
-            }
         }
     }
 }));
