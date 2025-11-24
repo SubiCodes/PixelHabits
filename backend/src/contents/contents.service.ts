@@ -23,9 +23,11 @@ export class ContentsService {
         private readonly httpService: HttpService,
     ) { }
 
-    async getRecommendedContent(userId: string) {
-
-        const activities = serializeModelDates(await this.databaseService.activities.findMany({}));
+    async getRecommendedContent(userId: string, activityIds?: string[]) {
+        let activities = serializeModelDates(await this.databaseService.activities.findMany({}));
+        if (activityIds && activityIds.length > 0) {
+            activities = activities.filter(act => !activityIds.includes(act.id));
+        }
         const likes = serializeModelDates(await this.databaseService.likes.findMany({ where: { ownerId: userId } }));
         const comments = serializeModelDates(await this.databaseService.comments.findMany({ where: { ownerId: userId } }));
         const views = serializeModelDates(await this.databaseService.views.findMany({ where: { ownerId: userId } }));
