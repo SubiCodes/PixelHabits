@@ -14,7 +14,8 @@ export const useViewStore = create<ViewStore>((set) => ({
     viewing: false,
     setViewed: async (activityId: string, userId: string) => {
         try {
-            
+            const view = await api.post(`/view`, { activity_id: activityId,  owner_id: userId });
+            console.log(view.data);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
