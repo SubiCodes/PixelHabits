@@ -62,8 +62,10 @@ export default function Home() {
   //#endregion
 
   useEffect(() => {
-    
-  }, [visibleId])
+    if ((visibleIndex + 1) % 10 === 8) {
+      fetchFeed(user?.id ?? "");
+    }
+  }, [visibleId]);
 
   useEffect(() => {
     if (!user) return;
