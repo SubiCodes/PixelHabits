@@ -7,6 +7,7 @@ import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect, useRef, useState } from 'react'
 import './custom-scrollbar.css';
+import { useViewStore } from '@/store/useViewStore';
 
 export default function Home() {
 
@@ -16,6 +17,8 @@ export default function Home() {
   const fetchFeed = useActivityFeedStore((state) => state.getActivityFeed);
   const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
+
+  const view = useViewStore((state) => state.viewContent);
 
   //Current visible content states
   const [visibleIndex, setVisibleIndex] = useState<number>(0);
@@ -69,7 +72,8 @@ export default function Home() {
   }, [visibleId]);
 
   useEffect(() => {
-    
+    if (!user) return;
+    view(visibleId, user?.id ?? "");
   }, [visibleId])
 
   useEffect(() => {

@@ -6,15 +6,13 @@ const api = axios.create({
 });
 
 interface ViewStore {
-    viewing: boolean;
-    setViewed: (activityId: string, userId: string) => Promise<void>
+    viewContent: (activityId: string, userId: string) => Promise<void>
 }
 
 export const useViewStore = create<ViewStore>((set) => ({
-    viewing: false,
-    setViewed: async (activityId: string, userId: string) => {
+    viewContent: async (activityId: string, userId: string) => {
         try {
-            const view = await api.post(`/view`, { activity_id: activityId,  owner_id: userId });
+            const view = await api.post(`/views`, { activity_id: activityId,  owner_id: userId });
             console.log(view.data);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
