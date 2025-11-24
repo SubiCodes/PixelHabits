@@ -22,7 +22,14 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
         try {
             set({ gettingActivityFeed: true, gettingFeedError: null });
             const feed = await api.post(`/contents/${userId}`, { activityIds });
-            set((state) => ({ activityFeed: [...state.activityFeed, ...feed.data] }));
+            set((state) => ({
+                activityFeed: [
+                    ...state.activityFeed,
+                    ...feed.data.filter(
+                        (item: Activity) => !state.activityFeed.some((existing) => existing.id === item.id)
+                    )
+                ]
+            }));
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
