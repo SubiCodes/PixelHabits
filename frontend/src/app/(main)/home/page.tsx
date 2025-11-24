@@ -5,7 +5,7 @@ import LoadingPage from '@/components/LoadingPage';
 import { Button } from '@/components/ui/button';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';
 import { useUser } from '@stackframe/stack';
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './custom-scrollbar.css';
 
 export default function Home() {
@@ -16,6 +16,49 @@ export default function Home() {
   const fetchFeed = useActivityFeedStore((state) => state.getActivityFeed);
   const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
+
+  //#region Track the currently visible item
+  const [visibleIndex, setVisibleIndex] = useState<number>(0);
+  const [visibleId, setVisibleId] = useState<string>('');
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchFeed(user.id);
+  }, [])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0');
+            const id = entry.target.getAttribute('data-id') || '';
+            setVisibleIndex(index);
+            setVisibleId(id);
+
+            console.log('Currently visible:', { index, id });
+          }
+        });
+      },
+      {
+        root: null,
+        threshold: 0.5,
+        rootMargin: '0px'
+      }
+    );
+
+    sectionRefs.current.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      sectionRefs.current.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, [feed]);
+  //#endregion
 
   useEffect(() => {
     if (!user) return;
@@ -29,8 +72,14 @@ export default function Home() {
         className="flex-1 overflow-y-scroll w-full snap-y snap-mandatory custom-scrollbar h-full"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        {feed && feed.map((activity) => (
-          <section key={activity.id} className="w-full h-dvh flex items-center justify-center snap-start">
+        {feed && feed.map((activity, index) => (
+          <section
+            key={activity.id}
+            ref={(el) => { sectionRefs.current[index] = el }}
+            data-index={index}
+            data-id={activity.id}
+            className="w-full h-dvh flex items-center justify-center snap-start"
+          >
             <CarouselMediaWithActionButtons
               media={activity.mediaUrls}
               posterName={activity?.owner?.name ?? ""}
@@ -42,7 +91,7 @@ export default function Home() {
         ))}
         {fetchingFeed && (
           <section className="w-full h-dvh flex items-center justify-center snap-start">
-            <LoadingPage isMoonLoader={true}/>
+            <LoadingPage isMoonLoader={true} />
           </section>
         )}
         {fetchFeedError && (
