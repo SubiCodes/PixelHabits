@@ -105,6 +105,8 @@ export default function Home() {
               posterAvatar={activity?.owner?.profileImageUrl ?? ""}
               postDate={new Date(activity.createdAt).toLocaleDateString()}
               caption={activity.caption ?? ""}
+              likesNumber={activity.likes.length}
+              commentsNumber={activity.comments}
             />
           </section>
         ))}

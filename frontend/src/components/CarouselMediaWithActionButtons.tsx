@@ -17,6 +17,8 @@ interface CarouselMediaForDisplayProps {
     posterAvatar: string;
     postDate: string;
     caption: string;
+    likesNumber?: number;
+    commentsNumber?: number;
     onLike?: () => void;
     onComment?: () => void;
     isLiked?: boolean;
@@ -28,6 +30,8 @@ function CarouselMediaWithActionButtons({
     posterAvatar, 
     postDate, 
     caption,
+    likesNumber,
+    commentsNumber,
     onLike,
     onComment,
     isLiked = false
@@ -159,6 +163,7 @@ function CarouselMediaWithActionButtons({
                 >
                     <MessageCircle className="h-6 w-6 text-white" />
                 </Button>
+                <span className="text-white text-xs text-center mb-2">{commentsNumber}</span>
                  <Button
                     variant="ghost"
                     size="icon"
@@ -171,6 +176,7 @@ function CarouselMediaWithActionButtons({
                 >
                     <Heart className={`h-6 w-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-white'}`} />
                 </Button>
+                <span className="text-white text-xs text-center mb-2">{likesNumber}</span>
             </div>
 
             {/* Info on the bottom left - overlaying media */}
