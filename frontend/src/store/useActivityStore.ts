@@ -49,7 +49,7 @@ export const useActivityStore = create<ActivityStore>((set) => ({
     addActivity: async (activity: FormData) => {
         try {
             set({ addingActivity: true });
-            toast.loading('Adding activity...', { id: 'add-activity' });
+            toast.loading('Adding activity...', { id: 'add-activity', description: 'Please wait while your activity is being added.' });
             const activityJson = activity.get('activity') as string;
             const habitId = activityJson ? JSON.parse(activityJson).habitId : '';
             const res = await api.post('/activities', activity, {

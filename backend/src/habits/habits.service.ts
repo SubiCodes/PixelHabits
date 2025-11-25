@@ -5,6 +5,19 @@ import { CreateHabitDto } from './dto/create-habit.dto';
 import { UpdateHabitDto } from './dto/update-habit.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { habits } from 'generated/prisma/client';
+import { enrichWithUserData } from 'src/common/utils/user-enrichment.util';
+
+function serializeModelDates(arr: any[]) {
+  return arr.map(item => {
+    const result = { ...item };
+    Object.keys(result).forEach(key => {
+      if (result[key] instanceof Date) {
+        result[key] = result[key].toISOString();
+      }
+    });
+    return result;
+  });
+}
 
 @Injectable()
 export class HabitsService {
@@ -25,7 +38,14 @@ export class HabitsService {
     const isOwner = ownerId === requestingUserId;
     const habits = await this.databaseService.habits.findMany({
       where: { ownerId, ...(isOwner ? {} : { isPublic: true }) },
-      include: { activities: true }
+      include: {
+        activities: {
+          include: {
+            likes: { select: { ownerId: true } },
+            comments: { select: { id: true } }
+          }
+        }
+      }
     });
 
     // Add current streak property to each habit (consecutive days ending at last activity, alive if last activity is today or yesterday)
@@ -34,7 +54,11 @@ export class HabitsService {
       function getPHDateString(date: Date) {
         return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
       }
-      const activities = (habit.activities ?? []) as Array<{ createdAt: Date | string }>;
+      const activities = (habit.activities ?? []).map(activity => ({
+        ...activity,
+        likes: activity.likes ? activity.likes.map(like => like.ownerId) : [],
+        comments: activity.comments ? activity.comments.length : 0
+      }));
       const activityDates = Array.from(new Set(
         activities.map(a => {
           const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
@@ -68,21 +92,37 @@ export class HabitsService {
           }
         }
       }
-      return { ...habit, streak };
+      return { ...habit, activities, streak };
     });
   }
 
   async findOne(id: string): Promise<any | null> {
     const habit = await this.databaseService.habits.findUnique({
       where: { id },
-      include: { activities: true }
+      include: {
+        activities: {
+          include: {
+            likes: { select: { ownerId: true } },
+            comments: { select: { id: true } }
+          }
+        }
+      }
     });
     if (!habit) return null;
     const PH_TZ = 'Asia/Manila';
     function getPHDateString(date: Date) {
       return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
     }
-    const activities = (habit.activities ?? []) as Array<{ createdAt: Date | string }>;
+    let activities = (habit.activities ?? []).map(activity => ({
+      ...activity,
+      likes: activity.likes ? activity.likes.map(like => like.ownerId) : [],
+      comments: activity.comments ? activity.comments.length : 0
+    }));
+    // Enrich activities with user data
+    if (activities.length > 0 && typeof enrichWithUserData === 'function') {
+      activities = await enrichWithUserData(activities);
+      activities = activities.map(act => serializeModelDates([act])[0]);
+    }
     const activityDates = Array.from(new Set(
       activities.map(a => {
         const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
@@ -116,7 +156,7 @@ export class HabitsService {
         }
       }
     }
-    return { ...habit, streak };
+    return { ...habit, activities, streak };
   }
 
   async update(id: string, updateHabitDto: UpdateHabitDto): Promise<habits> {
