@@ -58,8 +58,9 @@ export class ContentsService {
                 comments: { select: { id: true } }
             }
         })).map(activity => ({
-            ...activity,
-            comments: activity.comments ? activity.comments.length : 0
+          ...activity,
+          likes: activity.likes ? activity.likes.map(like => like.ownerId) : [],
+          comments: activity.comments ? activity.comments.length : 0
         }));
         const recommendationsWithUserData = await enrichWithUserData(recommendations);
         return recommendationsWithUserData.map(rec => {
