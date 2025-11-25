@@ -107,9 +107,6 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
             }
             const res = await api.patch(`/activities/${activityId}`, form);
 
-            console.log('API response (success):', res);
-            console.log('Updated activity:', res.data);
-
             set((state) => ({
                 habitActivities: state.habitActivities.map((activity) =>
                     activity.id === activityId ? res.data : activity

@@ -56,7 +56,6 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
             activity?.likes.push(user.id);
         }
         const result = await like(activityId, user.id);
-        console.log("Like action result:", result);
     };
 
     const handleComment = () => {
