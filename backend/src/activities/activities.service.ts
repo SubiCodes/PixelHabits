@@ -4,6 +4,18 @@ import { UpdateActivityDto } from './dto/update-activity.dto';
 import { CloudinaryUploadService } from 'src/cloudinary/cloudinary-upload.service';
 import { DatabaseService } from 'src/database/database.service';
 
+function serializeModelDates(arr: any[]) {
+  return arr.map(item => {
+    const result = { ...item };
+    Object.keys(result).forEach(key => {
+      if (result[key] instanceof Date) {
+        result[key] = result[key].toISOString();
+      }
+    });
+    return result;
+  });
+}
+
 @Injectable()
 export class ActivitiesService {
   constructor(
@@ -69,7 +81,7 @@ export class ActivitiesService {
       return [];
     }
     const isOwner = habit.ownerId === requestingUserId;
-    return this.databaseService.activities.findMany({
+    const rawActivities = await this.databaseService.activities.findMany({
       where: {
         habitId,
         ...(isOwner ? {} : { isPublic: true }),
@@ -77,7 +89,33 @@ export class ActivitiesService {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        likes: { select: { ownerId: true } },
+        comments: { select: { id: true } }
+      }
     });
+
+    // Map likes to array of ownerIds, comments to count, and remove original likes/comments arrays
+    let activities = rawActivities.map(activity => {
+      const { likes, comments, ...rest } = activity;
+      return {
+        ...rest,
+        likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+        comments: Array.isArray(comments) ? comments.length : 0
+      };
+    });
+
+    // Enrich with user data if available
+    try {
+      const { enrichWithUserData } = await import('src/common/utils/user-enrichment.util');
+      if (activities.length > 0 && typeof enrichWithUserData === 'function') {
+        activities = await enrichWithUserData(activities);
+        activities = activities.map(act => serializeModelDates([act])[0]);
+      }
+    } catch {
+      // enrichment util not available, skip
+    }
+    return activities;
   }
 
   findOne(id: string) {
