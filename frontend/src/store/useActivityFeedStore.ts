@@ -13,9 +13,10 @@ interface ActivityFeedStore {
     gettingFeedError: string | null;
     gettingActivityFeed: boolean;
     likeActivity: (activityId: string, userId: string, addLike: boolean) => void;
+    isUserLiked: (activityId: string, userId: string) => boolean;
 }
 
-export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
+export const useActivityFeedStore = create<ActivityFeedStore>((set, get) => ({
     activityFeed: [],
     gettingActivityFeed: false,
     gettingFeedError: null,
@@ -70,5 +71,10 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
                 }
             })
         }));
+    },
+    isUserLiked: (activityId: string, userId: string) => {
+        const activity = get().activityFeed.find(act => act.id === activityId);
+        if (!activity || !Array.isArray(activity.likes)) return false;
+        return activity.likes.includes(userId);
     }
 }));
