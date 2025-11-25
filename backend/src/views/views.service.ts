@@ -8,6 +8,12 @@ export class ViewsService {
 
   async create(createViewDto: CreateViewDto) {
 
+    const activity = await this.databaseService.activities.findUnique({
+      where: { id: createViewDto.activity_id }
+    });
+
+    if (!activity) return;
+
     const existingView = await this.databaseService.views.findFirst({
       where: {
         ownerId: createViewDto.owner_id,
