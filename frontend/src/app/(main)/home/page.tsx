@@ -107,6 +107,7 @@ export default function Home() {
               caption={activity.caption ?? ""}
               likesNumber={activity.likes.length}
               commentsNumber={activity.comments}
+              isLiked={activity.likes.includes(user?.id ?? "")}
             />
           </section>
         ))}
