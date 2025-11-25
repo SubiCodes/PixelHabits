@@ -20,6 +20,8 @@ export interface Activity {
     caption: string;
     mediaUrls: (string | File)[];
     isPublic: boolean;
+    likes: string[]; // Array of ownerIds who liked the activity
+    comments: number; // Number of comments
     createdAt: string | Date;
     updatedAt: string | Date;
 }
