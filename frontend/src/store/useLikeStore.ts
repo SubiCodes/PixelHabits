@@ -7,11 +7,11 @@ const api = axios.create({
 });
 
 interface LikeStore {
-    likeContent: (activity_id: string, owner_id: string) => Promise<boolean>
+    like: (activity_id: string, owner_id: string) => Promise<boolean>
 }
 
 export const useLikeStore = create<LikeStore>((set) => ({
-    likeContent: async (activity_id: string, owner_id: string) => {
+    like: async (activity_id: string, owner_id: string) => {
         try {
             const response = await api.post('/likes', {
                 owner_id,

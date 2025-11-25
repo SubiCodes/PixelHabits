@@ -8,6 +8,7 @@ import { useUser } from '@stackframe/stack';
 import React, { useEffect, useRef, useState } from 'react'
 import './custom-scrollbar.css';
 import { useViewStore } from '@/store/useViewStore';
+import { useLikeStore } from '@/store/useLikeStore';
 
 export default function Home() {
 
@@ -17,8 +18,16 @@ export default function Home() {
   const fetchFeed = useActivityFeedStore((state) => state.getActivityFeed);
   const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
+  const likeActivity = useActivityFeedStore((state) => state.likeActivity);
 
   const view = useViewStore((state) => state.viewContent);
+  const like = useLikeStore((state) => state.like);
+
+  const likeContent = async (activityId: string) => {
+    if (!user) return;  
+    const result = await like(activityId, user.id);
+    likeActivity(activityId, user.id, result ?? false);
+  }
 
   //Current visible content states
   const [visibleIndex, setVisibleIndex] = useState<number>(0);
