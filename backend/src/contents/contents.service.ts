@@ -50,8 +50,16 @@ export class ContentsService {
 
         const recommendedIds = response.data.recommendations.map(rec => rec.id);
 
+        // Fetch activities and their likes' ownerIds and comments count
         const recommendations = serializeModelDates(await this.databaseService.activities.findMany({
             where: { id: { in: recommendedIds } },
+            include: {
+                likes: { select: { ownerId: true } },
+                comments: { select: { id: true } }
+            }
+        })).map(activity => ({
+            ...activity,
+            comments: activity.comments ? activity.comments.length : 0
         }));
         const recommendationsWithUserData = await enrichWithUserData(recommendations);
         return recommendationsWithUserData.map(rec => {
