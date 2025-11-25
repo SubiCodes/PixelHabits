@@ -3,6 +3,7 @@ import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { CloudinaryUploadService } from 'src/cloudinary/cloudinary-upload.service';
 import { DatabaseService } from 'src/database/database.service';
+import { enrichWithUserData } from 'src/common/utils/user-enrichment.util';
 
 function serializeModelDates(arr: any[]) {
   return arr.map(item => {
@@ -107,7 +108,6 @@ export class ActivitiesService {
 
     // Enrich with user data if available
     try {
-      const { enrichWithUserData } = await import('src/common/utils/user-enrichment.util');
       if (activities.length > 0 && typeof enrichWithUserData === 'function') {
         activities = await enrichWithUserData(activities);
         activities = activities.map(act => serializeModelDates([act])[0]);

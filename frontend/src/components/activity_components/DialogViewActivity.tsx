@@ -27,6 +27,8 @@ interface DialogCreateHabitProps {
 
 export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc }: DialogCreateHabitProps) {
 
+
+
     // Predefined data for now
     const posterName = "John Doe";
     const posterAvatar = "https://github.com/shadcn.png";
@@ -37,9 +39,16 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     });
     const caption = activity?.caption || "";
 
-    const handleLike = () => {
+    const handleLike = async (activityId: string) => {
         console.log(activity);
-        // TODO: Implement like functionality
+        // if (!user) return;
+        // const isLiked = isUserLiked(activityId, user.id);
+        // if (isLiked) {
+        //     likeActivity(activityId, user.id, false);
+        // } else {
+        //     likeActivity(activityId, user.id, true);
+        // }
+        // const result = await like(activityId, user.id);
     };
 
     const handleComment = () => {
@@ -94,7 +103,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                             caption={caption}
                             likesNumber={activity.likes.length}
                             commentsNumber={activity.comments}
-                            onLike={handleLike}
+                            onLike={() => handleLike(activity.id)}
                             onComment={handleComment}
                         />
                     ) : (
