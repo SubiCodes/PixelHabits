@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ReactNode } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
-import { Activity } from "@/store/useActivityStore"
+import { Activity, useActivityStore } from "@/store/useActivityStore"
 import CarouselMediaWithActionButtons from "../CarouselMediaWithActionButtons"
+import { useUser } from "@stackframe/stack"
+import { useLikeStore } from "@/store/useLikeStore"
 
 interface DialogCreateHabitProps {
     trigger?: ReactNode
@@ -27,6 +29,10 @@ interface DialogCreateHabitProps {
 
 export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc }: DialogCreateHabitProps) {
 
+    const user = useUser();
+    const isUserLiked = useActivityStore((state) => state.isUserLiked);
+    const likeActivity = useActivityStore((state) => state.likeActivity);
+    const like = useLikeStore((state) => state.like);
 
 
     // Predefined data for now
@@ -40,15 +46,17 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     const caption = activity?.caption || "";
 
     const handleLike = async (activityId: string) => {
-        console.log(activity);
-        // if (!user) return;
-        // const isLiked = isUserLiked(activityId, user.id);
-        // if (isLiked) {
-        //     likeActivity(activityId, user.id, false);
-        // } else {
-        //     likeActivity(activityId, user.id, true);
-        // }
-        // const result = await like(activityId, user.id);
+        if (!user) return;
+        const isLiked = isUserLiked(activityId, user.id);
+        if (isLiked) {
+            likeActivity(activityId, user.id, false);
+            activity!.likes = activity!.likes.filter(id => id !== user.id);
+        } else {
+            likeActivity(activityId, user.id, true);
+            activity?.likes.push(user.id);
+        }
+        const result = await like(activityId, user.id);
+        console.log("Like action result:", result);
     };
 
     const handleComment = () => {
@@ -105,6 +113,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                             commentsNumber={activity.comments}
                             onLike={() => handleLike(activity.id)}
                             onComment={handleComment}
+                            isLiked={user ? isUserLiked(activity.id, user.id) : false}
                         />
                     ) : (
                         <p>No media available</p>
