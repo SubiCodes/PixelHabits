@@ -15,11 +15,12 @@ export class LikesService {
     });
 
     if (existingLike) {
-      return this.databaseService.likes.delete({
+      await this.databaseService.likes.delete({
         where: { id: existingLike.id }
       });
+      return {liked: false};
     } else {
-      return this.databaseService.likes.create({
+      await this.databaseService.likes.create({
         data: {
           id: crypto.randomUUID(),
           ownerId: createLikeDto.owner_id,
@@ -27,6 +28,7 @@ export class LikesService {
           createdAt: new Date(),
         }
       });
+      return {liked: true};
     }
   }
 
