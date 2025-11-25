@@ -18,6 +18,7 @@ export class LikesService {
       await this.databaseService.likes.delete({
         where: { id: existingLike.id }
       });
+      console.log("UNLIKED A CONTENT")
       return {liked: false};
     } else {
       await this.databaseService.likes.create({
@@ -28,6 +29,7 @@ export class LikesService {
           createdAt: new Date(),
         }
       });
+      console.log("LIKED A CONTENT")
       return {liked: true};
     }
   }

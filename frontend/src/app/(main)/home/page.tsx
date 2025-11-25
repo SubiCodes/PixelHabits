@@ -117,6 +117,7 @@ export default function Home() {
               likesNumber={activity.likes.length}
               commentsNumber={activity.comments}
               isLiked={activity.likes.includes(user?.id ?? "")}
+              onLike={() => likeContent(activity.id)}
             />
           </section>
         ))}
