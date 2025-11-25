@@ -7,11 +7,30 @@ const api = axios.create({
 });
 
 interface LikeStore {
-    likeContent: (activityId: string, userId: string) => Promise<void>
+    likeContent: (activity_id: string, owner_id: string) => Promise<boolean>
 }
 
 export const useLikeStore = create<LikeStore>((set) => ({
-    likeContent: async (activityId: string, userId: string) => {
-
+    likeContent: async (activity_id: string, owner_id: string) => {
+        try {
+            const response = await api.post('/likes', {
+                owner_id,
+                activity_id
+            });
+            return response.data.liked;
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Unable to like this activity.', {
+                    id: 'like',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Unable to like this activity.', {
+                    id: 'like',
+                    description: 'Unable to like this activity.',
+                });
+            }
+        }
     }
 }))
