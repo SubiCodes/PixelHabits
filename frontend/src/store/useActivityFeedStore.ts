@@ -12,6 +12,7 @@ interface ActivityFeedStore {
     getActivityFeed: (userId: string, activityIds?: string[]) => Promise<void>;
     gettingFeedError: string | null;
     gettingActivityFeed: boolean;
+    likeActivity: (activityId: string, userId: string, addLike: boolean) => void;
 }
 
 export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
@@ -48,5 +49,26 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set) => ({
         } finally {
             set({ gettingActivityFeed: false });
         }
+    },
+    likeActivity: (activityId: string, userId: string, addLike: boolean) => {
+        set((state) => ({
+            activityFeed: state.activityFeed.map(activity => {
+                if (activity.id !== activityId) return activity;
+                const likes = Array.isArray(activity.likes) ? activity.likes : [];
+                if (addLike) {
+                    // Add userId if not already present
+                    return {
+                        ...activity,
+                        likes: likes.includes(userId) ? likes : [...likes, userId]
+                    };
+                } else {
+                    // Remove userId if present
+                    return {
+                        ...activity,
+                        likes: likes.filter(id => id !== userId)
+                    };
+                }
+            })
+        }));
     }
 }));
