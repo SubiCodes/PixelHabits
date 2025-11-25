@@ -92,8 +92,8 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                             posterAvatar={posterAvatar}
                             postDate={postDate}
                             caption={caption}
-                            // likesNumber={activity.likes.length}
-                            // commentsNumber={activity.comments}
+                            likesNumber={activity.likes.length}
+                            commentsNumber={activity.comments}
                             onLike={handleLike}
                             onComment={handleComment}
                         />
