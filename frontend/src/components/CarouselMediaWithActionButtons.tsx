@@ -24,11 +24,11 @@ interface CarouselMediaForDisplayProps {
     isLiked?: boolean;
 }
 
-function CarouselMediaWithActionButtons({ 
-    media, 
-    posterName, 
-    posterAvatar, 
-    postDate, 
+function CarouselMediaWithActionButtons({
+    media,
+    posterName,
+    posterAvatar,
+    postDate,
     caption,
     likesNumber,
     commentsNumber,
@@ -60,9 +60,9 @@ function CarouselMediaWithActionButtons({
                 );
             } else if (isVideo) {
                 return (
-                    <video 
-                        src={item} 
-                        className="max-w-full max-h-full object-contain cursor-pointer" 
+                    <video
+                        src={item}
+                        className="max-w-full max-h-full object-contain cursor-pointer"
                         onClick={handleVideoClick}
                         playsInline
                         loop
@@ -79,9 +79,9 @@ function CarouselMediaWithActionButtons({
                 );
             } else if (isVideo) {
                 return (
-                    <video 
-                        src={url} 
-                        className="max-w-full max-h-full object-contain cursor-pointer" 
+                    <video
+                        src={url}
+                        className="max-w-full max-h-full object-contain cursor-pointer"
                         onClick={handleVideoClick}
                         playsInline
                         loop
@@ -95,15 +95,15 @@ function CarouselMediaWithActionButtons({
         if (!api) {
             return
         }
-        
+
         const updateCarouselState = () => {
             setCount(api.scrollSnapList().length)
             setCurrent(api.selectedScrollSnap() + 1)
         }
-        
+
         updateCarouselState()
         api.on("select", updateCarouselState)
-        
+
         return () => {
             api.off("select", updateCarouselState)
         }
@@ -141,7 +141,7 @@ function CarouselMediaWithActionButtons({
                     ))}
                 </CarouselContent>
             </Carousel>
-            
+
             {/* Slide indicator */}
             {count > 1 && (
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm z-30">
@@ -150,33 +150,36 @@ function CarouselMediaWithActionButtons({
             )}
 
             {/* Control buttons on the right - overlaying media */}
-            <div className="absolute right-4 bottom-4 flex flex-col-reverse gap-4 z-20">
-                <Avatar className="h-12 w-12 border-2 border-white shadow-lg cursor-pointer">
+            <div className="absolute right-4 bottom-4 flex flex-col gap-4 z-20 items-center">
+                <Avatar className="h-12 w-12 border-2 border-white shadow-lg cursor-pointer mb-2">
                     <AvatarImage src={posterAvatar} alt={posterName} />
                     <AvatarFallback>{posterName.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-12 w-12 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm shadow-lg"
-                    onClick={onComment}
-                >
-                    <MessageCircle className="h-6 w-6 text-white" />
-                </Button>
-                <span className="text-white text-xs text-center mb-2">{commentsNumber}</span>
-                 <Button
-                    variant="ghost"
-                    size="icon"
-                    className={`h-12 w-12 rounded-full backdrop-blur-sm shadow-lg transition-colors ${
-                        isLiked 
-                            ? 'bg-red-500/30 hover:bg-red-500/40' 
-                            : 'bg-white/20 hover:bg-white/30'
-                    }`}
-                    onClick={onLike}
-                >
-                    <Heart className={`h-6 w-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-white'}`} />
-                </Button>
-                <span className="text-white text-xs text-center mb-2">{likesNumber}</span>
+                <div className="flex flex-col items-center">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className={`h-12 w-12 rounded-full backdrop-blur-sm shadow-lg transition-colors ${isLiked
+                                ? 'bg-red-500/30 hover:bg-red-500/40'
+                                : 'bg-white/20 hover:bg-white/30'
+                            }`}
+                        onClick={onLike}
+                    >
+                        <Heart className={`h-6 w-6 ${isLiked ? 'fill-red-500 text-red-500' : 'text-white'}`} />
+                    </Button>
+                    <span className="text-white text-xs mt-1">{likesNumber}</span>
+                </div>
+                <div className="flex flex-col items-center">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-12 w-12 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm shadow-lg"
+                        onClick={onComment}
+                    >
+                        <MessageCircle className="h-6 w-6 text-white" />
+                    </Button>
+                    <span className="text-white text-xs mt-1">{commentsNumber}</span>
+                </div>
             </div>
 
             {/* Info on the bottom left - overlaying media */}
