@@ -19,14 +19,20 @@ export default function Home() {
   const fetchingFeed = useActivityFeedStore((state) => state.gettingActivityFeed);
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
   const likeActivity = useActivityFeedStore((state) => state.likeActivity);
+  const isUserLiked = useActivityFeedStore((state) => state.isUserLiked);
 
   const view = useViewStore((state) => state.viewContent);
   const like = useLikeStore((state) => state.like);
 
   const likeContent = async (activityId: string) => {
-    if (!user) return;  
+    if (!user) return;
+    const isLiked = isUserLiked(activityId, user.id);
+    if (isLiked) {
+      likeActivity(activityId, user.id,  false);
+    } else {
+      likeActivity(activityId, user.id,  true);
+    }
     const result = await like(activityId, user.id);
-    likeActivity(activityId, user.id, result ?? false);
   }
 
   //Current visible content states
