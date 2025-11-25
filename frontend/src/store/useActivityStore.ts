@@ -42,9 +42,11 @@ interface ActivityStore {
     gettingActivities: boolean;
     getActivitiesByHabitId: (habitId: string, userId: string) => Promise<void>;
     gettingActivitiesError: boolean;
+    isUserLiked: (activityId: string, userId: string) => boolean;
+    likeActivity: (activityId: string, userId: string, addLike: boolean) => void;
 }
 
-export const useActivityStore = create<ActivityStore>((set) => ({
+export const useActivityStore = create<ActivityStore>((set, get) => ({
     addingActivity: false,
     addActivity: async (activity: FormData) => {
         try {
@@ -194,4 +196,30 @@ export const useActivityStore = create<ActivityStore>((set) => ({
         }
     },
     gettingActivitiesError: false,
+    likeActivity: (activityId: string, userId: string, addLike: boolean) => {
+        set((state) => ({
+            habitActivities: state.habitActivities.map(activity => {
+                if (activity.id !== activityId) return activity;
+                const likes = Array.isArray(activity.likes) ? activity.likes : [];
+                if (addLike) {
+                    // Add userId if not already present
+                    return {
+                        ...activity,
+                        likes: likes.includes(userId) ? likes : [...likes, userId]
+                    };
+                } else {
+                    // Remove userId if present
+                    return {
+                        ...activity,
+                        likes: likes.filter(id => id !== userId)
+                    };
+                }
+            })
+        }));
+    },
+    isUserLiked: (activityId: string, userId: string) => {
+        const activity = get().habitActivities.find(act => act.id === activityId);
+        if (!activity || !Array.isArray(activity.likes)) return false;
+        return activity.likes.includes(userId);
+    }
 }))
