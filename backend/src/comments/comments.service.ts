@@ -44,9 +44,10 @@ export class CommentsService {
   //Find all for users or by activity
   async findAll(userId?: string, activityId?: string) {
     if (userId) {
-      return this.databaseService.comments.findMany({
+      const userComments = await this.databaseService.comments.findMany({
         where: { ownerId: userId }
       });
+      return userComments;
     } else {
       const activity = await this.databaseService.activities.findUnique({
         where: { id: activityId }
@@ -56,7 +57,8 @@ export class CommentsService {
         where: { activityId: activityId }
       });
       const dataEnrichWithUserData = await enrichWithUserData(comments);
-      return serializeModelDates(dataEnrichWithUserData);
+      const serialized = serializeModelDates(dataEnrichWithUserData);
+      return serialized;
     }
   }
 

@@ -91,6 +91,11 @@ export async function enrichWithUserData<T extends Record<string, any>>(
       return obj;
     }
 
+    // Skip recursion for Date instances
+    if (obj instanceof Date) {
+      return obj;
+    }
+
     if (Array.isArray(obj)) {
       return obj.map(enrichObject);
     }
@@ -104,9 +109,9 @@ export async function enrichWithUserData<T extends Record<string, any>>(
       }
     }
 
-    // Recursively enrich nested objects
+    // Recursively enrich nested objects, skip Date
     for (const [key, value] of Object.entries(enriched)) {
-      if (value && typeof value === 'object') {
+      if (value && typeof value === 'object' && !(value instanceof Date)) {
         enriched[key] = enrichObject(value);
       }
     }
