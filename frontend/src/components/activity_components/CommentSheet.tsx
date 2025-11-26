@@ -97,7 +97,8 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                         </div>
                     ) : gettingCommentsError ? (
                         <div className="w-full min-h-full flex justify-center items-center py-8 text-red-500">
-                            Error loading comments
+                            <span>Error loading comments</span>
+                            <Button onClick={fetchComments}>Retry</Button>
                         </div>
                     ) : sortedComments.length === 0 ? (
                         <div className="w-full min-h-full flex justify-center items-center py-8 text-muted-foreground">
