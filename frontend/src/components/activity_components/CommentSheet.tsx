@@ -38,6 +38,9 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
     const addComment = useCommentStore((state) => state.addComment);
     const [commentText, setCommentText] = React.useState("");
 
+    const removingComment = useCommentStore((state) => state.removingComment);
+    const removeComment = useCommentStore((state) => state.removeComment);
+
     const fetchComments = async () => {
         if (!activityId) return;
         console.log("Fetching for:", activityId);
@@ -48,7 +51,12 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
     const addNewComment = async (commentText: string) => {
         if (!activityId || !user) return;
         await addComment(activityId, user.id, commentText);
-    }
+    };
+
+    const removeUserComment = async (commentId: string) => {
+        if (!commentId) return;
+        await removeComment(commentId);
+    };
 
     useEffect(() => {
         fetchComments();
@@ -98,7 +106,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                     ) : (
                         sortedComments.map((comment) => (
                             <React.Suspense fallback={<div>Loading...</div>} key={comment.id}>
-                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id}/>
+                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id} deletingComment={removingComment} onDelete={() => removeUserComment(comment.id)} />
                             </React.Suspense>
                         ))
                     )}

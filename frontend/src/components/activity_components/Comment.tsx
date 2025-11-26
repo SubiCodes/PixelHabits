@@ -32,9 +32,10 @@ interface CommentProps {
   comment: Comment;
   showDelete?: boolean;
   onDelete?: (commentId: string) => void;
+  deletingComment?: boolean;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete }) => {
+const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deletingComment }) => {
   let createdAtString: string;
   if (comment.createdAt instanceof Date && typeof comment.createdAt.toISOString === 'function') {
     createdAtString = comment.createdAt.toISOString();
@@ -76,7 +77,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete }) => {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options">
+              <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
                 <MoreVertical size={14} />
               </button>
             </DropdownMenuTrigger>
