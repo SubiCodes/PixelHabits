@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './custom-scrollbar.css';
 import { useViewStore } from '@/store/useViewStore';
 import { useLikeStore } from '@/store/useLikeStore';
+import CommentSheet from '@/components/activity_components/CommentSheet';
 
 export default function Home() {
 
@@ -33,6 +34,12 @@ export default function Home() {
       likeActivity(activityId, user.id,  true);
     }
     const result = await like(activityId, user.id);
+  }
+
+  const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
+
+  const openCommentSheet = () => { 
+    setIsCommentSheetOpen(true);
   }
 
   //Current visible content states
@@ -124,6 +131,7 @@ export default function Home() {
               commentsNumber={activity.comments}
               isLiked={activity.likes.includes(user?.id ?? "")}
               onLike={() => likeContent(activity.id)}
+              onComment={() =>  openCommentSheet()}
             />
           </section>
         ))}
@@ -139,6 +147,7 @@ export default function Home() {
           </section>
         )}
       </div>
+      <CommentSheet open={isCommentSheetOpen} onOpenChange={setIsCommentSheetOpen} />
     </div>
   )
 }
