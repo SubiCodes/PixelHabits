@@ -1,6 +1,8 @@
 import type { Comment } from '@/store/useCommentStore';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { MoreVertical, Trash2 } from 'lucide-react';
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -27,10 +29,12 @@ function getTimeAgo(dateString: string): string {
 }
 
 interface CommentProps {
-  comment: Comment
+  comment: Comment;
+  showDelete?: boolean;
+  onDelete?: (commentId: string) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment }) => {
+const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete }) => {
   let createdAtString: string;
   if (comment.createdAt instanceof Date && typeof comment.createdAt.toISOString === 'function') {
     createdAtString = comment.createdAt.toISOString();
@@ -40,35 +44,51 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
     createdAtString = String(comment.createdAt);
   }
   const timeAgo = getTimeAgo(createdAtString);
-  return (
-    <div className="flex items-start py-3 px-2 pr-4 bg-white">
-      <Avatar className="w-8 h-8 mr-3">
-        <AvatarImage
-          src={comment.owner?.profileImageUrl || '/default-profile.png'}
-          alt={comment.owner?.name || 'User'}
-          className="object-cover"
-        />
-        <AvatarFallback>
-          {comment.owner?.name ? comment.owner.name[0] : 'U'}
-        </AvatarFallback>
-      </Avatar>
-      <div className="flex-1">
-        <span className="font-semibold text-[#222] mr-1">{comment.owner?.name || 'User'}</span>
-        <span className="text-[#222]">{comment.commentText}</span>
-        <div className="flex items-center mt-1 gap-4">
-          <span className="text-xs text-[#888]">{timeAgo}</span>
-          <span className="text-xs text-[#888]">{24} likes</span>
-          <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
+    return (
+      <div className="flex items-start py-3 px-2 pr-4 border-b border-[#eee] bg-white">
+        <Avatar className="w-8 h-8 mr-3">
+          <AvatarImage
+            src={comment.owner?.profileImageUrl || '/default-profile.png'}
+            alt={comment.owner?.name || 'User'}
+            className="object-cover"
+          />
+          <AvatarFallback>
+            {comment.owner?.name ? comment.owner.name[0] : 'U'}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1">
+          <span className="font-semibold text-[#222] mr-1">{comment.owner?.name || 'User'}</span>
+          <span className="text-[#222]">{comment.commentText}</span>
+          <div className="flex items-center mt-1 gap-4">
+            <span className="text-xs text-[#888]">{timeAgo}</span>
+            <span className="text-xs text-[#888]">{24} likes</span>
+            <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
+          </div>
         </div>
+        {/** Like button or Delete dropdown */}
+        {!showDelete ? (
+          <button
+            className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
+            aria-label="Like"
+          >
+            <span role="img" aria-label="like">♡</span>
+          </button>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options">
+                <MoreVertical size={14} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem className="text-red-600 flex items-center gap-2" onClick={() => onDelete?.(comment.id || comment.id)}>
+                <Trash2 size={16} /> Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
-      <button
-        className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
-        aria-label="Like"
-      >
-        <span role="img" aria-label="like" onClick={() => console.log(comment.createdAt)}>♡</span>
-      </button>
-    </div>
-  );
+    );
 };
 
 export default Comment;
