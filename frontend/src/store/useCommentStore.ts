@@ -95,8 +95,10 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     removeComment: async (commentId: string) => {
         try {
             set({ removingComment: true });
+            toast.loading('Removing comment...', { id: 'remove-comment', description: 'Please wait while your comment is being removed.' });
             await api.delete(`/comments/${commentId}`); 
             set((state) => ({ activityComments: state.activityComments.filter(comment => comment.id !== commentId) }));
+            toast.success('Comment removed successfully', { id: 'remove-comment', description: 'Your comment was successfully removed.' });
         } catch (err) {
             console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
