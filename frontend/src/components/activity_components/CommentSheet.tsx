@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -12,16 +12,34 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet"
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useCommentStore } from '@/store/useCommentStore';
+import { stat } from 'fs';
 
 
 interface CommentSheetProps {
     open: boolean;
     onOpenChange?: (open: boolean) => void;
+    activityId: string | null;
 }
 
-function CommentSheet({ open, onOpenChange }: CommentSheetProps) {
+function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
 
     const isDesktop = useMediaQuery("(min-width: 768px)")
+
+    const comments = useCommentStore((state) => state.activityComments);
+    const gettingComments = useCommentStore((state) => state.gettingActivityComments);
+    const getCommentsByActivityId = useCommentStore((state) => state.getCommentsByActivityId);
+    const gettingCommentsError = useCommentStore((state) => state.gettingActivityCommentsError);
+
+    const fetchComments = async () => {
+        if (!activityId) return;
+        await getCommentsByActivityId(activityId);
+        console.log("Comments fetched:", comments);
+    }
+
+    useEffect(() => {
+        fetchComments();    
+    }, [activityId]);
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
