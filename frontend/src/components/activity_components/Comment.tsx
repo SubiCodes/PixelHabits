@@ -1,5 +1,6 @@
 import type { Comment } from '@/store/useCommentStore';
 import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -27,26 +28,38 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({ comment }) => {
-  const createdAtString = typeof comment.createdAt === 'string' ? comment.createdAt : comment.createdAt.toISOString();
+  let createdAtString: string;
+  if (comment.createdAt instanceof Date && typeof comment.createdAt.toISOString === 'function') {
+    createdAtString = comment.createdAt.toISOString();
+  } else if (typeof comment.createdAt === 'string') {
+    createdAtString = comment.createdAt;
+  } else {
+    createdAtString = String(comment.createdAt);
+  }
   const timeAgo = getTimeAgo(createdAtString);
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', padding: '12px 0', borderBottom: '1px solid #222' }}>
-      <img
-        src={comment.owner?.profileImageUrl || '/default-profile.png'}
-        alt={comment.owner?.name || 'User'}
-        style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover', marginRight: 12 }}
-      />
-      <div style={{ flex: 1 }}>
-        <span style={{ fontWeight: 600, color: '#fff', marginRight: 6 }}>{comment.owner?.name || 'User'}</span>
-        <span style={{ color: '#fff' }}>{comment.commentText}</span>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: 6, gap: 16 }}>
-          <span style={{ color: '#888', fontSize: 13 }}>{timeAgo}</span>
-          <span style={{ color: '#888', fontSize: 13 }}>{24} likes</span>
-          <button style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', fontSize: 13 }}>Reply</button>
+    <div className="flex items-start py-3 px-2 pr-4 bg-white">
+      <Avatar className="w-8 h-8 mr-3">
+        <AvatarImage
+          src={comment.owner?.profileImageUrl || '/default-profile.png'}
+          alt={comment.owner?.name || 'User'}
+          className="object-cover"
+        />
+        <AvatarFallback>
+          {comment.owner?.name ? comment.owner.name[0] : 'U'}
+        </AvatarFallback>
+      </Avatar>
+      <div className="flex-1">
+        <span className="font-semibold text-[#222] mr-1">{comment.owner?.name || 'User'}</span>
+        <span className="text-[#222]">{comment.commentText}</span>
+        <div className="flex items-center mt-1 gap-4">
+          <span className="text-xs text-[#888]">{timeAgo}</span>
+          <span className="text-xs text-[#888]">{24} likes</span>
+          <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
         </div>
       </div>
       <button
-        style={{ background: 'none', border: 'none', color: '#fff', marginLeft: 8, cursor: 'pointer', fontSize: 18 }}
+        className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
         aria-label="Like"
       >
         <span role="img" aria-label="like">♡</span>
