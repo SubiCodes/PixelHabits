@@ -29,6 +29,8 @@ interface CommentStore {
     gettingActivityCommentsError: string | null;
     addComment: (activityId: string, ownerId: string, commentText: string) => Promise<void>;
     addingComment: boolean;
+    removeComment: (commentId: string) => Promise<void>;
+    removingComment: boolean;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -90,4 +92,30 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
     },
     addingComment: false,
+    removeComment: async (commentId: string) => {
+        try {
+            set({ removingComment: true });
+            await api.delete(`/comments/${commentId}`); 
+            set((state) => ({ activityComments: state.activityComments.filter(comment => comment.id !== commentId) }));
+        } catch (err) {
+            console.log('API response (error):', err);
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to delete comment', {
+                    id: 'remove-comments',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingActivityCommentsError: message || 'Failed to delete comment' });
+            } else {
+                toast.error('Failed to delete comment', {
+                    id: 'remove-comments',
+                    description: 'An unexpected error occurred',
+                });
+                set({ gettingActivityCommentsError: 'Failed to delete comment' });
+            }
+        } finally {
+            set({ removingComment: false });
+        }
+    },
+    removingComment: false,
 }))
