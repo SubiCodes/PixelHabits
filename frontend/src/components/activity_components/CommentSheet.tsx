@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
     Sheet,
@@ -26,7 +25,7 @@ function CommentSheet({ open, onOpenChange }: CommentSheetProps) {
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent>
+            <SheetContent  side={isDesktop ? "right" : "bottom"} className={`${isDesktop ? '' : 'h-2/3'}`}>
                 <SheetHeader>
                     <SheetTitle>Comments</SheetTitle>
                 </SheetHeader>
