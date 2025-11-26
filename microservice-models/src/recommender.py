@@ -113,9 +113,15 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
 
     # 6. Filter unseen activities and return top N
     engaged_ids = set(engagement_scores.keys())
-    
     unseen = df_act[~df_act['id'].isin(engaged_ids)]
-    
-    recommendations = unseen.sort_values('similarity_score', ascending=False).head(top_n)
 
-    return recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+    if unseen.empty:
+        # If user has interacted with all, recommend all, scored
+        recommendations = df_act.sort_values('similarity_score', ascending=False).head(top_n)
+        return {
+            "reusedContent": True,
+            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+        }
+    else:
+        recommendations = unseen.sort_values('similarity_score', ascending=False).head(top_n)
+        return recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
