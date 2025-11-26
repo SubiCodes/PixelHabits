@@ -34,8 +34,26 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     getCommentsByActivityId: async (activityId: string) => {
         try {
             set({ gettingActivityComments: true, gettingActivityCommentsError: null });
-        } catch (error) {
-            
+            const res = await api.get("/comments", { params: { activityId: activityId } });
+            set({ activityComments: res.data });
+        } catch (err) {
+            console.log('API response (error):', err);
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to get activity comments', {
+                    id: 'get-activity-comments',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingActivityCommentsError: message || 'Failed to get activity comments' });
+            } else {
+                toast.error('Failed to get activity comments', {
+                    id: 'get-activity-comments',
+                    description: 'An unexpected error occurred',
+                });
+                set({ gettingActivityCommentsError: 'Failed to get activity comments' });
+            }
+        } finally {
+            set({ gettingActivityComments: false });
         }
     },
     gettingActivityCommentsError: null,
