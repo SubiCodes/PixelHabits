@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class CommentsService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(createCommentDto: CreateCommentDto) {
     const repeatedComment = await this.databaseService.comments.findFirst({
@@ -39,10 +39,17 @@ export class CommentsService {
     });
   }
 
-  findAll(userId: string) {
-    return this.databaseService.comments.findMany({
-      where: { ownerId: userId }
-    });
+  //Find all for users
+  findAll(userId?: string, activityId?: string) {
+    if (userId) {
+      return this.databaseService.comments.findMany({
+        where: { ownerId: userId }
+      });
+    } else {
+      return this.databaseService.comments.findMany({
+        where: { activityId: activityId }
+      });
+    }
   }
 
   async update(id: string, updateCommentDto: UpdateCommentDto) {
