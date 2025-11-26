@@ -6,7 +6,7 @@ const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
 });
 
-export interface Comments {
+export interface Comment {
     id: string;
     ownerId: string;
     owner?: {
@@ -22,7 +22,7 @@ export interface Comments {
 }
 
 interface CommentStore {
-    activityComments: Comments[];
+    activityComments: Comment[];
     gettingActivityComments: boolean;
     getCommentsByActivityId: (activityId: string) => Promise<void>;
     gettingActivityCommentsError: string | null;
