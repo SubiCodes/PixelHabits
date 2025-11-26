@@ -12,9 +12,7 @@ interface ViewStore {
 export const useViewStore = create<ViewStore>((set) => ({
     viewContent: async (activityId: string, userId: string) => {
         try {
-            console.log(`Setting view for activity ${activityId} by user ${userId}`);
             const view = await api.post(`/views`, { activity_id: activityId,  owner_id: userId });
-            console.log(view.data);
         } catch (err) {
         }
     }
