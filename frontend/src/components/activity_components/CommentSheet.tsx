@@ -12,6 +12,7 @@ import {
     SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet"
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 
 interface CommentSheetProps {
@@ -20,6 +21,9 @@ interface CommentSheetProps {
 }
 
 function CommentSheet({ open, onOpenChange }: CommentSheetProps) {
+
+    const isDesktop = useMediaQuery("(min-width: 768px)")
+
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
             <SheetContent>
