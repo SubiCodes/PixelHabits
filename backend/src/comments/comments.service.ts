@@ -39,7 +39,7 @@ export class CommentsService {
     });
   }
 
-  //Find all for users
+  //Find all for users or by activity
   findAll(userId?: string, activityId?: string) {
     if (userId) {
       return this.databaseService.comments.findMany({

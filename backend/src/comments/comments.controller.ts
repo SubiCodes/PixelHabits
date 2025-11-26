@@ -1,20 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Controller('comments')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) { }
 
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentsService.create(createCommentDto);
   }
 
-  @Get(':userId')
-  findAll(@Param('userId') userId: string) {
-    return this.commentsService.findAll(userId);
+  @Get()
+  findAll(@Query('userId') userId?: string, @Query('activityId') activityId?: string) {
+    return this.commentsService.findAll(userId, activityId);
   }
 
   @Patch(':id')
