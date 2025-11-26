@@ -14,7 +14,7 @@ import {
 import { ReactNode } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
 import { Activity, useActivityStore } from "@/store/useActivityStore"
-import CarouselMediaWithActionButtons from "../CarouselMediaWithActionButtons"
+import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 import { useUser } from "@stackframe/stack"
 import { useLikeStore } from "@/store/useLikeStore"
 

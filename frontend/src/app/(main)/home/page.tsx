@@ -1,6 +1,6 @@
 "use client"
 
-import CarouselMediaWithActionButtons from '@/components/CarouselMediaWithActionButtons';
+import CarouselMediaWithActionButtons from '@/components/activity_components/CarouselMediaWithActionButtons';
 import LoadingPage from '@/components/LoadingPage';
 import { Button } from '@/components/ui/button';
 import { useActivityFeedStore } from '@/store/useActivityFeedStore';

@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { FormEditActivity } from "../FormEditActivity";
+import { FormEditActivity } from "./FormEditActivity";
 import { Activity } from "@/store/useActivityStore";
 
 

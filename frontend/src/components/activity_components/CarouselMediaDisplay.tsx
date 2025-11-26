@@ -9,7 +9,7 @@ import {
     CarouselPrevious,
     type CarouselApi,
 } from "@/components/ui/carousel"
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { X } from 'lucide-react';
 
 type MediaType = string | File;
