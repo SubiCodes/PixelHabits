@@ -24,7 +24,6 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set, get) => ({
         try {
             set({ gettingActivityFeed: true, gettingFeedError: null });
             const feed = await api.post(`/contents/${userId}`, { activityIds });
-            console.log("Fetched feed:", feed.data);
             set((state) => ({
                 activityFeed: [
                     ...state.activityFeed,

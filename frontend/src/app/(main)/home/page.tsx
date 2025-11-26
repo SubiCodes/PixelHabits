@@ -65,7 +65,6 @@ export default function Home() {
             setVisibleIndex(index);
             setVisibleId(id);
 
-            console.log('Currently visible:', { index, id });
           }
         });
       },
