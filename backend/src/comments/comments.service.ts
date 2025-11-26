@@ -3,6 +3,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { enrichWithUserData } from 'src/common/utils/user-enrichment.util';
+import { serializeModelDates } from 'src/utils/serializeModelDates';
 
 @Injectable()
 export class CommentsService {
@@ -54,7 +55,8 @@ export class CommentsService {
       const comments = await this.databaseService.comments.findMany({
         where: { activityId: activityId }
       });
-      return enrichWithUserData(comments);
+      const dataEnrichWithUserData = await enrichWithUserData(comments);
+      return serializeModelDates(dataEnrichWithUserData);
     }
   }
 

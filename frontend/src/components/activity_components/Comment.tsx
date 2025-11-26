@@ -5,7 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 function getTimeAgo(dateString: string): string {
   const now = new Date();
   const date = new Date(dateString);
-  const diffMs = now.getTime() - date.getTime();
+  // Use UTC for both dates to avoid timezone issues
+  const nowUtc = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+  const dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+  const diffMs = nowUtc - dateUtc;
   const diffSec = Math.floor(diffMs / 1000);
   const diffMin = Math.floor(diffSec / 60);
   const diffHour = Math.floor(diffMin / 60);
@@ -62,7 +65,7 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
         className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
         aria-label="Like"
       >
-        <span role="img" aria-label="like">♡</span>
+        <span role="img" aria-label="like" onClick={() => console.log(comment.createdAt)}>♡</span>
       </button>
     </div>
   );

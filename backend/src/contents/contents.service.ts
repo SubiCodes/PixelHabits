@@ -3,18 +3,8 @@ import { HttpService } from '@nestjs/axios';
 import { DatabaseService } from '../database/database.service';
 import { firstValueFrom } from 'rxjs';
 import { enrichWithUserData } from '../common/utils/user-enrichment.util';
+import { serializeModelDates } from 'src/utils/serializeModelDates';
 
-function serializeModelDates(arr: any[]) {
-  return arr.map(item => {
-    const result = { ...item };
-    Object.keys(result).forEach(key => {
-      if (result[key] instanceof Date) {
-        result[key] = result[key].toISOString();
-      }
-    });
-    return result;
-  });
-}
 
 @Injectable()
 export class ContentsService {
