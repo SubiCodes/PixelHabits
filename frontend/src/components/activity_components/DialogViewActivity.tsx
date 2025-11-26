@@ -11,12 +11,13 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
 import { Activity, useActivityStore } from "@/store/useActivityStore"
 import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 import { useUser } from "@stackframe/stack"
 import { useLikeStore } from "@/store/useLikeStore"
+import CommentSheet from "./CommentSheet"
 
 interface DialogCreateHabitProps {
     trigger?: ReactNode
@@ -33,17 +34,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
     const likeActivity = useActivityStore((state) => state.likeActivity);
     const like = useLikeStore((state) => state.like);
-
-
-    // Predefined data for now
-    const posterName = "John Doe";
-    const posterAvatar = "https://github.com/shadcn.png";
-    const postDate = new Date(activity?.createdAt || new Date()).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-    });
-    const caption = activity?.caption || "";
+    const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
 
     const handleLike = async (activityId: string) => {
         if (!user) return;
@@ -59,8 +50,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     };
 
     const handleComment = () => {
-        console.log("Comment clicked");
-        // TODO: Implement comment functionality
+        setIsCommentSheetOpen(true);
     };
 
     return (
@@ -104,10 +94,10 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                     {activity?.mediaUrls && activity?.mediaUrls.length > 0 ? (
                         <CarouselMediaWithActionButtons
                             media={activity.mediaUrls}
-                            posterName={posterName}
-                            posterAvatar={posterAvatar}
-                            postDate={postDate}
-                            caption={caption}
+                            posterName={activity.owner?.name ?? 'Unknown User'}
+                            posterAvatar={activity.owner?.profileImageUrl ?? ''}
+                            postDate={activity.createdAt.toString()}
+                            caption={activity.caption ?? ''}
                             likesNumber={activity.likes.length}
                             commentsNumber={activity.comments}
                             onLike={() => handleLike(activity.id)}
@@ -119,6 +109,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                     )}
                 </div>
             </AlertDialogContent>
+            <CommentSheet open={isCommentSheetOpen} onOpenChange={setIsCommentSheetOpen} activityId={activity?.id ?? ''} />
         </AlertDialog>
     )
 }
