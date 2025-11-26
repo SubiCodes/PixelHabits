@@ -40,12 +40,16 @@ export class CommentsService {
   }
 
   //Find all for users or by activity
-  findAll(userId?: string, activityId?: string) {
+  async findAll(userId?: string, activityId?: string) {
     if (userId) {
       return this.databaseService.comments.findMany({
         where: { ownerId: userId }
       });
     } else {
+      const activity = await this.databaseService.activities.findUnique({
+        where: { id: activityId }
+      });
+      if (!activity) return [];
       return this.databaseService.comments.findMany({
         where: { activityId: activityId }
       });
