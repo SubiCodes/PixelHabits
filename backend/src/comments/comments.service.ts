@@ -30,7 +30,7 @@ export class CommentsService {
       );
     };
 
-    return this.databaseService.comments.create({
+    const newComment = await this.databaseService.comments.create({
       data: {
         id: crypto.randomUUID(),
         ownerId: createCommentDto.owner_id,
@@ -39,6 +39,9 @@ export class CommentsService {
         createdAt: new Date(),
       }
     });
+    const enrichedNewComment = await enrichWithUserData(newComment);
+    const serializedComment = serializeModelDates([enrichedNewComment])[0];
+    return serializedComment;
   }
 
   //Find all for users or by activity
