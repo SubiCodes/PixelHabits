@@ -102,13 +102,12 @@ def get_user_recommendations(request: RecommendationRequest):
             cold_start_strategy=request.cold_start_strategy
         )
 
-        # Convert DataFrame to list of dicts for JSON response
-        recommendations = recs.to_dict('records')
-
+        # recs is now always a dict with keys: reusedContent, recommendations
         response = {
             "userId": request.user_id,
-            "recommendations": recommendations,
-            "count": len(recommendations)
+            "recommendations": recs["recommendations"],
+            "reusedContent": recs.get("reusedContent", False),
+            "count": len(recs["recommendations"])
         }
         return response
     except Exception as e:

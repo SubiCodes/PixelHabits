@@ -38,7 +38,11 @@ def _handle_cold_start(df_activities, strategy='popular', top_n=10):
     # Add a default similarity score for consistency
     result['similarity_score'] = 0.0
     
-    return result[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+    # Return as list of dicts for FastAPI compatibility
+    return {
+        "reusedContent": False,
+        "recommendations": result[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']].to_dict(orient="records")
+    }
 
 
 def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id, top_n=10, cold_start_strategy='popular'):
@@ -120,11 +124,11 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
         recommendations = df_act.sort_values('similarity_score', ascending=False).head(top_n)
         return {
             "reusedContent": True,
-            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']].to_dict(orient="records")
         }
     else:
         recommendations = unseen.sort_values('similarity_score', ascending=False).head(top_n)
         return {
             "reusedContent": False,
-            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']].to_dict(orient="records")
         }

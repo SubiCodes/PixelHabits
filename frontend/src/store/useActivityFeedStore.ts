@@ -24,14 +24,20 @@ export const useActivityFeedStore = create<ActivityFeedStore>((set, get) => ({
         try {
             set({ gettingActivityFeed: true, gettingFeedError: null });
             const feed = await api.post(`/contents/${userId}`, { activityIds });
+            console.log("Fetched feed:", feed.data);
             set((state) => ({
                 activityFeed: [
                     ...state.activityFeed,
-                    ...feed.data.filter(
+                    ...feed.data.data.filter(
                         (item: Activity) => !state.activityFeed.some((existing) => existing.id === item.id)
                     )
                 ]
             }));
+            if (feed.data.reusedContent) {
+                toast.info('You have interacted with all available contents. Showing popular contents as recommendations.', {
+                    id: 'reused-content-info'
+                });
+            }
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
