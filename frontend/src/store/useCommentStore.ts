@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import axios from 'axios';
 import { toast } from 'sonner';
+import { se } from 'date-fns/locale';
 
 const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
@@ -26,6 +27,8 @@ interface CommentStore {
     gettingActivityComments: boolean;
     getCommentsByActivityId: (activityId: string) => Promise<void>;
     gettingActivityCommentsError: string | null;
+    addComment: (activityId: string, ownerId: string, commentText: string) => Promise<void>;
+    addingComment: boolean;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -57,4 +60,34 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
     },
     gettingActivityCommentsError: null,
+    addComment: async (activityId: string, ownerId: string, commentText: string) => {
+        try {
+            set({ addingComment: true });
+            const res = await api.post("/comments", {
+                activity_id: activityId,
+                owner_id: ownerId,
+                comment_text: commentText,
+            });
+            set((state) => ({ activityComments: [...state.activityComments, res.data] }));
+        } catch (err) {
+            console.log('API response (error):', err);
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to add comment', {
+                    id: 'add-activity-comments',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingActivityCommentsError: message || 'Failed to add comment' });
+            } else {
+                toast.error('Failed to add comment', {
+                    id: 'add-activity-comments',
+                    description: 'An unexpected error occurred',
+                });
+                set({ gettingActivityCommentsError: 'Failed to add comment' });
+            }
+        } finally {
+            set({ addingComment: true });
+        }
+    },
+    addingComment: false,
 }))
