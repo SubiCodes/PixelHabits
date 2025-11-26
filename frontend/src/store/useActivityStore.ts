@@ -59,7 +59,7 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            toast.success('Activity added', { id: 'add-activity' });
+            toast.success('Activity added', { id: 'add-activity', description: 'Your activity has been added successfully.' });
             const { useHabitStore } = await import('./useHabitStore');
             useHabitStore.getState().addActivityToHabit(habitId, res.data);
         } catch (err) {
