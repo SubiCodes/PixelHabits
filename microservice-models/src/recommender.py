@@ -124,4 +124,7 @@ def get_recommendations(df_activities, df_likes, df_views, df_comments, user_id,
         }
     else:
         recommendations = unseen.sort_values('similarity_score', ascending=False).head(top_n)
-        return recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+        return {
+            "reusedContent": False,
+            "recommendations": recommendations[['id', 'owner_id', 'age_days', 'similarity_score', 'is_public']]
+        }
