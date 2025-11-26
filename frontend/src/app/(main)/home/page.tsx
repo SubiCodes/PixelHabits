@@ -29,16 +29,18 @@ export default function Home() {
     if (!user) return;
     const isLiked = isUserLiked(activityId, user.id);
     if (isLiked) {
-      likeActivity(activityId, user.id,  false);
+      likeActivity(activityId, user.id, false);
     } else {
-      likeActivity(activityId, user.id,  true);
+      likeActivity(activityId, user.id, true);
     }
     const result = await like(activityId, user.id);
   }
 
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
+  const [commentSheetActivityId, setCommentSheetActivityId] = useState<string | null>(null);
 
-  const openCommentSheet = () => { 
+  const openCommentSheet = (activityId: string) => {
+    setCommentSheetActivityId(activityId);
     setIsCommentSheetOpen(true);
   }
 
@@ -131,10 +133,16 @@ export default function Home() {
               commentsNumber={activity.comments}
               isLiked={activity.likes.includes(user?.id ?? "")}
               onLike={() => likeContent(activity.id)}
-              onComment={() =>  openCommentSheet()}
+              onComment={() => openCommentSheet(activity.id)}
             />
           </section>
         ))}
+        {feed.length === 0 && !fetchingFeed && !fetchFeedError && (
+          <section className="w-full h-full flex flex-col gap-4 items-center justify-center snap-start">
+            <p className="text-gray-300">No activities to show. You have interacted with all the available contents!</p>
+            <Button onClick={() => fetchFeed(user?.id ?? "")} className='bg-white text-black hover:bg-gray-200 cursor-pointer'>Look Again?</Button>
+          </section>
+        )}
         {fetchingFeed && (
           <section className="w-full h-dvh flex items-center justify-center snap-start">
             <LoadingPage isMoonLoader={true} />
@@ -147,7 +155,7 @@ export default function Home() {
           </section>
         )}
       </div>
-      <CommentSheet open={isCommentSheetOpen} onOpenChange={setIsCommentSheetOpen} />
+      <CommentSheet open={isCommentSheetOpen} onOpenChange={setIsCommentSheetOpen} activityId={commentSheetActivityId} />
     </div>
   )
 }
