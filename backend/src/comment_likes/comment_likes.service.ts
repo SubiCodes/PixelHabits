@@ -4,7 +4,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class CommentLikesService {
-  private constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) { }
 
   async create(createCommentLikeDto: CreateCommentLikeDto) {
     const existingLike = await this.databaseService.commentLikes.findFirst({
