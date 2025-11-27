@@ -9,9 +9,10 @@ import { ViewsModule } from './views/views.module';
 import { LikesModule } from './likes/likes.module';
 import { CommentsModule } from './comments/comments.module';
 import { ContentsModule } from './contents/contents.module';
+import { CommentLikesModule } from './comment_likes/comment_likes.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule, CommentLikesModule],
   controllers: [AppController],
   providers: [AppService],
 })
