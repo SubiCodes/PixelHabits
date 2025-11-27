@@ -31,6 +31,17 @@ model comments {
   createdAt    DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
   activities   activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   replies replies[]
+  likes commentLikes[]
+}
+
+model commentLikes {
+  id         String     @id
+  ownerId    String    @map("owner_id")
+  commentId  String    @map("comment_id")
+  createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
+  comments   comments  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([ownerId, commentId])
 }
 
 model replies {
