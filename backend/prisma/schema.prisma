@@ -35,7 +35,7 @@ model comments {
 }
 
 model commentLikes {
-  id         String     @id
+  id         String    @id @default(uuid())
   ownerId    String    @map("owner_id")
   commentId  String    @map("comment_id")
   createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
