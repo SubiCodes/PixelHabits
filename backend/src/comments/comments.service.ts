@@ -52,16 +52,29 @@ export class CommentsService {
       });
       return userComments;
     } else {
-      const activity = await this.databaseService.activities.findUnique({
-        where: { id: activityId }
-      });
-      if (!activity) return [];
-      const comments = await this.databaseService.comments.findMany({
-        where: { activityId: activityId }
-      });
-      const dataEnrichWithUserData = await enrichWithUserData(comments);
-      const serialized = serializeModelDates(dataEnrichWithUserData);
-      return serialized;
+        const activity = await this.databaseService.activities.findUnique({
+          where: { id: activityId }
+        });
+        if (!activity) return [];
+        // Get all comments for the activity
+        const comments = await this.databaseService.comments.findMany({
+          where: { activityId: activityId }
+        });
+        // For each comment, get the ownerIds of likes and store in comment_likes array
+        const commentsWithLikes = await Promise.all(
+          comments.map(async (comment) => {
+            const likes = await this.databaseService.commentLikes.findMany({
+              where: { commentId: comment.id },
+              select: { ownerId: true }
+            });
+            // Flatten ownerIds into array
+            const comment_likes = likes.map(like => like.ownerId);
+            return { ...comment, comment_likes };
+          })
+        );
+        const dataEnrichWithUserData = await enrichWithUserData(commentsWithLikes);
+        const serialized = serializeModelDates(dataEnrichWithUserData);
+        return serialized;
     }
   }
 
