@@ -86,6 +86,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           <button
             className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
             aria-label="Like"
+            onClick={likeUnlikeThisComment}
           >
             {comment.comment_likes?.includes(user?.id || '') ? (
               <Heart fill="#e0245e" color="#e0245e" strokeWidth={1.5} size={20} />
