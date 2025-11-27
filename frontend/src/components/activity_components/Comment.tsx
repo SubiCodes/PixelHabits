@@ -62,7 +62,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           <span className="text-[#222]">{comment.commentText}</span>
           <div className="flex items-center mt-1 gap-4">
             <span className="text-xs text-[#888]">{timeAgo}</span>
-            <span className="text-xs text-[#888]">{24} likes</span>
+            <span className="text-xs text-[#888]">{comment.comment_likes?.length || 0} likes</span>
             <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
           </div>
         </div>

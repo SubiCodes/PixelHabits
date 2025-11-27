@@ -18,7 +18,7 @@ export interface Comment {
     }
     activityId: string;
     commentText: string;
-    commentLikes?: string[]; // Array of ownerIds who liked the comment
+    comment_likes?: string[]; // Array of ownerIds who liked the comment
     createdAt: string | Date;
     updatedAt: string | Date;
 }
@@ -41,7 +41,9 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         try {
             set({ gettingActivityComments: true, gettingActivityCommentsError: null });
             const res = await api.get("/comments", { params: { activityId: activityId } });
+            console.log(res.data)
             set({ activityComments: res.data });
+            console.log("Comments set in store:", get().activityComments);
         } catch (err) {
             console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
