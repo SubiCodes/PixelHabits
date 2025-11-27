@@ -32,6 +32,7 @@ interface CommentStore {
     addingComment: boolean;
     removeComment: (commentId: string) => Promise<void>;
     removingComment: boolean;
+    likeComment: (commentId: string, ownerId: string) => Promise<void>;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -99,11 +100,10 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         try {
             set({ removingComment: true });
             toast.loading('Removing comment...', { id: 'remove-comment', description: 'Please wait while your comment is being removed.' });
-            await api.delete(`/comments/${commentId}`); 
+            await api.delete(`/comments/${commentId}`);
             set((state) => ({ activityComments: state.activityComments.filter(comment => comment.id !== commentId) }));
             toast.success('Comment removed successfully', { id: 'remove-comment', description: 'Your comment was successfully removed.' });
         } catch (err) {
-            console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
                 toast.error(message || 'Failed to delete comment', {
@@ -123,4 +123,27 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
     },
     removingComment: false,
+    likeComment: async (commentId: string, ownerId: string) => {
+        try {
+            const res = await api.post("/comment-likes", {
+                owner_id: ownerId,
+                comment_id: commentId,
+            });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to like comment', {
+                    id: 'like-comment',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingActivityCommentsError: message || 'Failed to like comment' });
+            } else {
+                toast.error('Failed to like comment', {
+                    id: 'like-comment',
+                    description: 'An unexpected error occurred',
+                });
+                set({ gettingActivityCommentsError: 'Failed to like comment' });
+            }
+        }
+    }
 }))
