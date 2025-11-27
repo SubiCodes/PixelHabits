@@ -42,9 +42,7 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         try {
             set({ gettingActivityComments: true, gettingActivityCommentsError: null });
             const res = await api.get("/comments", { params: { activityId: activityId } });
-            console.log(res.data)
             set({ activityComments: res.data });
-            console.log("Comments set in store:", get().activityComments);
         } catch (err) {
             console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
@@ -141,7 +139,6 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
                 owner_id: ownerId,
                 comment_id: commentId,
             });
-            console.log("Like/unlike response:", res.data);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
