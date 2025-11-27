@@ -2,7 +2,8 @@ import type { Comment } from '@/store/useCommentStore';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { MoreVertical, Trash2 } from 'lucide-react';
+import { MoreVertical, Trash2, Heart, HeartIcon } from 'lucide-react';
+import { useUser } from '@stackframe/stack';
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -36,6 +37,9 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deletingComment }) => {
+
+  const user = useUser();
+
   let createdAtString: string;
   if (comment.createdAt instanceof Date && typeof comment.createdAt.toISOString === 'function') {
     createdAtString = comment.createdAt.toISOString();
@@ -72,7 +76,11 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
             aria-label="Like"
           >
-            <span role="img" aria-label="like">♡</span>
+            {comment.comment_likes?.includes(user?.id || '') ? (
+              <Heart fill="#e0245e" color="#e0245e" strokeWidth={1.5} size={20} />
+            ) : (
+              <HeartIcon color="#222" strokeWidth={1.5} size={20} />
+            )}
           </button>
         ) : (
           <DropdownMenu>
