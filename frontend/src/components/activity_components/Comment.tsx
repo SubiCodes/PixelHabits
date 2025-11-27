@@ -1,4 +1,4 @@
-import type { Comment } from '@/store/useCommentStore';
+import { useCommentStore, type Comment } from '@/store/useCommentStore';
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
@@ -39,6 +39,17 @@ interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deletingComment }) => {
 
   const user = useUser();
+  const likeComment = useCommentStore((state) => state.likeComment);
+
+  const likeUnlikeThisComment = async () => {
+    if (!user || !comment.id) return;
+    if (comment.comment_likes?.includes(user.id)) {
+      comment.comment_likes = comment.comment_likes.filter(id => id !== user.id);
+    } else {
+      comment.comment_likes = [...(comment.comment_likes || []), user.id];
+    }
+    await likeComment(comment.id, user.id);
+  }
 
   let createdAtString: string;
   if (comment.createdAt instanceof Date && typeof comment.createdAt.toISOString === 'function') {
