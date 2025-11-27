@@ -125,10 +125,23 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     removingComment: false,
     likeComment: async (commentId: string, ownerId: string) => {
         try {
+            set((state) => ({
+                activityComments: state.activityComments.map(comment =>
+                    comment.id === commentId
+                        ? {
+                            ...comment,
+                            comment_likes: comment.comment_likes?.includes(ownerId)
+                                ? comment.comment_likes.filter(id => id !== ownerId)
+                                : [...(comment.comment_likes || []), ownerId]
+                        }
+                        : comment
+                )
+            }));
             const res = await api.post("/comment-likes", {
                 owner_id: ownerId,
                 comment_id: commentId,
             });
+            console.log("Like/unlike response:", res.data);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
