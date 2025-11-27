@@ -18,6 +18,7 @@ export interface Comment {
     }
     activityId: string;
     commentText: string;
+    commentLikes?: string[]; // Array of ownerIds who liked the comment
     createdAt: string | Date;
     updatedAt: string | Date;
 }
