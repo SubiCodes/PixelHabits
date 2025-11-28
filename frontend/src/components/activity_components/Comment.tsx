@@ -109,7 +109,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
 
       {typeof comment.comment_replies === 'number' && comment.comment_replies > 0 && (
         <div className='flex items-center justify-center w-full px-8'>
-          <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0'>
+          <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer'>
             <div className='flex w-full h-[1px] bg-gray-200' />
             <span className='text-muted-foreground font-normal  '>{`Replies ${comment.comment_replies}`}</span>
             <div className='flex w-full h-[1px] bg-gray-200' />
