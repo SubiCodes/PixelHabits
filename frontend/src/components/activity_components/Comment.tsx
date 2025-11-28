@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { MoreVertical, Trash2, Heart, HeartIcon } from 'lucide-react';
 import { useUser } from '@stackframe/stack';
+import { Button } from '../ui/button';
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -55,8 +56,9 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
     createdAtString = String(comment.createdAt);
   }
   const timeAgo = getTimeAgo(createdAtString);
-    return (
-      <div className="flex items-start py-3 px-2 pr-4 border-b border-[#eee] bg-white">
+  return (
+    <div className='flex flex-col gap-2 items-start py-3 px-2 pr-4 border-b border-[#eee]'>
+      <div className="flex items-start bg-white">
         <Avatar className="w-8 h-8 mr-3">
           <AvatarImage
             src={comment.owner?.profileImageUrl || '/default-profile.png'}
@@ -104,7 +106,17 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           </DropdownMenu>
         )}
       </div>
-    );
+      
+      <div className='flex items-center justify-center w-full'>
+        <Button className='flex flex-row bg-transparent hover:bg-transparent'>
+          <div className='flex flex-1 min-w-full h-[1px] bg-gray-400 border'/>
+          <span className='text-muted-foreground font-normal'>Replies</span>
+          <div className='flex flex-1 min-w-full h-[1px] bg-gray-400 border'/>
+        </Button>
+      </div>
+
+    </div>
+  );
 };
 
 export default Comment;
