@@ -19,6 +19,7 @@ export interface Comment {
     activityId: string;
     commentText: string;
     comment_likes?: string[]; // Array of ownerIds who liked the comment
+    comment_replies?: string[]; // Array of ownerIds who replied to the comment
     createdAt: string | Date;
     updatedAt: string | Date;
 }
