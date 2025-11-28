@@ -110,7 +110,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
       <div className='flex items-center justify-center w-full'>
         <Button className='flex flex-row bg-transparent hover:bg-transparent'>
           <div className='flex flex-1 min-w-full h-[1px] bg-gray-400 border'/>
-          <span className='text-muted-foreground font-normal'>Replies</span>
+          <span className='text-muted-foreground font-normal'>{`Replies ${comment.comment_replies || 0}`}</span>
           <div className='flex flex-1 min-w-full h-[1px] bg-gray-400 border'/>
         </Button>
       </div>
