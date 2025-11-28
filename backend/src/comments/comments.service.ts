@@ -60,19 +60,24 @@ export class CommentsService {
         const comments = await this.databaseService.comments.findMany({
           where: { activityId: activityId }
         });
-        // For each comment, get the ownerIds of likes and store in comment_likes array
-        const commentsWithLikes = await Promise.all(
+        // For each comment, get the ownerIds of likes and count of replies
+        const commentsWithLikesAndReplyCount = await Promise.all(
           comments.map(async (comment) => {
             const likes = await this.databaseService.commentLikes.findMany({
               where: { commentId: comment.id },
               select: { ownerId: true }
             });
-            // Flatten ownerIds into array
             const comment_likes = likes.map(like => like.ownerId);
-            return { ...comment, comment_likes };
+
+            const replyCount = await this.databaseService.replies.count({
+              where: { commentId: comment.id }
+            });
+            const comment_replies = replyCount;
+
+            return { ...comment, comment_likes, comment_replies };
           })
         );
-        const dataEnrichWithUserData = await enrichWithUserData(commentsWithLikes);
+        const dataEnrichWithUserData = await enrichWithUserData(commentsWithLikesAndReplyCount);
         const serialized = serializeModelDates(dataEnrichWithUserData);
         return serialized;
     }
