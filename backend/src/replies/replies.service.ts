@@ -23,10 +23,12 @@ export class RepliesService {
     return await serializeModelDates([replyWithUserData])[0];
   }
 
-  findAll(commentId: string) {
-    return this.databaseService.replies.findMany({
+  async asyncfindAll(commentId: string) {
+    const replies = await this.databaseService.replies.findMany({
       where: { commentId },
     });
+    const repliesWithUserData = await enrichWithUserData(replies);
+    return serializeModelDates(repliesWithUserData);
   }
 
   async update(id: string, updateReplyDto: UpdateReplyDto) {
