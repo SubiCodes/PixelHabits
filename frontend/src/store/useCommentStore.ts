@@ -52,6 +52,7 @@ interface CommentStore {
     openedCommentsId: string[];
     handleOpenCloseCommentReply: (commentId: string) => void;
     clearOpenedCommentsId: () => void;
+    commentReplies: {commentId: string; replies: Reply[]}[];
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -183,5 +184,6 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     })),
     clearOpenedCommentsId: () => set(() => ({
         openedCommentsId: []
-    }))
+    })),
+    commentReplies: [],
 }))
