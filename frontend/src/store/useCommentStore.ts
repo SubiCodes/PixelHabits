@@ -24,6 +24,21 @@ export interface Comment {
     updatedAt: string | Date;
 }
 
+export interface Reply {
+    id: string;
+    commentId: string;
+    ownerId: string;
+    owner?: {
+        id: string;
+        name: string;
+        email: string;
+        profileImageUrl: string;
+    };
+    replyText: string;
+    createdAt: string | Date;
+    updatedAt: string | Date;  
+}
+
 interface CommentStore {
     activityComments: Comment[];
     gettingActivityComments: boolean;
