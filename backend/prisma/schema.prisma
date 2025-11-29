@@ -50,7 +50,7 @@ model replies {
   replyText  String   @map("reply_text")
   commentId  String   @map("comment_id")
   createdAt  DateTime @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt  DateTime @db.Timestamptz(6) @map("updated_at")
+  updatedAt DateTime @default(now()) @db.Timestamptz(6) @map("updated_at")
   comments   comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 

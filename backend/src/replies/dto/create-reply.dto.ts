@@ -5,7 +5,7 @@ export class CreateReplyDto {
     owner_id: string;
 
     @IsString()
-    activity_id: string;
+    comment_id: string;
 
     @IsString()
     @MaxLength(500)
