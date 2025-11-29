@@ -62,6 +62,15 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
     createdAtString = String(comment.createdAt);
   }
   const timeAgo = getTimeAgo(createdAtString);
+
+  const openCommentReplies = async () => {
+    const isAlreadyOpened = openedCommentsId.includes(comment.id);
+    await handleOpenCloseCommentReply(comment.id);
+    if (!isAlreadyOpened) {
+      await getCommentReplies(comment.id);
+    }
+  }
+
   return (
     <div className='flex flex-col gap-2 items-start py-3 px-2 pr-4 border-b border-[#eee]'>
       <div className="flex items-start bg-white">
@@ -116,7 +125,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
       {/* Button for the replies count */}
       {typeof comment.comment_replies === 'number' && comment.comment_replies > 0 && (
         <div className='flex items-center justify-center w-full px-8'>
-          <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer'>
+          <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer' onClick={() => openCommentReplies()}>
             <div className='flex w-full h-[1px] bg-gray-200' />
             <span className='text-muted-foreground font-normal  '>{`Replies ${comment.comment_replies}`}</span>
             <div className='flex w-full h-[1px] bg-gray-200' />
