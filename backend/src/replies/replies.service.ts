@@ -32,7 +32,9 @@ export class RepliesService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reply`;
+  remove(id: string) {
+    return this.databaseService.replies.delete({
+      where: { id },
+    });
   }
 }
