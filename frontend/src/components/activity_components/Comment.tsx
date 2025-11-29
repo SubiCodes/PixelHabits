@@ -160,7 +160,6 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                     <span className="text-[#222] text-sm">{reply.replyText}</span>
                     <div className="flex items-center mt-1 gap-4">
                       <span className="text-xs text-[#888]">{timeAgo}</span>
-                      <span className="text-xs text-[#888]">{0} likes</span>
                     </div>
                   </div>
                   {/** Like button or Delete dropdown */}
