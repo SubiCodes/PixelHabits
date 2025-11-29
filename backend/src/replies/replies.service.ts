@@ -18,8 +18,10 @@ export class RepliesService {
     });
   }
 
-  findAll() {
-    return `This action returns all replies`;
+  findAll(commentId: string) {
+    return this.databaseService.replies.findMany({
+      where: { commentId },
+    });
   }
 
   async update(id: string, updateReplyDto: UpdateReplyDto) {
