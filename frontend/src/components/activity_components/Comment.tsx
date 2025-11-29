@@ -145,7 +145,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             <div className='flex w-full pl-12'>
               {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
                 <div className="flex items-start bg-white" key={reply.id}>
-                  <Avatar className="w-8 h-8 mr-3">
+                  <Avatar className="w-6 h-6 mr-3">
                     <AvatarImage
                       src={reply.owner?.profileImageUrl || '/default-profile.png'}
                       alt={reply.owner?.name || 'User'}
@@ -156,27 +156,16 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <span className="font-semibold text-[#222] mr-1">{reply.owner?.name || 'User'}</span>
-                    <span className="text-[#222]">{reply.replyText}</span>
+                    <span className="font-semibold text-[#222] mr-1 text-sm">{reply.owner?.name || 'User'}</span>
+                    <span className="text-[#222] text-sm">{reply.replyText}</span>
                     <div className="flex items-center mt-1 gap-4">
                       <span className="text-xs text-[#888]">{timeAgo}</span>
                       <span className="text-xs text-[#888]">{0} likes</span>
-                      <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
                     </div>
                   </div>
                   {/** Like button or Delete dropdown */}
                   {!showDelete ? (
-                    <button
-                      className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
-                      aria-label="Like"
-                      onClick={likeUnlikeThisComment}
-                    >
-                      {comment.comment_likes?.includes(user?.id || '') ? (
-                        <Heart fill="#e0245e" color="#e0245e" strokeWidth={1.5} size={20} />
-                      ) : (
-                        <HeartIcon color="#222" strokeWidth={1.5} size={20} />
-                      )}
-                    </button>
+                    <></>
                   ) : (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
