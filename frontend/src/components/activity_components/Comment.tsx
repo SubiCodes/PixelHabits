@@ -43,7 +43,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
   const likeComment = useCommentStore((state) => state.likeComment);
 
   const openedCommentsId = useCommentStore((state) => state.openedCommentsId);
-  const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies);
+  const handleOpenCloseCommentReply = useCommentStore((state) => state.handleOpenCloseCommentReply);
   const commentReplies = useCommentStore((state) => state.commentReplies);
   const gettingCommentReplies = useCommentStore((state) => state.gettingCommentReplies);
   const getCommentReplies = useCommentStore((state) => state.getCommentReplies);
