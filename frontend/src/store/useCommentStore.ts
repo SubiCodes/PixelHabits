@@ -191,7 +191,8 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
             set((state) => ({
                 gettingCommentReplies: [...state.gettingCommentReplies, commentId]
             }));
-            const res = await api.get("/replies", { params: { commentId: commentId } });
+            const res = await api.get(`replies/${commentId}`);
+            console.log(res.data)
             set((state) => ({
                 commentReplies: [
                     ...state.commentReplies.filter(cr => cr.commentId !== commentId), { commentId, replies: res.data }
