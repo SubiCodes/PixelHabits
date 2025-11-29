@@ -143,8 +143,58 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             </div>
           ) : (
             <div className='flex w-full pl-12'>
-              <p>Replies here</p>
+              {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
+                <div className="flex items-start bg-white" key={reply.id}>
+                  <Avatar className="w-8 h-8 mr-3">
+                    <AvatarImage
+                      src={reply.owner?.profileImageUrl || '/default-profile.png'}
+                      alt={reply.owner?.name || 'User'}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>
+                      {reply.owner?.name ? reply.owner.name[0] : 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <span className="font-semibold text-[#222] mr-1">{reply.owner?.name || 'User'}</span>
+                    <span className="text-[#222]">{reply.replyText}</span>
+                    <div className="flex items-center mt-1 gap-4">
+                      <span className="text-xs text-[#888]">{timeAgo}</span>
+                      <span className="text-xs text-[#888]">{0} likes</span>
+                      <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
+                    </div>
+                  </div>
+                  {/** Like button or Delete dropdown */}
+                  {!showDelete ? (
+                    <button
+                      className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
+                      aria-label="Like"
+                      onClick={likeUnlikeThisComment}
+                    >
+                      {comment.comment_likes?.includes(user?.id || '') ? (
+                        <Heart fill="#e0245e" color="#e0245e" strokeWidth={1.5} size={20} />
+                      ) : (
+                        <HeartIcon color="#222" strokeWidth={1.5} size={20} />
+                      )}
+                    </button>
+                  ) : (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
+                          <MoreVertical size={14} />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem className="text-red-600 flex items-center gap-2" onClick={() => onDelete?.(comment.id || comment.id)}>
+                          <Trash2 size={16} /> Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </div>
+              ))}
             </div>
+
           )}
         </div>
       )}
