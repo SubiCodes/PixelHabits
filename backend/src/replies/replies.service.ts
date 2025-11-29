@@ -32,13 +32,15 @@ export class RepliesService {
   }
 
   async update(id: string, updateReplyDto: UpdateReplyDto) {
-    return await this.databaseService.replies.update({
+    const reply = await this.databaseService.replies.update({
       where: { id },
       data: {
         replyText: updateReplyDto.reply_text,
         updatedAt: new Date(),
       },
     });
+    const replyWithUserData = await enrichWithUserData(reply);
+    return await serializeModelDates([replyWithUserData])[0];
   }
 
   remove(id: string) {
