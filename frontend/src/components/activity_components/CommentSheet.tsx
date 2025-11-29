@@ -44,7 +44,6 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
     const fetchComments = async () => {
         if (!activityId) return;
         await getCommentsByActivityId(activityId);
-        console.log("Comments fetched:", comments);
     };
 
     const addNewComment = async (commentText: string) => {
