@@ -142,47 +142,56 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
               <LoadingPage isMoonLoader={true} />
             </div>
           ) : (
-            <div className='flex w-full pl-12'>
-              {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
-                <div className="flex items-start bg-white" key={reply.id}>
-                  <Avatar className="w-6 h-6 mr-3">
-                    <AvatarImage
-                      src={reply.owner?.profileImageUrl || '/default-profile.png'}
-                      alt={reply.owner?.name || 'User'}
-                      className="object-cover"
-                    />
-                    <AvatarFallback>
-                      {reply.owner?.name ? reply.owner.name[0] : 'U'}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <span className="font-semibold text-[#222] mr-1 text-sm">{reply.owner?.name || 'User'}</span>
-                    <span className="text-[#222] text-sm">{reply.replyText}</span>
-                    <div className="flex items-center mt-1 gap-4">
-                      <span className="text-xs text-[#888]">{timeAgo}</span>
+            <>
+              <div className='flex w-full pl-12'>
+                {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
+                  <div className="flex items-start bg-white" key={reply.id}>
+                    <Avatar className="w-6 h-6 mr-3">
+                      <AvatarImage
+                        src={reply.owner?.profileImageUrl || '/default-profile.png'}
+                        alt={reply.owner?.name || 'User'}
+                        className="object-cover"
+                      />
+                      <AvatarFallback>
+                        {reply.owner?.name ? reply.owner.name[0] : 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <span className="font-semibold text-[#222] mr-1 text-sm">{reply.owner?.name || 'User'}</span>
+                      <span className="text-[#222] text-sm">{reply.replyText}</span>
+                      <div className="flex items-center mt-1 gap-4">
+                        <span className="text-xs text-[#888]">{timeAgo}</span>
+                      </div>
                     </div>
+                    {/** Like button or Delete dropdown */}
+                    {!showDelete ? (
+                      <></>
+                    ) : (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
+                            <MoreVertical size={12} />
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="text-red-600 flex items-center gap-2" onClick={() => onDelete?.(comment.id || comment.id)}>
+                            <Trash2 size={14} /> Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
                   </div>
-                  {/** Like button or Delete dropdown */}
-                  {!showDelete ? (
-                    <></>
-                  ) : (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
-                          <MoreVertical size={12} />
-                        </button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="text-red-600 flex items-center gap-2" onClick={() => onDelete?.(comment.id || comment.id)}>
-                          <Trash2 size={14} /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
+              <div className='flex items-center justify-center w-full px-8'>
+                <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer' onClick={() => handleOpenCloseCommentReply(comment.id)}>
+                  <div className='flex w-full h-[1px] bg-gray-200' />
+                  <span className='text-muted-foreground font-normal  '>Close Replies</span>
+                  <div className='flex w-full h-[1px] bg-gray-200' />
+                </Button>
+              </div>
+            </>
           )}
         </div>
       )}
