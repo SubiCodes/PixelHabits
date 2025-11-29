@@ -51,10 +51,10 @@ interface CommentStore {
     likeComment: (commentId: string, ownerId: string) => Promise<void>;
     openedCommentsId: string[];
     handleOpenCloseCommentReply: (commentId: string) => void;
-    clearOpenedCommentsId: () => void;
     commentReplies: { commentId: string; replies: Reply[] }[];
     gettingCommentReplies: string[];
     getCommentReplies: (commentId: string) => Promise<void>;
+    clearOpenedCommentsAndReplies: () => void;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -184,9 +184,6 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
             ? state.openedCommentsId.filter(id => id !== commentId)
             : [...state.openedCommentsId, commentId]
     })),
-    clearOpenedCommentsId: () => set(() => ({
-        openedCommentsId: []
-    })),
     commentReplies: [],
     gettingCommentReplies: [],
     getCommentReplies: async (commentId: string) => {
@@ -220,5 +217,8 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
                 gettingCommentReplies: state.gettingCommentReplies.filter(id => id !== commentId)
             }));
         }
+    },
+    clearOpenedCommentsAndReplies: () => {
+        set(() => ({openedCommentsId: [], commentReplies: [], gettingCommentReplies: []}));
     }
 }))
