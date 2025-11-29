@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical, Trash2, Heart, HeartIcon } from 'lucide-react';
 import { useUser } from '@stackframe/stack';
 import { Button } from '../ui/button';
+import LoadingPage from '../LoadingPage';
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -121,9 +122,9 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           </DropdownMenu>
         )}
       </div>
-      
+
       {/* Button for the replies count */}
-      {typeof comment.comment_replies === 'number' && comment.comment_replies > 0 && (
+      {typeof comment.comment_replies === 'number' && comment.comment_replies > 0 && !openedCommentsId.includes(comment.id) && (
         <div className='flex items-center justify-center w-full px-8'>
           <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer' onClick={() => openCommentReplies()}>
             <div className='flex w-full h-[1px] bg-gray-200' />
@@ -133,7 +134,22 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
         </div>
       )}
 
-      
+      {/* Reply Section */}
+      {openedCommentsId.includes(comment.id) && (
+        <div className='w-full mt-2'>
+          {gettingCommentReplies.includes(comment.id) ? (
+            <div className='flex flex-1 items-center justify-center'>
+              <LoadingPage isMoonLoader={true} />
+            </div>
+          ) : (
+            <div className='flex w-full pl-12'>
+              <p>Replies here</p>
+            </div>
+          )}
+        </div>
+      )}
+
+
     </div>
   );
 };
