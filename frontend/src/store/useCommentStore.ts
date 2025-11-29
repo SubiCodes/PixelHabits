@@ -34,6 +34,8 @@ interface CommentStore {
     removeComment: (commentId: string) => Promise<void>;
     removingComment: boolean;
     likeComment: (commentId: string, ownerId: string) => Promise<void>;
+    openedCommentsId: string[];
+    handleOpenCloseCommentReply: (commentId: string) => void;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -156,5 +158,11 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
                 set({ gettingActivityCommentsError: 'Failed to like comment' });
             }
         }
-    }
+    },
+    openedCommentsId: [],
+    handleOpenCloseCommentReply: (commentId: string) => set((state) => ({
+        openedCommentsId: state.openedCommentsId.includes(commentId)
+            ? state.openedCommentsId.filter(id => id !== commentId)
+            : [...state.openedCommentsId, commentId]
+    }))
 }))

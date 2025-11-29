@@ -106,7 +106,8 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           </DropdownMenu>
         )}
       </div>
-
+      
+      {/* Button for the replies count */}
       {typeof comment.comment_replies === 'number' && comment.comment_replies > 0 && (
         <div className='flex items-center justify-center w-full px-8'>
           <Button className='flex items-center w-full bg-transparent hover:bg-transparent p-0 cursor-pointer'>
@@ -116,6 +117,8 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           </Button>
         </div>
       )}
+
+      
     </div>
   );
 };
