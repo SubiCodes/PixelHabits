@@ -12,23 +12,18 @@ export class RepliesController {
     return this.repliesService.create(createReplyDto);
   }
 
-  @Get()
-  findAll() {
-    return this.repliesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.repliesService.findOne(+id);
+  @Get(':commentId')
+  findAll(@Param('commentId') commentId: string) {
+    return this.repliesService.findAll(commentId);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReplyDto: UpdateReplyDto) {
-    return this.repliesService.update(+id, updateReplyDto);
+    return this.repliesService.update(id, updateReplyDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.repliesService.remove(+id);
+    return this.repliesService.remove(id);
   }
 }
