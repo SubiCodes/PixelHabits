@@ -169,12 +169,12 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
-                          <MoreVertical size={14} />
+                          <MoreVertical size={12} />
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem className="text-red-600 flex items-center gap-2" onClick={() => onDelete?.(comment.id || comment.id)}>
-                          <Trash2 size={16} /> Delete
+                          <Trash2 size={14} /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
