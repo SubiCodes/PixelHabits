@@ -42,6 +42,12 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
   const user = useUser();
   const likeComment = useCommentStore((state) => state.likeComment);
 
+  const openedCommentsId = useCommentStore((state) => state.openedCommentsId);
+  const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies);
+  const commentReplies = useCommentStore((state) => state.commentReplies);
+  const gettingCommentReplies = useCommentStore((state) => state.gettingCommentReplies);
+  const getCommentReplies = useCommentStore((state) => state.getCommentReplies);
+
   const likeUnlikeThisComment = async () => {
     if (!user || !comment.id) return;
     await likeComment(comment.id, user.id);
