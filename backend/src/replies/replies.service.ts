@@ -22,12 +22,14 @@ export class RepliesService {
     return `This action returns all replies`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reply`;
-  }
-
-  update(id: number, updateReplyDto: UpdateReplyDto) {
-    return `This action updates a #${id} reply`;
+  async update(id: string, updateReplyDto: UpdateReplyDto) {
+    return await this.databaseService.replies.update({
+      where: { id },
+      data: {
+        replyText: updateReplyDto.reply_text,
+        updatedAt: new Date(),
+      },
+    });
   }
 
   remove(id: number) {
