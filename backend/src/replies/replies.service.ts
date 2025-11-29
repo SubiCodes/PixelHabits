@@ -9,11 +9,10 @@ export class RepliesService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createReplyDto: CreateReplyDto) {
-    const reply = await this.databaseService.replies.create({
+    return await this.databaseService.replies.create({
       data: {
-        id: crypto.randomUUID(),
         ownerId: createReplyDto.owner_id,
-        activityId: createReplyDto.activity_id,
+        commentId: createReplyDto.comment_id,
         replyText: createReplyDto.reply_text,
       },
     });
