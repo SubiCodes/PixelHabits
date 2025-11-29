@@ -36,7 +36,7 @@ export interface Reply {
     };
     replyText: string;
     createdAt: string | Date;
-    updatedAt: string | Date;  
+    updatedAt: string | Date;
 }
 
 interface CommentStore {
@@ -52,8 +52,9 @@ interface CommentStore {
     openedCommentsId: string[];
     handleOpenCloseCommentReply: (commentId: string) => void;
     clearOpenedCommentsId: () => void;
-    commentReplies: {commentId: string; replies: Reply[]}[];
+    commentReplies: { commentId: string; replies: Reply[] }[];
     gettingCommentReplies: string[];
+    getCommentReplies: (commentId: string) => Promise<void>;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -188,4 +189,36 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     })),
     commentReplies: [],
     gettingCommentReplies: [],
+    getCommentReplies: async (commentId: string) => {
+        try {
+            set((state) => ({
+                gettingCommentReplies: [...state.gettingCommentReplies, commentId]
+            }));
+            const res = await api.get("/replies", { params: { commentId: commentId } });
+            set((state) => ({
+                commentReplies: [
+                    ...state.commentReplies.filter(cr => cr.commentId !== commentId), { commentId, replies: res.data }
+                ]
+            }));
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to get replies', {
+                    id: 'get-reply',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingActivityCommentsError: message || 'Failed to get replies' });
+            } else {
+                toast.error('Failed to get replies', {
+                    id: 'get-reply',
+                    description: 'An unexpected error occurred',
+                });
+                set({ gettingActivityCommentsError: 'Failed to get replies' });
+            }
+        } finally {
+            set((state) => ({
+                gettingCommentReplies: state.gettingCommentReplies.filter(id => id !== commentId)
+            }));
+        }
+    }
 }))
