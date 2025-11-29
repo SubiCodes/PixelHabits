@@ -36,6 +36,7 @@ interface CommentStore {
     likeComment: (commentId: string, ownerId: string) => Promise<void>;
     openedCommentsId: string[];
     handleOpenCloseCommentReply: (commentId: string) => void;
+    clearOpenedCommentsId: () => void;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -164,5 +165,8 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         openedCommentsId: state.openedCommentsId.includes(commentId)
             ? state.openedCommentsId.filter(id => id !== commentId)
             : [...state.openedCommentsId, commentId]
+    })),
+    clearOpenedCommentsId: () => set(() => ({
+        openedCommentsId: []
     }))
 }))
