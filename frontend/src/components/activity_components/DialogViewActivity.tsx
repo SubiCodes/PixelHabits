@@ -18,6 +18,7 @@ import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
 import { useUser } from "@stackframe/stack"
 import { useLikeStore } from "@/store/useLikeStore"
 import CommentSheet from "./CommentSheet"
+import { useCommentStore } from "@/store/useCommentStore"
 
 interface DialogCreateHabitProps {
     trigger?: ReactNode
@@ -34,6 +35,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
     const likeActivity = useActivityStore((state) => state.likeActivity);
     const like = useLikeStore((state) => state.like);
+    const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies)
     const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
 
     const handleLike = async (activityId: string) => {
@@ -49,7 +51,8 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
         const result = await like(activityId, user.id);
     };
 
-    const handleComment = () => {
+    const handleComment = async () => {
+        await clearOpenedCommentsAndReplies();
         setIsCommentSheetOpen(true);
     };
 
