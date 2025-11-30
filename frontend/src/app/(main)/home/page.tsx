@@ -10,6 +10,7 @@ import './custom-scrollbar.css';
 import { useViewStore } from '@/store/useViewStore';
 import { useLikeStore } from '@/store/useLikeStore';
 import CommentSheet from '@/components/activity_components/CommentSheet';
+import { useCommentStore } from '@/store/useCommentStore';
 
 export default function Home() {
 
@@ -21,6 +22,7 @@ export default function Home() {
   const fetchFeedError = useActivityFeedStore((state) => state.gettingFeedError);
   const likeActivity = useActivityFeedStore((state) => state.likeActivity);
   const isUserLiked = useActivityFeedStore((state) => state.isUserLiked);
+  const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies);
 
   const view = useViewStore((state) => state.viewContent);
   const like = useLikeStore((state) => state.like);
@@ -39,7 +41,8 @@ export default function Home() {
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
   const [commentSheetActivityId, setCommentSheetActivityId] = useState<string | null>(null);
 
-  const openCommentSheet = (activityId: string) => {
+  const openCommentSheet = async (activityId: string) => {
+    await clearOpenedCommentsAndReplies();
     setCommentSheetActivityId(activityId);
     setIsCommentSheetOpen(true);
   }
