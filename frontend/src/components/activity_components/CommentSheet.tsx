@@ -114,7 +114,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                     ) : (
                         sortedComments.map((comment) => (
                             <React.Suspense fallback={<div>Loading...</div>} key={comment.id}>
-                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id} deletingComment={removingComment} onDelete={() => removeUserComment(comment.id)} />
+                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id} deletingComment={removingComment} onDelete={() => removeUserComment(comment.id)} initiateReply={inititateReplyToComment}/>
                             </React.Suspense>
                         ))
                     )}

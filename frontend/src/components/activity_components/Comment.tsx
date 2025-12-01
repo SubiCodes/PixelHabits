@@ -36,9 +36,10 @@ interface CommentProps {
   showDelete?: boolean;
   onDelete?: (commentId: string) => void;
   deletingComment?: boolean;
+  initiateReply: (comment: Comment) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deletingComment }) => {
+const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deletingComment, initiateReply }) => {
 
   const user = useUser();
   const likeComment = useCommentStore((state) => state.likeComment);
@@ -91,7 +92,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           <div className="flex items-center mt-1 gap-4">
             <span className="text-xs text-[#888]">{timeAgo}</span>
             <span className="text-xs text-[#888]">{comment.comment_likes?.length || 0} likes</span>
-            <button className="bg-none border-none text-[#888] cursor-pointer text-xs">Reply</button>
+            <button className="bg-none border-none text-[#888] cursor-pointer text-xs" onClick={() => initiateReply(comment)}>Reply</button>
           </div>
         </div>
         {/** Like button or Delete dropdown */}
