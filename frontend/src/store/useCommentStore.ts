@@ -57,6 +57,8 @@ interface CommentStore {
     clearOpenedCommentsAndReplies: () => void;
     addReply: (commentId: string, replyText: string, ownerId: string) => void;
     addingReply: boolean;
+    removeReply: (replyId: string) => Promise<void>;
+    removingReply: boolean;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -262,4 +264,40 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
     },
     addingReply: false,
+    removingReply: false,
+    removeReply: async (replyId: string) => {
+        try {
+            set({ removingReply: true });
+            toast.loading('Removing reply...', {
+                id: 'remove-reply',
+                description: 'Please wait while the reply is being removed',
+            });
+            const res = await api.delete(`/replies/${replyId}`);
+            set((state) => ({
+                commentReplies: state.commentReplies.map(cr => ({
+                    ...cr,
+                    replies: cr.replies.filter(reply => reply.id !== replyId)
+                }))
+            }));
+            toast.success('Reply removed successfully', {
+                id: 'remove-reply',
+                description: 'The reply was successfully removed',
+            });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to remove reply', {
+                    id: 'remove-reply',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to remove reply', {
+                    id: 'remove-reply',
+                    description: 'An unexpected error occurred',
+                });
+            }
+        } finally {
+            set({ removingReply: false });
+        }
+    }
 }))
