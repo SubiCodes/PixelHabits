@@ -165,9 +165,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                       </div>
                     </div>
                     {/** Like button or Delete dropdown */}
-                    {!showDelete ? (
-                      <></>
-                    ) : (
+                    {reply.ownerId === user?.id && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
