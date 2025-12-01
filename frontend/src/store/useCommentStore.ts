@@ -55,6 +55,8 @@ interface CommentStore {
     gettingCommentReplies: string[];
     getCommentReplies: (commentId: string) => Promise<void>;
     clearOpenedCommentsAndReplies: () => void;
+    addReply: (commentId: string, replyText: string, ownerId: string) => void;
+    addingReply: boolean;
 }
 
 export const useCommentStore = create<CommentStore>((set, get) => ({
@@ -219,6 +221,45 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
         }
     },
     clearOpenedCommentsAndReplies: () => {
-        set(() => ({openedCommentsId: [], commentReplies: [], gettingCommentReplies: []}));
-    }
+        set(() => ({ openedCommentsId: [], commentReplies: [], gettingCommentReplies: [] }));
+    },
+    addReply: async (commentId: string, replyText: string, ownerId: string) => {
+        try {
+            set((state) => ({ addingReply: true }));
+            const res = await api.post("/replies", {
+                comment_id: commentId,
+                owner_id: ownerId,
+                reply_text: replyText,
+            });
+            set((state) => {
+                const commentReplyObj = state.commentReplies.find(cr => cr.commentId === commentId);
+                if (commentReplyObj) {
+                    return {
+                        commentReplies: state.commentReplies.map(cr =>
+                            cr.commentId === commentId
+                                ? { ...cr, replies: [...cr.replies, res.data] }
+                                : cr
+                        ),
+                        addingReply: false
+                    };
+                }
+                return { addingReply: false };
+            });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to add reply', {
+                    id: 'add-reply',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to add reply', {
+                    id: 'add-reply',
+                    description: 'An unexpected error occurred',
+                });
+            }
+            set({ addingReply: false });
+        }
+    },
+    addingReply: false,
 }))
