@@ -57,12 +57,12 @@ class HateSpeechDetector:
     
     def predict(self, text):
         """
-        Predict if text contains hate speech, offensive language, or neither
+        Predict if text contains harmful content or not
         
         Returns:
         {
             'text': original text,
-            'classification': 'hate_speech' | 'offensive_language' | 'neither',
+            'classification': 'harmful' | 'safe',
             'confidence': probability score
         }
         """
@@ -77,9 +77,12 @@ class HateSpeechDetector:
         probabilities = self.model.predict_proba(vectorized)[0]
         confidence = float(max(probabilities))
         
+        # Combine hate speech (0) and offensive language (1) into 'harmful'
+        classification = 'harmful' if prediction in [0, 1] else 'safe'
+        
         return {
             'text': text,
-            'classification': self.class_names[prediction],
+            'classification': classification,
             'confidence': confidence
         }
     
@@ -90,4 +93,4 @@ class HateSpeechDetector:
         Returns: boolean
         """
         result = self.predict(text)
-        return result['classification'] in ['hate_speech', 'offensive_language']
+        return result['classification'] == 'harmful'
