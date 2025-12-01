@@ -121,7 +121,17 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                 </div>
                 <SheetFooter>
                     {isReplying && (
-                        <div className="mb-2 text-sm text-muted-foreground">Replying to: <span className="font-semibold text-primary">{replyToComment?.owner?.name ?? ""}</span></div>
+                        <div className="mb-2 text-sm text-muted-foreground flex items-center justify-between">
+                            <span>Replying to: <span className="font-semibold text-primary">{replyToComment?.owner?.name ?? ""}</span></span>
+                            <button
+                                type="button"
+                                className="ml-2 px-2 py-0 text-lg text-muted-foreground hover:text-destructive focus:outline-none"
+                                aria-label="Cancel reply"
+                                onClick={() => { setIsReplying(false); setReplyToComment(null); }}
+                            >
+                                &#10005;
+                            </button>
+                        </div>
                     )}
                     <textarea
                         className="w-full min-h-10 max-h-60 resize-y rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
