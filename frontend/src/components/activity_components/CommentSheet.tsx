@@ -58,11 +58,11 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
     };
 
     const [isReplying, setIsReplying] = useState<boolean>(false);
-    const [replyToCommentId, setReplyToCommentId] = useState<string | null>(null);
+    const [replyToComment, setReplyToComment] = useState<cm | null>(null);
 
     const inititateReplyToComment = async (comment: cm) => {
         setIsReplying(true);
-        setReplyToCommentId(comment.id);
+        setReplyToComment(comment);
     };
 
     const handleTextareaKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -120,6 +120,9 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                     )}
                 </div>
                 <SheetFooter>
+                    {isReplying && (
+                        <div className="mb-2 text-sm text-muted-foreground">Replying to: <span className="font-semibold text-primary">{replyToComment?.owner?.name ?? ""}</span></div>
+                    )}
                     <textarea
                         className="w-full min-h-10 max-h-60 resize-y rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                         placeholder="Write a comment..."
