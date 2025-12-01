@@ -39,7 +39,28 @@ export class CommentsService {
         createdAt: new Date(),
       }
     });
-    const enrichedNewComment = await enrichWithUserData(newComment);
+
+    // Call FastAPI to check for offensive content
+    let commentWithModeration = { ...newComment, isOffensive: false };
+    try {
+      const response = await fetch('http://localhost:8000/moderate-comment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: newComment.id,
+          ownerId: newComment.ownerId,
+          commentText: newComment.commentText,
+          activityId: newComment.activityId,
+          createdAt: newComment.createdAt.toISOString()
+        })
+      });
+      const moderationResult = await response.json();
+      commentWithModeration = moderationResult;
+    } catch (error) {
+      console.error('Error calling moderation API:', error);
+    }
+
+    const enrichedNewComment = await enrichWithUserData(commentWithModeration);
     const serializedComment = serializeModelDates([enrichedNewComment])[0];
     return serializedComment;
   }
