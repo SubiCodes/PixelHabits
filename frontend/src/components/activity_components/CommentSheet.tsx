@@ -72,7 +72,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
             e.preventDefault();
             if (commentText.trim()) {
                 if (isReplying && replyToComment) {
-                    await addReply(replyToComment.id, user?.id || "", commentText.trim());
+                    await addReply(replyToComment.id, commentText.trim(), user?.id || "");
                     setIsReplying(false);
                     setReplyToComment(null);
                 } else {

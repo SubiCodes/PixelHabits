@@ -226,11 +226,13 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
     addReply: async (commentId: string, replyText: string, ownerId: string) => {
         try {
             set((state) => ({ addingReply: true }));
+            console.log("Data Passed: ", { commentId, replyText, ownerId });
             const res = await api.post("/replies", {
                 comment_id: commentId,
                 owner_id: ownerId,
                 reply_text: replyText,
             });
+            console.log('API response (add reply):', res.data);
             set((state) => {
                 const commentReplyObj = state.commentReplies.find(cr => cr.commentId === commentId);
                 if (commentReplyObj) {
