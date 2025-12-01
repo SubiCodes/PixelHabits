@@ -55,7 +55,15 @@ export class CommentsService {
         })
       });
       const moderationResult = await response.json();
-      commentWithModeration = moderationResult;
+      // Map the API response back to match database format
+      commentWithModeration = {
+        id: moderationResult.id,
+        ownerId: moderationResult.owner_id || moderationResult.ownerId,
+        commentText: moderationResult.comment_text || moderationResult.commentText,
+        activityId: moderationResult.activity_id || moderationResult.activityId,
+        createdAt: new Date(moderationResult.created_at || moderationResult.createdAt),
+        isOffensive: moderationResult.isOffensive
+      };
     } catch (error) {
       console.error('Error calling moderation API:', error);
     }
