@@ -121,7 +121,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                 </div>
                 <SheetFooter>
                     {isReplying && (
-                        <div className="mb-2 text-sm text-muted-foreground flex items-center justify-between">
+                        <div className="mb-2 px-2 text-sm text-muted-foreground flex items-center justify-between">
                             <span>Replying to: <span className="font-semibold text-primary">{replyToComment?.owner?.name ?? ""}</span></span>
                             <button
                                 type="button"
