@@ -2,8 +2,12 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, ConfigDict
 import pandas as pd
 from src.recommender import get_recommendations
+from src.hate_speech_detector import HateSpeechDetector
 
 app = FastAPI()
+
+# Initialize hate speech detector once at startup
+hate_detector = HateSpeechDetector()
 
 
 # Define the structure of data NestJS will send
@@ -43,6 +47,18 @@ class Comment(BaseModel):
     comment_text: str = Field(alias="commentText")
     activity_id: str = Field(alias="activityId")
     created_at: str = Field(alias="createdAt")
+
+class CommentModerationRequest(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    
+    id: str
+    owner_id: str = Field(alias="ownerId")
+    comment_text: str = Field(alias="commentText")
+    activity_id: str = Field(alias="activityId")
+    created_at: str = Field(alias="createdAt")
+
+class CommentsModerationRequest(BaseModel):
+    comments: list[CommentModerationRequest]
 
 class RecommendationRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
@@ -110,6 +126,56 @@ def get_user_recommendations(request: RecommendationRequest):
             "count": len(recs["recommendations"])
         }
         return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
+
+@app.post("/moderate-comment")
+def moderate_comment(comment: CommentModerationRequest):
+    """
+    Check if a single comment contains harmful content
+    
+    Returns the comment with an additional 'isOffensive' field
+    """
+    try:
+        # Get prediction
+        result = hate_detector.predict(comment.comment_text)
+        
+        # Convert comment to dict and add isOffensive field
+        comment_dict = comment.model_dump()
+        comment_dict['isOffensive'] = result['classification'] == 'harmful'
+        comment_dict['confidence'] = result['confidence']
+        
+        return comment_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
+
+@app.post("/moderate-comments")
+def moderate_comments(request: CommentsModerationRequest):
+    """
+    Check if multiple comments contain harmful content
+    
+    Returns array of comments with 'isOffensive' field added to each
+    """
+    try:
+        moderated_comments = []
+        
+        for comment in request.comments:
+            # Get prediction
+            result = hate_detector.predict(comment.comment_text)
+            
+            # Convert comment to dict and add isOffensive field
+            comment_dict = comment.model_dump()
+            comment_dict['isOffensive'] = result['classification'] == 'harmful'
+            comment_dict['confidence'] = result['confidence']
+            
+            moderated_comments.append(comment_dict)
+        
+        return {
+            "comments": moderated_comments,
+            "count": len(moderated_comments)
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
