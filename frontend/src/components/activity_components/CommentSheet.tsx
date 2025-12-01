@@ -37,6 +37,8 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
 
     const addingComment = useCommentStore((state) => state.addingComment);
     const addComment = useCommentStore((state) => state.addComment);
+    const addReply = useCommentStore((state) => state.addReply);
+    const addingReply = useCommentStore((state) => state.addingReply);  
     const [commentText, setCommentText] = React.useState("");
 
     const removingComment = useCommentStore((state) => state.removingComment);
@@ -69,7 +71,13 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             if (commentText.trim()) {
-                await addNewComment(commentText.trim());
+                if (isReplying && replyToComment) {
+                    await addReply(replyToComment.id, user?.id || "", commentText.trim());
+                    setIsReplying(false);
+                    setReplyToComment(null);
+                } else {
+                    await addNewComment(commentText.trim());
+                }
                 setCommentText("");
             }
         }
@@ -114,7 +122,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                     ) : (
                         sortedComments.map((comment) => (
                             <React.Suspense fallback={<div>Loading...</div>} key={comment.id}>
-                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id} deletingComment={removingComment} onDelete={() => removeUserComment(comment.id)} initiateReply={inititateReplyToComment}/>
+                                <Comment comment={comment} showDelete={comment.owner?.id === user?.id} deletingComment={removingComment} onDelete={() => removeUserComment(comment.id)} initiateReply={inititateReplyToComment} />
                             </React.Suspense>
                         ))
                     )}
@@ -140,6 +148,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
                         value={commentText}
                         onChange={e => setCommentText(e.target.value)}
                         onKeyDown={handleTextareaKeyDown}
+                        disabled={addingComment || addingReply}
                     />
                 </SheetFooter>
             </SheetContent>
