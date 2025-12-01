@@ -6,6 +6,7 @@ import { MoreVertical, Trash2, Heart, HeartIcon } from 'lucide-react';
 import { useUser } from '@stackframe/stack';
 import { Button } from '../ui/button';
 import LoadingPage from '../LoadingPage';
+import { Badge } from "@/components/ui/badge"
 
 function getTimeAgo(dateString: string): string {
   const now = new Date();
@@ -89,7 +90,14 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
           </AvatarFallback>
         </Avatar>
         <div className="flex-1">
-          <span className="font-semibold text-[#222] mr-1">{comment.owner?.name || 'User'}</span>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-semibold text-[#222]">{comment.owner?.name || 'User'}</span>
+            {comment.isOffensive && (
+              <Badge variant="destructive" className="text-xs px-2 py-0">
+                Offensive
+              </Badge>
+            )}
+          </div>
           <span className="text-[#222]">{comment.commentText}</span>
           <div className="flex items-center mt-1 gap-4">
             <span className="text-xs text-[#888]">{timeAgo}</span>
