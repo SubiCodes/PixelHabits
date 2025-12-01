@@ -144,7 +144,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             </div>
           ) : (
             <>
-              <div className='flex w-full pl-12'>
+              <div className='flex flex-col w-full pl-12'>
                 {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
                   <div className="flex items-start bg-white" key={reply.id}>
                     <Avatar className="w-6 h-6 mr-3">
