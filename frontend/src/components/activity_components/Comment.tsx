@@ -78,7 +78,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
 
   return (
     <div className='flex flex-col gap-2 items-start py-3 px-2 pr-4 border-b border-[#eee]'>
-      <div className="flex items-start bg-white">
+      <div className="flex items-start bg-white w-full">
         <Avatar className="w-8 h-8 mr-3">
           <AvatarImage
             src={comment.owner?.profileImageUrl || '/default-profile.png'}
@@ -94,7 +94,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             <span className="font-semibold text-[#222]">{comment.owner?.name || 'User'}</span>
             {comment.isOffensive && (
               <Badge variant="destructive" className="text-xs px-2 py-0">
-                Offensive
+                Labeled Offensive
               </Badge>
             )}
           </div>
