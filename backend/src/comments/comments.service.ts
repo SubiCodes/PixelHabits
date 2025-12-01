@@ -122,7 +122,6 @@ export class CommentsService {
         );
         const dataEnrichWithUserData = await enrichWithUserData(commentsWithLikesAndReplyCount);
         const serialized = serializeModelDates(dataEnrichWithUserData);
-        console.log('Serialized Comments:', serialized);
         return serialized;
     }
   }
