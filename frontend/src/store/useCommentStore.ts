@@ -69,6 +69,7 @@ export const useCommentStore = create<CommentStore>((set, get) => ({
             set({ gettingActivityComments: true, gettingActivityCommentsError: null });
             const res = await api.get("/comments", { params: { activityId: activityId } });
             set({ activityComments: res.data });
+            console.log('API response (success):', res.data);
         } catch (err) {
             console.log('API response (error):', err);
             if (axios.isAxiosError(err) && err.response?.data) {
