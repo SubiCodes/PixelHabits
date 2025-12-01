@@ -144,7 +144,6 @@ def moderate_comment(comment: CommentModerationRequest):
         # Convert comment to dict and add isOffensive field
         comment_dict = comment.model_dump()
         comment_dict['isOffensive'] = result['classification'] == 'harmful'
-        comment_dict['confidence'] = result['confidence']
         
         return comment_dict
     except Exception as e:
@@ -168,7 +167,6 @@ def moderate_comments(request: CommentsModerationRequest):
             # Convert comment to dict and add isOffensive field
             comment_dict = comment.model_dump()
             comment_dict['isOffensive'] = result['classification'] == 'harmful'
-            comment_dict['confidence'] = result['confidence']
             
             moderated_comments.append(comment_dict)
         
