@@ -60,9 +60,31 @@ export class CommentsService {
         const comments = await this.databaseService.comments.findMany({
           where: { activityId: activityId }
         });
+
+        // Call FastAPI to check for offensive content
+        let moderatedComments = comments;
+        try {
+          const response = await fetch('http://localhost:8000/moderate-comments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              comments: comments.map(comment => ({
+                id: comment.id,
+                ownerId: comment.ownerId,
+                commentText: comment.commentText,
+                activityId: comment.activityId,
+                createdAt: comment.createdAt.toISOString()
+              }))
+            })
+          });
+          const moderationResult = await response.json();
+          moderatedComments = moderationResult.comments;
+        } catch (error) {
+          console.error('Error calling moderation API:', error);
+        }
         // For each comment, get the ownerIds of likes and count of replies
         const commentsWithLikesAndReplyCount = await Promise.all(
-          comments.map(async (comment) => {
+          moderatedComments.map(async (comment) => {
             const likes = await this.databaseService.commentLikes.findMany({
               where: { commentId: comment.id },
               select: { ownerId: true }
@@ -79,6 +101,7 @@ export class CommentsService {
         );
         const dataEnrichWithUserData = await enrichWithUserData(commentsWithLikesAndReplyCount);
         const serialized = serializeModelDates(dataEnrichWithUserData);
+        console.log('Serialized Comments:', serialized);
         return serialized;
     }
   }
