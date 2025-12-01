@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/sheet"
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useCommentStore } from '@/store/useCommentStore';
-import { stat } from 'fs';
+import type { Comment as cm } from '@/store/useCommentStore';
 import Comment from './Comment';
+import { stat } from 'fs';
 import { useUser } from '@stackframe/stack';
 
 
@@ -56,9 +57,13 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
         await removeComment(commentId);
     };
 
-    useEffect(() => {
-        fetchComments();
-    }, [activityId]);
+    const [isReplying, setIsReplying] = useState<boolean>(false);
+    const [replyToCommentId, setReplyToCommentId] = useState<string | null>(null);
+
+    const inititateReplyToComment = async (comment: cm) => {
+        setIsReplying(true);
+        setReplyToCommentId(comment.id);
+    };
 
     const handleTextareaKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -69,6 +74,10 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
             }
         }
     };
+
+    useEffect(() => {
+        fetchComments();
+    }, [activityId]);
 
     // Sort comments so current user's comments appear first
     const sortedComments = React.useMemo(() => {
@@ -84,7 +93,7 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
 
     return (
         <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent  side={isDesktop ? "right" : "bottom"} className={`${isDesktop ? '' : 'h-2/3'}`}>
+            <SheetContent side={isDesktop ? "right" : "bottom"} className={`${isDesktop ? '' : 'h-2/3'}`}>
                 <SheetHeader>
                     <SheetTitle>Comments</SheetTitle>
                 </SheetHeader>
