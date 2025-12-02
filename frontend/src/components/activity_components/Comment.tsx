@@ -108,7 +108,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
         {/** Like button or Delete dropdown */}
         {!showDelete ? (
           <button
-            className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg"
+            className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg self-center"
             aria-label="Like"
             onClick={likeUnlikeThisComment}
           >
@@ -121,7 +121,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={deletingComment}>
+              <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1 self-center" aria-label="Options" disabled={deletingComment}>
                 <MoreVertical size={14} />
               </button>
             </DropdownMenuTrigger>
@@ -184,7 +184,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                     {reply.ownerId === user?.id && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1" aria-label="Options" disabled={removingReply}>
+                          <button className="bg-none border-none text-[#222] ml-2 cursor-pointer text-lg p-1 self-center" aria-label="Options" disabled={removingReply}>
                             <MoreVertical size={12} />
                           </button>
                         </DropdownMenuTrigger>
