@@ -7,13 +7,16 @@ interface ProfileHeaderProps {
 }
 
 function ProfileHeader({ user }: ProfileHeaderProps) {
+  // Extract profile_image_url from rawJson with type assertion
+  const profileImageUrl = (user.rawJson as Record<string, unknown>)?.profile_image_url || '/default-profile.png';
+
   return (
     <div className="flex flex-col items-center px-4 py-6 border-b">
       <div className="flex items-center gap-6 w-full max-w-4xl">
         {/* Profile Picture */}
         <Avatar className="w-32 h-32">
           <AvatarImage
-            src={'/default-profile.png'}
+            src={profileImageUrl as string}
             alt={user.name || 'User'}
             className="object-cover"
           />
