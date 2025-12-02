@@ -26,7 +26,7 @@ import {
 import { Form } from "../ui/form"
 
 const formSchema = z.object({
-    name_7014623539: z.string()
+    bio: z.string()
 });
 
 export default function MyForm() {
@@ -59,10 +59,10 @@ export default function MyForm() {
                         id="name_7014623539"
                         placeholder="Placeholder"
 
-                        {...form.register("name_7014623539")}
+                        {...form.register("bio")}
                     />
                     <FieldDescription>You can @mention other users and organizations.</FieldDescription>
-                    <FieldError>{form.formState.errors.name_7014623539?.message}</FieldError>
+                    <FieldError>{form.formState.errors.bio?.message}</FieldError>
                 </Field>
                 <Button type="submit">Submit</Button>
             </form>
