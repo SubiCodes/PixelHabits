@@ -14,7 +14,7 @@ function ProfileHeader({ user }: ProfileHeaderProps) {
     <div className="flex flex-col items-center px-4 py-6 border-b">
       <div className="flex items-center gap-6 w-full max-w-4xl">
         {/* Profile Picture */}
-        <Avatar className="w-32 h-32">
+        <Avatar className="w-32 h-32 border">
           <AvatarImage
             src={profileImageUrl as string}
             alt={user.name || 'User'}
