@@ -8,9 +8,10 @@ import { User } from '@/store/useProfileStore';
 interface ProfileHeaderProps {
   user: User;
   isOwner?: boolean;
+  onEditBio?: () => void;
 }
 
-function ProfileHeader({ user, isOwner = false }: ProfileHeaderProps) {
+function ProfileHeader({ user, isOwner = false, onEditBio }: ProfileHeaderProps) {
   // Extract profile_image_url from rawJson with type assertion
   const profileImageUrl = (user.rawJson as Record<string, unknown>)?.profile_image_url || '/default-profile.png';
 
@@ -60,7 +61,7 @@ function ProfileHeader({ user, isOwner = false }: ProfileHeaderProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer" onClick={onEditBio}>
                   <Edit className="h-4 w-4" />
                   <span>Edit Bio</span>
                 </DropdownMenuItem>
