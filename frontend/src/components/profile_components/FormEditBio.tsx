@@ -29,7 +29,11 @@ const formSchema = z.object({
     bio: z.string()
 });
 
-export default function MyForm() {
+interface FormEditBioProps {
+    bio: string | null;
+}
+
+export default function MyForm({ bio }: FormEditBioProps) {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -54,11 +58,11 @@ export default function MyForm() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
                 <Field>
-                    <FieldLabel htmlFor="name_7014623539">Bio</FieldLabel>
+                    <FieldLabel htmlFor="bio">Bio</FieldLabel>
                     <Textarea
-                        id="name_7014623539"
-                        placeholder="Placeholder"
-
+                        id="bio"
+                        placeholder="Tell us about yourself..."
+                        defaultValue={bio || ''}
                         {...form.register("bio")}
                     />
                     <FieldDescription>You can @mention other users and organizations.</FieldDescription>
