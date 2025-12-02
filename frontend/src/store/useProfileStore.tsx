@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
@@ -27,6 +28,25 @@ export const useProfileStore = create<ProfileStore>((set) => ({
     userProfile: null,
     gettingUserProfile: false,
     getUserProfile: async (userId: string) => {
-
+        try {
+            set({ gettingUserProfile: true });
+            const response = await api.get(`/profile/${userId}`);
+            set({ userProfile: response.data });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Unable to get profile.', {
+                    id: 'getUserProfile',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Unable to get profile.', {
+                    id: 'getUserProfile',
+                    description: 'Unable to get profile.',
+                });
+            }
+        } finally {
+            set({ gettingUserProfile: false });
+        }
     },
 }));
