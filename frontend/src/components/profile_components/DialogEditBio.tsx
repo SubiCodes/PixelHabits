@@ -13,9 +13,11 @@ interface DialogEditBioProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   bio?: string | null;
+  userId: string;
+  onEditProfileSuccess: () => void;
 }
 
-export function DialogEditBio({ open, onOpenChange, bio }: DialogEditBioProps) {
+export function DialogEditBio({ open, onOpenChange, bio, userId, onEditProfileSuccess }: DialogEditBioProps) {
   const handleClose = () => {
     onOpenChange(false);
   }
@@ -29,7 +31,7 @@ export function DialogEditBio({ open, onOpenChange, bio }: DialogEditBioProps) {
             Update your bio below and click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormEditBio bio={bio || null}/>
+        <FormEditBio bio={bio || null} userId={userId} onEditProfileSuccess={onEditProfileSuccess} />
       </DialogContent>
     </Dialog>
   )
