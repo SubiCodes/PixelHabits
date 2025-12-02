@@ -24,7 +24,7 @@ export function DialogEditBio({ open, onOpenChange }: DialogEditBioProps) {
         <DialogHeader>
           <DialogTitle>Edit Bio</DialogTitle>
           <DialogDescription>
-            Update your profile bio below and click save when you&apos;re done.
+            Update your bio below and click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         {/* <FormEditBio onSuccess={handleClose} /> */}
