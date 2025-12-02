@@ -154,7 +154,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
             </div>
           ) : (
             <>
-              <div className='flex flex-col w-full pl-12'>
+              <div className='flex flex-col gap-2 w-full pl-12'>
                 {commentReplies.find(cr => cr.commentId === comment.id)?.replies.map((reply) => (
                   <div className="flex items-start bg-white" key={reply.id}>
                     <Avatar className="w-6 h-6 mr-3">
@@ -171,7 +171,7 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-semibold text-[#222] text-sm">{reply.owner?.name || 'User'}</span>
                         {reply.isOffensive && (
-                          <Badge variant="destructive" className="text-xs px-2 py-0">
+                          <Badge variant="destructive" className="text-xs px-1 py-0">
                             Labeled Offensive
                           </Badge>
                         )}
