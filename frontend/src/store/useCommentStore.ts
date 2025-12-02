@@ -36,6 +36,7 @@ export interface Reply {
         profileImageUrl: string;
     };
     replyText: string;
+    isOffensive: boolean;
     createdAt: string | Date;
     updatedAt: string | Date;
 }
