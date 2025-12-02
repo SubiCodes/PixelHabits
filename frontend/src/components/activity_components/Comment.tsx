@@ -168,7 +168,14 @@ const Comment: React.FC<CommentProps> = ({ comment, showDelete, onDelete, deleti
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">
-                      <span className="font-semibold text-[#222] mr-1 text-sm">{reply.owner?.name || 'User'}</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-[#222] text-sm">{reply.owner?.name || 'User'}</span>
+                        {reply.isOffensive && (
+                          <Badge variant="destructive" className="text-xs px-2 py-0">
+                            Labeled Offensive
+                          </Badge>
+                        )}
+                      </div>
                       <span className="text-[#222] text-sm">{reply.replyText}</span>
                       <div className="flex items-center mt-1 gap-4">
                         <span className="text-xs text-[#888]">{timeAgo}</span>
