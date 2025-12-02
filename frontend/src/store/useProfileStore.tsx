@@ -26,6 +26,8 @@ interface ProfileStore {
     gettingUserProfile: boolean;
     gettingUserProfileError: string | null;
     getUserProfile: (userId: string) => Promise<void>;
+    updatingUserProfile: boolean;
+    updateUserProfile: (userId: string, data: { bio: string | null, isNew: boolean | null },) => Promise<void>;
 };
 
 export const useProfileStore = create<ProfileStore>((set) => ({
@@ -56,5 +58,38 @@ export const useProfileStore = create<ProfileStore>((set) => ({
             set({ gettingUserProfile: false });
         }
     },
-
+    updatingUserProfile: false,
+    updateUserProfile: async (userId: string, data: { bio: string | null, isNew: boolean | null }) => {
+        try {
+            set({ updatingUserProfile: true });
+            const response = await api.patch(`/profile/${userId}`, data);
+            set((state) => ({
+                userProfile: state.userProfile ? {
+                    ...state.userProfile,
+                    ...(data.bio !== null && { bio: data.bio }),
+                    ...(data.isNew !== null && { isNew: data.isNew })
+                } : null
+            }));
+            toast.success('Profile updated successfully.', {
+                id: 'updateUserProfile',
+            });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Unable to update profile.', {
+                    id: 'updateUserProfile',
+                    description: suggestion || 'Please try again later',
+                });
+                set({ gettingUserProfileError: message || 'Unable to update profile.' });
+            } else {
+                toast.error('Unable to update profile.', {
+                    id: 'updateUserProfile',
+                    description: 'Unable to update profile.',
+                });
+                set({ gettingUserProfileError: 'Unable to update profile.' });
+            }
+        } finally {
+            set({ updatingUserProfile: false });
+        }
+    }
 }));
