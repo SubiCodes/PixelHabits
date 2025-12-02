@@ -35,7 +35,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col w-full">
-      <ProfileHeader user={userProfile} />
+      <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} />
     </div>
   );
 }
