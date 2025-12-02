@@ -56,7 +56,7 @@ export default function MyForm({ bio }: FormEditBioProps) {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <Field>
                     <FieldLabel htmlFor="bio">Bio</FieldLabel>
                     <Textarea
@@ -65,10 +65,12 @@ export default function MyForm({ bio }: FormEditBioProps) {
                         defaultValue={bio || ''}
                         {...form.register("bio")}
                     />
-                    <FieldDescription>You can @mention other users and organizations.</FieldDescription>
+                    <FieldDescription>Let users know more about you.</FieldDescription>
                     <FieldError>{form.formState.errors.bio?.message}</FieldError>
                 </Field>
-                <Button type="submit">Submit</Button>
+                <div className="w-full flex justify-end">
+                    <Button type="submit" className="cursor-pointer">Save</Button>
+                </div>
             </form>
         </Form>
     )
