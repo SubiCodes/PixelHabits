@@ -100,12 +100,12 @@ function CommentSheet({ open, onOpenChange, activityId }: CommentSheetProps) {
     }, [comments, user]);
 
     return (
-        <Sheet open={open} onOpenChange={onOpenChange}>
-            <SheetContent side={isDesktop ? "right" : "bottom"} className={`${isDesktop ? '' : 'h-2/3'}`}>
+        <Sheet open={open} onOpenChange={onOpenChange} >
+            <SheetContent side={isDesktop ? "right" : "bottom"} className={`${isDesktop ? '' : 'h-2/3'} max-w-full`}>
                 <SheetHeader>
                     <SheetTitle>Comments</SheetTitle>
                 </SheetHeader>
-                <div className='flex flex-1 flex-col gap-2'>
+                <div className='flex flex-1 flex-col gap-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-400'>
                     {gettingComments ? (
                         <div className="w-full min-h-full flex justify-center items-center py-8 text-muted-foreground">
                             Loading comments...
