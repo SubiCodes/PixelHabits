@@ -21,12 +21,14 @@ export interface User {
 interface ProfileStore {
     userProfile: User | null;
     gettingUserProfile: boolean;
+    gettingUserProfileError: string | null;
     getUserProfile: (userId: string) => Promise<void>;
 };
 
 export const useProfileStore = create<ProfileStore>((set) => ({
     userProfile: null,
     gettingUserProfile: false,
+    gettingUserProfileError: null,
     getUserProfile: async (userId: string) => {
         try {
             set({ gettingUserProfile: true });
@@ -39,14 +41,17 @@ export const useProfileStore = create<ProfileStore>((set) => ({
                     id: 'getUserProfile',
                     description: suggestion || 'Please try again later',
                 });
+                set({ gettingUserProfileError: message || 'Unable to get profile.' });
             } else {
                 toast.error('Unable to get profile.', {
                     id: 'getUserProfile',
                     description: 'Unable to get profile.',
                 });
+                set({ gettingUserProfileError: 'Unable to get profile.' });
             }
         } finally {
             set({ gettingUserProfile: false });
         }
     },
+
 }));
