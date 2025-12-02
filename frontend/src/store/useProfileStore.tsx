@@ -19,9 +19,14 @@ export interface User {
 
 interface ProfileStore {
     userProfile: User | null;
-
+    gettingUserProfile: boolean;
+    getUserProfile: (userId: string) => Promise<void>;
 };
 
 export const useProfileStore = create<ProfileStore>((set) => ({
     userProfile: null,
+    gettingUserProfile: false,
+    getUserProfile: async (userId: string) => {
+
+    },
 }));
