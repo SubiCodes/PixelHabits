@@ -27,7 +27,7 @@ import { Form } from "../ui/form"
 import { useProfileStore } from "@/store/useProfileStore"
 
 const formSchema = z.object({
-    bio: z.string()
+    bio: z.string().max(300, "Bio must be 300 characters or less")
 });
 
 interface FormEditBioProps {
@@ -60,9 +60,12 @@ export default function MyForm({ bio, onEditProfileSuccess, userId }: FormEditBi
                         id="bio"
                         placeholder="Tell us about yourself..."
                         defaultValue={bio || ''}
+                        maxLength={300}
                         {...form.register("bio")}
                     />
-                    <FieldDescription>Let users know more about you.</FieldDescription>
+                    <FieldDescription>
+                        Let users know more about you. ({form.watch("bio")?.length || 0}/300)
+                    </FieldDescription>
                     <FieldError>{form.formState.errors.bio?.message}</FieldError>
                 </Field>
                 <div className="w-full flex justify-end">
