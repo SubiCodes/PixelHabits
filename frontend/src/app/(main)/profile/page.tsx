@@ -11,6 +11,11 @@ function Profile() {
   const gettingUserProfile = useProfileStore((state) => state.gettingUserProfile);
   const getUserProfile = useProfileStore((state) => state.getUserProfile);
 
+  const [isEditBioOpen, setIsEditBioOpen] = React.useState(false);
+  const handleEditBioOpenChange = (open: boolean) => {
+    setIsEditBioOpen(open);
+  }
+
   useEffect(() => {
     if (stackUser?.id) {
       getUserProfile(stackUser.id);
@@ -35,7 +40,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col w-full">
-      <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} />
+      <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)}/>
     </div>
   );
 }
