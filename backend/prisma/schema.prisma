@@ -1,11 +1,14 @@
 generator client {
   provider   = "prisma-client"
   output       = "../generated/prisma"
+  previewFeatures = ["multiSchema"]
+
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "neon_auth"]
 }
 
 model activities {
@@ -21,6 +24,8 @@ model activities {
   comments   comments[]
   likes      likes[]
   views      views[]
+
+  @@schema("public")
 }
 
 model comments {
@@ -32,6 +37,8 @@ model comments {
   activities   activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
   replies replies[]
   likes commentLikes[]
+
+  @@schema("public")
 }
 
 model commentLikes {
@@ -42,6 +49,7 @@ model commentLikes {
   comments   comments  @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, commentId])
+  @@schema("public")
 }
 
 model replies {
@@ -52,6 +60,8 @@ model replies {
   createdAt  DateTime @default(now()) @db.Timestamptz(6) @map("created_at")
   updatedAt DateTime @default(now()) @db.Timestamptz(6) @map("updated_at")
   comments   comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@schema("public")
 }
 
 model habits {
@@ -63,6 +73,8 @@ model habits {
   createdAt   DateTime    @default(now()) @db.Timestamptz(6) @map("created_at")
   updatedAt   DateTime    @db.Timestamptz(6) @map("updated_at")
   activities  activities[]
+
+  @@schema("public")
 }
 
 model likes {
@@ -73,6 +85,7 @@ model likes {
   activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
+  @@schema("public")
 }
 
 model views {
@@ -83,6 +96,7 @@ model views {
   activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
+  @@schema("public")
 }
 
 model users_sync {
