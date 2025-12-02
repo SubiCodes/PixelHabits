@@ -42,7 +42,7 @@ function Profile() {
   return (
     <div className="flex flex-col w-full">
       <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)}/>
-      <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} />
+      <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio}/>
     </div>
   );
 }
