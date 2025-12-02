@@ -18,9 +18,10 @@ export interface User {
 }
 
 interface ProfileStore {
+    userProfile: User | null;
 
 };
 
 export const useProfileStore = create<ProfileStore>((set) => ({
-    
+    userProfile: null,
 }));
