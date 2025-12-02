@@ -7,13 +7,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import FormEditBio from "./FormEditBio";
 
 interface DialogEditBioProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  bio?: string | null;
 }
 
-export function DialogEditBio({ open, onOpenChange }: DialogEditBioProps) {
+export function DialogEditBio({ open, onOpenChange, bio }: DialogEditBioProps) {
   const handleClose = () => {
     onOpenChange(false);
   }
@@ -27,7 +29,7 @@ export function DialogEditBio({ open, onOpenChange }: DialogEditBioProps) {
             Update your bio below and click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        {/* <FormEditBio onSuccess={handleClose} /> */}
+        <FormEditBio bio={bio || null}/>
       </DialogContent>
     </Dialog>
   )
