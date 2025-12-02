@@ -19,8 +19,28 @@ export class RepliesService {
       },
     });
 
-    const replyWithUserData = await enrichWithUserData(reply);
-    return await serializeModelDates([replyWithUserData])[0];
+    try {
+      const response = await fetch(`${process.env.MICROSERVICE_ML_URL || 'http://localhost:8000'}/moderate-comment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: reply.id,
+          ownerId: reply.ownerId,
+          commentText: reply.replyText,
+          activityId: reply.commentId,
+          createdAt: reply.createdAt.toISOString()
+        })
+      });
+      const moderationResult = await response.json();
+      // Map the API response back to match database format
+      const moderatedReply = { ...reply, isOffensive: moderationResult.isOffensive };
+      const replyWithUserData = await enrichWithUserData(moderatedReply);
+      return serializeModelDates([replyWithUserData])[0];
+    } catch (error) {
+      console.error('Error moderating reply:', error);
+      const replyWithUserData = await enrichWithUserData(reply);
+      return serializeModelDates([replyWithUserData])[0];
+    }
   }
 
   async findAll(commentId: string) {
@@ -49,7 +69,7 @@ export class RepliesService {
         replyText: reply.comment_text || reply.commentText,
         commentId: reply.activity_id || reply.activityId,
         createdAt: new Date(reply.created_at || reply.createdAt),
-        updatedAt: replies[index].updatedAt,   
+        updatedAt: replies[index].updatedAt,
         isOffensive: reply.isOffensive
       }));
     } catch (error) {
