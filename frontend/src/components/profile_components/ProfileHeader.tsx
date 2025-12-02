@@ -4,6 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from '@/components/ui/button';
 import { MoreVertical, Edit, User as UserIcon } from 'lucide-react';
 import { useProfileStore, User } from '@/store/useProfileStore';
+import { useRouter } from 'next/navigation';
 
 interface ProfileHeaderProps {
   user: User;
@@ -14,6 +15,7 @@ interface ProfileHeaderProps {
 function ProfileHeader({ user, isOwner = false, onEditBio }: ProfileHeaderProps) {
   // Extract profile_image_url from rawJson with type assertion
   const profileImageUrl = (user.rawJson as Record<string, unknown>)?.profile_image_url || '/default-profile.png';
+  const router = useRouter();
 
   return (
     <div className="flex justify-center px-4 sm:px-6 py-6 sm:py-8 border-b w-full">
@@ -65,7 +67,7 @@ function ProfileHeader({ user, isOwner = false, onEditBio }: ProfileHeaderProps)
                   <Edit className="h-4 w-4" />
                   <span>Edit Bio</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer" onClick={() => router.push('/settings')}>
                   <UserIcon className="h-4 w-4" />
                   <span>Edit Profile</span>
                 </DropdownMenuItem>
