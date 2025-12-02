@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useUser } from '@stackframe/stack';
 import { useProfileStore } from '@/store/useProfileStore';
 import ProfileHeader from '@/components/profile_components/ProfileHeader';
+import { DialogEditBio } from '@/components/profile_components/DialogEditBio';
 
 function Profile() {
   const stackUser = useUser();
@@ -41,6 +42,7 @@ function Profile() {
   return (
     <div className="flex flex-col w-full">
       <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)}/>
+      <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} />
     </div>
   );
 }
