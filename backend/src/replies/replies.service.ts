@@ -43,15 +43,14 @@ export class RepliesService {
         })
       });
       const moderationResult = await response.json();
-      // Map the API response back to match database format
-      moderatedReplies = moderationResult.comments.map((comment: any, index: number) => ({
-        id: comment.id,
-        ownerId: comment.owner_id || comment.ownerId,
-        replyText: comment.comment_text || comment.commentText,
-        commentId: comment.activity_id || comment.activityId,
-        createdAt: new Date(comment.created_at || comment.createdAt),
+      moderatedReplies = moderationResult.comments.map((reply: any, index: number) => ({
+        id: reply.id,
+        ownerId: reply.owner_id || reply.ownerId,
+        replyText: reply.comment_text || reply.commentText,
+        commentId: reply.activity_id || reply.activityId,
+        createdAt: new Date(reply.created_at || reply.createdAt),
         updatedAt: replies[index].updatedAt,   
-        isOffensive: comment.isOffensive
+        isOffensive: reply.isOffensive
       }));
     } catch (error) {
       console.error('Error moderating replies:', error);
