@@ -5,6 +5,7 @@ import { useUser } from '@stackframe/stack';
 import { useProfileStore } from '@/store/useProfileStore';
 import ProfileHeader from '@/components/profile_components/ProfileHeader';
 import { DialogEditBio } from '@/components/profile_components/DialogEditBio';
+import LoadingPage from '@/components/LoadingPage';
 
 function Profile() {
   const stackUser = useUser();
@@ -23,11 +24,9 @@ function Profile() {
     }
   }, [stackUser?.id]);
 
-  if (!stackUser || gettingUserProfile) {
+  if (gettingUserProfile) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
+      <LoadingPage />
     );
   }
 
@@ -41,7 +40,7 @@ function Profile() {
 
   return (
     <div className="flex flex-col w-full">
-      <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)}/>
+      <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)} />
       <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
     </div>
   );
