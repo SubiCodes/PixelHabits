@@ -16,6 +16,9 @@ export interface User {
     deletedAt: string | null;
     bio: string | null;
     isNew: boolean;
+    habitsCount: number;
+    activitiesCount: number;
+    longestStreak: number;
 }
 
 interface ProfileStore {
