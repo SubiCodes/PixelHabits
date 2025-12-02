@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreVertical, Edit, User as UserIcon } from 'lucide-react';
-import { User } from '@/store/useProfileStore';
+import { useProfileStore, User } from '@/store/useProfileStore';
 
 interface ProfileHeaderProps {
   user: User;

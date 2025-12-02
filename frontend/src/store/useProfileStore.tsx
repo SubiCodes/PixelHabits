@@ -27,7 +27,7 @@ interface ProfileStore {
     gettingUserProfileError: string | null;
     getUserProfile: (userId: string) => Promise<void>;
     updatingUserProfile: boolean;
-    updateUserProfile: (userId: string, data: { bio: string | null, isNew: boolean | null },) => Promise<void>;
+    updateUserProfile: (userId: string, data: { bio?: string | null, isNew?: boolean | null },) => Promise<void>;
 };
 
 export const useProfileStore = create<ProfileStore>((set) => ({
@@ -59,7 +59,7 @@ export const useProfileStore = create<ProfileStore>((set) => ({
         }
     },
     updatingUserProfile: false,
-    updateUserProfile: async (userId: string, data: { bio: string | null, isNew: boolean | null }) => {
+    updateUserProfile: async (userId: string, data: { bio?: string | null, isNew?: boolean | null }) => {
         try {
             set({ updatingUserProfile: true });
             const response = await api.patch(`/profile/${userId}`, data);

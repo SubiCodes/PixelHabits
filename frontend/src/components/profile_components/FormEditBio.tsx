@@ -24,6 +24,7 @@ import {
     Textarea
 } from "@/components/ui/textarea"
 import { Form } from "../ui/form"
+import { useProfileStore } from "@/store/useProfileStore"
 
 const formSchema = z.object({
     bio: z.string()
@@ -31,27 +32,23 @@ const formSchema = z.object({
 
 interface FormEditBioProps {
     bio: string | null;
+    onEditProfileSuccess: () => void;
+    userId: string;
 }
 
-export default function MyForm({ bio }: FormEditBioProps) {
+export default function MyForm({ bio, onEditProfileSuccess, userId }: FormEditBioProps) {
+
+    const updatingUserProfile = useProfileStore((state) => state.updatingUserProfile);
+    const updateUserProfile = useProfileStore((state) => state.updateUserProfile);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
 
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        try {
-            console.log(values);
-            toast(
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            );
-        } catch (error) {
-            console.error("Form submission error", error);
-            toast.error("Failed to submit the form. Please try again.");
-        }
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await updateUserProfile(userId, { bio: values.bio });
+        onEditProfileSuccess();
     }
 
     return (
@@ -69,7 +66,7 @@ export default function MyForm({ bio }: FormEditBioProps) {
                     <FieldError>{form.formState.errors.bio?.message}</FieldError>
                 </Field>
                 <div className="w-full flex justify-end">
-                    <Button type="submit" className="cursor-pointer">Save</Button>
+                    <Button type="submit" className="cursor-pointer" disabled={updatingUserProfile}>Save</Button>
                 </div>
             </form>
         </Form>
