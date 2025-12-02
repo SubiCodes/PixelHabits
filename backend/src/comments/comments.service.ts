@@ -43,7 +43,7 @@ export class CommentsService {
     // Call FastAPI to check for offensive content
     let commentWithModeration = { ...newComment, isOffensive: false };
     try {
-      const response = await fetch('http://localhost:8000/moderate-comment', {
+      const response = await fetch(`${process.env.MICROSERVICE_ML_URL || 'http://localhost:8000'}/moderate-comment`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -93,7 +93,7 @@ export class CommentsService {
         // Call FastAPI to check for offensive content
         let moderatedComments = comments;
         try {
-          const response = await fetch('http://localhost:8000/moderate-comments', {
+          const response = await fetch(`${process.env.MICROSERVICE_ML_URL || 'http://localhost:8000'}/moderate-comments`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
