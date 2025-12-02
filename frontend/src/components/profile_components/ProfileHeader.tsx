@@ -35,9 +35,9 @@ function ProfileHeader({ user }: ProfileHeaderProps) {
 
           {/* Stats Row */}
           <div className="flex items-center gap-8 text-sm">
-            <span><strong>3</strong> Habits</span>
-            <span><strong>184</strong> Activities</span>
-            <span><strong>198</strong> Longest Streak</span>
+            <span><strong>{user.habitsCount}</strong> Habits</span>
+            <span><strong>{user.activitiesCount}</strong> Activities</span>
+            <span><strong>{user.longestStreak}</strong> Longest Streak</span>
           </div>
 
           {/* Bio Section */}
