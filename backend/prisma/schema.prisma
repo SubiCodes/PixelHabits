@@ -105,7 +105,7 @@ model users_sync {
   name                  String?   @default(dbgenerated("(raw_json ->> 'display_name'::text)"))
   email                 String?   @default(dbgenerated("(raw_json ->> 'primary_email'::text)"))
   createdAt             DateTime  @default(dbgenerated("to_timestamp((trunc((((raw_json ->> 'signed_up_at_millis'::text))::bigint)::double precision) / (1000)::double precision))")) @db.Timestamptz(6) @map("created_at")
-  updatedAt             DateTime  @db.Timestamptz(6) @map("updated_at")
+  updatedAt             DateTime? @db.Timestamptz(6) @map("updated_at")
   deletedAt             DateTime? @db.Timestamptz(6) @map("deleted_at")
   bio                   String?
   isNew                 Boolean   @default(true)
