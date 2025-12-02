@@ -1,11 +1,50 @@
-import React from 'react'
+import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { User } from '@/store/useProfileStore';
 
-function ProfileHeader() {
-  return (
-    <div>
-      
-    </div>
-  )
+interface ProfileHeaderProps {
+  user: User;
 }
 
-export default ProfileHeader
+function ProfileHeader({ user }: ProfileHeaderProps) {
+  return (
+    <div className="flex flex-col items-center px-4 py-6 border-b">
+      <div className="flex items-center gap-6 w-full max-w-4xl">
+        {/* Profile Picture */}
+        <Avatar className="w-32 h-32">
+          <AvatarImage
+            src={'/default-profile.png'}
+            alt={user.name || 'User'}
+            className="object-cover"
+          />
+          <AvatarFallback className="text-3xl">
+            {user.name ? user.name[0] : 'U'}
+          </AvatarFallback>
+        </Avatar>
+
+        {/* Profile Info */}
+        <div className="flex flex-col gap-4 flex-1">
+          {/* Username */}
+          <div className="flex flex-col gap-1">
+            <h1 className="text-xl font-normal">{user.name || 'User'}</h1>
+            <p className="text-sm text-muted-foreground">{user.email || ''}</p>
+          </div>
+
+          {/* Stats Row */}
+          <div className="flex items-center gap-8 text-sm">
+            <span><strong>3</strong> posts</span>
+            <span><strong>184</strong> followers</span>
+            <span><strong>198</strong> following</span>
+          </div>
+
+          {/* Bio Section */}
+          <div className="text-sm">
+            <p>{user.bio || 'No bio yet.'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ProfileHeader;
