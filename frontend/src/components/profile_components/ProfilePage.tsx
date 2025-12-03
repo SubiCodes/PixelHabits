@@ -34,6 +34,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const openActivity = (activity: Activity) => {
         setOpenedActivity(activity);
         setIsActivityOpen(true);
+        console.log("Opened activity:", activity);  
     }
 
     React.useEffect(() => {
@@ -85,6 +86,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 open={isActivityOpen}
                 close={() => setIsActivityOpen(false)}
                 activity={openedActivity}
+                newActivityFormat={true}
             />
         </div >
     )

@@ -15,7 +15,8 @@ export interface Activity {
         name: string;
         email: string;
         profileImageUrl: string;
-        rawJson?: unknown;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rawJson?: any;
         createdAt?: string;
         updatedAt?: string | null;
         deletedAt?: string | null;

@@ -27,9 +27,10 @@ interface DialogCreateHabitProps {
     activity: Activity | null
     editFunc?: (activity: Activity | null) => void
     deleteFunc?: () => void
+    newActivityFormat?: boolean
 }
 
-export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc }: DialogCreateHabitProps) {
+export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false }: DialogCreateHabitProps) {
 
     const user = useUser();
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
@@ -62,23 +63,23 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                 <AlertDialogHeader className="border-b border-black grid grid-cols-3 w-full items-center py-2">
                     <div>
                         {user?.id === activity?.owner?.id && (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button className="bg-transparent">
-                                    <Ellipsis size={16} color="black" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start">
-                                <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof editFunc === 'function') { editFunc(activity); } }}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    <span>Edit Activity</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem variant="destructive" onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(); } }}>
-                                    <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-                                    <span className="text-destructive">Delete Activity</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button className="bg-transparent">
+                                        <Ellipsis size={16} color="black" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start">
+                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); if (typeof editFunc === 'function') { editFunc(activity); } }}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        <span>Edit Activity</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem variant="destructive" onSelect={(e) => { e.preventDefault(); if (typeof deleteFunc === 'function') { deleteFunc(); } }}>
+                                        <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                                        <span className="text-destructive">Delete Activity</span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         )}
                     </div>
                     <AlertDialogTitle className="font-bold text-center">View Activity</AlertDialogTitle>
@@ -100,7 +101,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                         <CarouselMediaWithActionButtons
                             media={activity.mediaUrls}
                             posterName={activity.owner?.name ?? 'Unknown User'}
-                            posterAvatar={activity.owner?.profileImageUrl ?? ''}
+                            posterAvatar={!newActivityFormat ? activity.owner?.profileImageUrl : activity.owner?.rawJson?.profile_image_url}
                             postDate={activity.createdAt.toString()}
                             caption={activity.caption ?? ''}
                             likesNumber={activity.likes.length}
