@@ -50,6 +50,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 onChangeTab={(tab) => setCurrentTab(tab)}
             />
             <div className='flex flex-1 overflow-auto mt-2'>
+                {/* Display for when activities is active */}
                 {currentTab === "Activities" ? (
                     gettingUserActivities ? (
                         <div className='flex flex-1 w-full h-full items-center justify-center p-4'>
