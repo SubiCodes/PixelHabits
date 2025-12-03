@@ -44,6 +44,9 @@ interface ActivityStore {
     gettingActivitiesError: boolean;
     isUserLiked: (activityId: string, userId: string) => boolean;
     likeActivity: (activityId: string, userId: string, addLike: boolean) => void;
+    getUserActivities: (userId: string, requestingUserId: string) => Promise<void>;
+    gettingUserActivities: boolean;
+    gettingUserActivitiesError: boolean;
 }
 
 export const useActivityStore = create<ActivityStore>((set, get) => ({
@@ -218,5 +221,8 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
         const activity = get().habitActivities.find(act => act.id === activityId);
         if (!activity || !Array.isArray(activity.likes)) return false;
         return activity.likes.includes(userId);
-    }
+    },
+    getUserActivities: async (userId: string, requestingUserId: string) => { },
+    gettingUserActivities: false,
+    gettingUserActivitiesError: false,
 }))
