@@ -121,18 +121,42 @@ export class ActivitiesService {
   async findUserActivities(userId: string, requestingUserId: string) {
     const isOwner = userId === requestingUserId;
     if (isOwner) {
-      const activities = await this.databaseService.activities.findMany({
+      const rawActivities = await this.databaseService.activities.findMany({
         where: { ownerId: userId },
         orderBy: { createdAt: 'desc' },
-        include: {owner: true}
-      })
+        include: {
+          owner: true,
+          likes: { select: { ownerId: true } },
+          comments: { select: { id: true } }
+        }
+      });
+      const activities = rawActivities.map(activity => {
+        const { likes, comments, ...rest } = activity;
+        return {
+          ...rest,
+          likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+          comments: Array.isArray(comments) ? comments.length : 0
+        };
+      });
       return activities;
     } else {
-      const activities = await this.databaseService.activities.findMany({
+      const rawActivities = await this.databaseService.activities.findMany({
         where: { ownerId: userId, isPublic: true },
         orderBy: { createdAt: 'desc' },
-        include: {owner: true}
-      })
+        include: {
+          owner: true,
+          likes: { select: { ownerId: true } },
+          comments: { select: { id: true } }
+        }
+      });
+      const activities = rawActivities.map(activity => {
+        const { likes, comments, ...rest } = activity;
+        return {
+          ...rest,
+          likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+          comments: Array.isArray(comments) ? comments.length : 0
+        };
+      });
       return activities;
     }
   }
