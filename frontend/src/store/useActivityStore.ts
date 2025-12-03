@@ -15,6 +15,12 @@ export interface Activity {
         name: string;
         email: string;
         profileImageUrl: string;
+        rawJson?: unknown;
+        createdAt?: string;
+        updatedAt?: string | null;
+        deletedAt?: string | null;
+        bio?: string | null;
+        isNew?: boolean;
     }
     habitId: string;
     caption: string;
@@ -222,7 +228,30 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
         if (!activity || !Array.isArray(activity.likes)) return false;
         return activity.likes.includes(userId);
     },
-    getUserActivities: async (userId: string, requestingUserId: string) => { },
+    getUserActivities: async (userId: string, requestingUserId: string) => {
+        try {
+            set({ gettingUserActivities: true, gettingUserActivitiesError: false });
+            const res = await api.get(`/activities/user/${userId}?requestingUserId=${requestingUserId}`);
+            set({ userActivities: res.data });
+        } catch (err) {
+            console.log('API response (error):', err);
+            set({ gettingUserActivitiesError: true });
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Failed to get activities', {
+                    id: 'get-user-activities',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to get activities', {
+                    id: 'get-user-activities',
+                    description: 'An unexpected error occurred',
+                });
+            };
+        } finally {
+            set({ gettingUserActivities: false });
+        }
+    },
     gettingUserActivities: false,
     gettingUserActivitiesError: false,
 }))
