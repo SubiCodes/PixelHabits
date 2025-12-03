@@ -33,6 +33,15 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 activeTab={currentTab}
                 onChangeTab={(tab) => setCurrentTab(tab)}
             />
+            <div className='flex flex-1 overflow-auto'>
+                {currentTab === "Activities" ? (
+                    <div className='grid grid-cols-3 space-x-2 space-y-2'>
+
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </div>
             <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
         </div>
     )
