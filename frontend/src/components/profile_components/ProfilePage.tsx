@@ -4,9 +4,10 @@ import { DialogEditBio } from './DialogEditBio'
 import { User } from '@/store/useProfileStore';
 import { useUser } from '@stackframe/stack';
 import TabsProfilePages from './TabsProfilePages';
-import { useActivityStore } from '@/store/useActivityStore';
+import { Activity, useActivityStore } from '@/store/useActivityStore';
 import LoadingPage from '../LoadingPage';
 import ErrorPage from '../ErrorPage';
+import CardActivity from '../activity_components/CardActivity';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -22,10 +23,17 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
 
     const [currentTab, setCurrentTab] = React.useState<string>("Activities");
 
+    const [openedActivity, setOpenedActivity] = React.useState<Activity | null>(null);
+    const [isActivityOpen, setIsActivityOpen] = React.useState<boolean>(false);
     const activities = useActivityStore((state) => state.userActivities);
     const getUserActivities = useActivityStore((state) => state.getUserActivities);
     const gettingUserActivities = useActivityStore((state) => state.gettingUserActivities);
     const gettingUserActivitiesError = useActivityStore((state) => state.gettingUserActivitiesError);
+
+    const openActivity = (activity: Activity) => {
+        setOpenedActivity(activity);
+        setIsActivityOpen(true);
+    }
 
     React.useEffect(() => {
         if (currentTab === "Activities") {
@@ -47,7 +55,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                         <LoadingPage />
                     ) : gettingUserActivitiesError ? (
                         <div className='flex flex-1 items-center justify-center p-4'>
-                            <ErrorPage errorMessage={gettingUserActivitiesError} retryAction={() => getUserActivities(userProfile.id, stackUser?.id || '')}/>
+                            <ErrorPage errorMessage={gettingUserActivitiesError} retryAction={() => getUserActivities(userProfile.id, stackUser?.id || '')} />
                         </div>
                     ) : activities.length === 0 ? (
                         <div className='flex flex-1 items-center justify-center p-4'>
@@ -55,7 +63,9 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                         </div>
                     ) : (
                         <div className='grid grid-cols-3 space-x-2 space-y-2'>
-
+                            {activities.map((activity) => (
+                                <CardActivity key={activity.id} activity={activity} openActivity={() => openActivity(activity)} />
+                            ))}
                         </div>
                     )
                 ) : (
