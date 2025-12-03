@@ -15,12 +15,18 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const [isEditBioOpen, setIsEditBioOpen] = React.useState(false);
     const handleEditBioOpenChange = (open: boolean) => {
         setIsEditBioOpen(open);
-    }
+    };
+
+    const [currentTab, setCurrentTab] = React.useState<string>("Activities");
 
     return (
         <div className="flex flex-col w-full">
             <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)} />
-            <TabsProfilePages />
+            <TabsProfilePages
+                pages={["Activities", "Habits", "Likes"]}
+                activeTab={currentTab}
+                onChangeTab={(tab) => setCurrentTab(tab)}
+            />
             <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
         </div>
     )
