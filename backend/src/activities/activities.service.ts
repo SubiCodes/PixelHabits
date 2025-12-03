@@ -120,45 +120,39 @@ export class ActivitiesService {
 
   async findUserActivities(userId: string, requestingUserId: string) {
     const isOwner = userId === requestingUserId;
-    if (isOwner) {
-      const rawActivities = await this.databaseService.activities.findMany({
-        where: { ownerId: userId },
-        orderBy: { createdAt: 'desc' },
-        include: {
-          owner: true,
-          likes: { select: { ownerId: true } },
-          comments: { select: { id: true } }
-        }
-      });
-      const activities = rawActivities.map(activity => {
-        const { likes, comments, ...rest } = activity;
-        return {
-          ...rest,
-          likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
-          comments: Array.isArray(comments) ? comments.length : 0
-        };
-      });
-      return activities;
-    } else {
-      const rawActivities = await this.databaseService.activities.findMany({
-        where: { ownerId: userId, isPublic: true },
-        orderBy: { createdAt: 'desc' },
-        include: {
-          owner: true,
-          likes: { select: { ownerId: true } },
-          comments: { select: { id: true } }
-        }
-      });
-      const activities = rawActivities.map(activity => {
-        const { likes, comments, ...rest } = activity;
-        return {
-          ...rest,
-          likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
-          comments: Array.isArray(comments) ? comments.length : 0
-        };
-      });
-      return activities;
+    const rawActivities = await this.databaseService.activities.findMany({
+      where: {
+        ownerId: userId,
+        ...(isOwner ? {} : { isPublic: true }),
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        likes: { select: { ownerId: true } },
+        comments: { select: { id: true } }
+      }
+    });
+
+    // Map likes to array of ownerIds, comments to count, and remove original likes/comments arrays
+    let activities = rawActivities.map(activity => {
+      const { likes, comments, ...rest } = activity;
+      return {
+        ...rest,
+        likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+        comments: Array.isArray(comments) ? comments.length : 0
+      };
+    });
+
+    // Enrich with user data if available
+    try {
+      if (activities.length > 0 && typeof enrichWithUserData === 'function') {
+        activities = await enrichWithUserData(activities);
+        activities = activities.map(act => serializeModelDates([act])[0]);
+      }
+    } catch {
+      // enrichment util not available, skip
     }
+
+    return activities;
   }
 
   findOne(id: string) {
@@ -216,7 +210,6 @@ export class ActivitiesService {
         mediaUrls,
       },
       include: {
-        owner: true,
         likes: { select: { ownerId: true } },
         comments: { select: { id: true } }
       }
