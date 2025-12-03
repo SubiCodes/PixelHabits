@@ -111,7 +111,6 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 close={() => setIsActivityOpen(false)}
                 activity={openedActivity}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
-                newActivityFormat={true}
                 handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
                 fromUserProfile={true}
             />
