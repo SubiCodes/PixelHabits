@@ -6,6 +6,7 @@ import { useUser } from '@stackframe/stack';
 import TabsProfilePages from './TabsProfilePages';
 import { useActivityStore } from '@/store/useActivityStore';
 import LoadingPage from '../LoadingPage';
+import ErrorPage from '../ErrorPage';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -38,6 +39,10 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 {currentTab === "Activities" ? (
                     gettingUserActivities ? (
                         <LoadingPage />
+                    ) : gettingUserActivitiesError ? (
+                        <div className='flex flex-1 items-center justify-center p-4'>
+                            <ErrorPage errorMessage={gettingUserActivitiesError} retryAction={() => getUserActivities(userProfile.id, stackUser?.id || '')}/>
+                        </div>
                     ) : activities.length === 0 ? (
                         <div className='flex flex-1 items-center justify-center p-4'>
                             <p className='text-muted-foreground'>No activities to show.</p>
