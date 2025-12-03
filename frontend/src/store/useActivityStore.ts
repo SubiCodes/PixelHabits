@@ -51,6 +51,7 @@ interface ActivityStore {
     isUserLiked: (activityId: string, userId: string) => boolean;
     likeActivity: (activityId: string, userId: string, addLike: boolean) => void;
     getUserActivities: (userId: string, requestingUserId: string) => Promise<void>;
+    userActivities: Activity[];
     gettingUserActivities: boolean;
     gettingUserActivitiesError: boolean;
 }
@@ -231,7 +232,9 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
     getUserActivities: async (userId: string, requestingUserId: string) => {
         try {
             set({ gettingUserActivities: true, gettingUserActivitiesError: false });
-            const res = await api.get(`/activities/user/${userId}?requestingUserId=${requestingUserId}`);
+            const res = await api.get(`/activities/user/${userId}`, {
+                params: { requestingUserId }
+            });
             set({ userActivities: res.data });
         } catch (err) {
             console.log('API response (error):', err);
@@ -252,6 +255,7 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
             set({ gettingUserActivities: false });
         }
     },
+    userActivities: [],
     gettingUserActivities: false,
     gettingUserActivitiesError: false,
 }))
