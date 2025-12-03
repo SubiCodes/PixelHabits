@@ -1,13 +1,24 @@
 import React from 'react'
 
-function TabsProfilePages() {
+interface TabsProfilePagesProps {
+    pages: string[];
+    activeTab?: string;
+    onChangeTab: (tab: string) => void;
+}
 
-    const pages = ["Activities", "Habits", "Likes"];
-
+function TabsProfilePages({ pages, activeTab = pages[0], onChangeTab }: TabsProfilePagesProps) {
     return (
         <div className='w-full flex flex-row border-b'>
             {pages.map((page, index) => (
-                <div key={index} className='flex-1 text-center py-3 border-b-2 border-transparent hover:border-gray-300 cursor-pointer transition-colors'>
+                <div 
+                    key={index} 
+                    className={`flex-1 text-center py-3 border-b-2 cursor-pointer transition-colors ${
+                        activeTab === page 
+                            ? 'border-primary text-primary' 
+                            : 'border-transparent hover:border-gray-300'
+                    }`}
+                    onClick={() => onChangeTab(page)}
+                >
                     <span className='text-md font-medium'>{page}</span>
                 </div>
             ))}
