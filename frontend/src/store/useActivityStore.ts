@@ -231,7 +231,7 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
     },
     getUserActivities: async (userId: string, requestingUserId: string) => {
         try {
-            set({ gettingUserActivities: true, gettingUserActivitiesError: null });
+            set({ gettingUserActivities: true, gettingUserActivitiesError: null  });
             const res = await api.get(`/activities/user/${userId}`, {
                 params: { requestingUserId }
             });
