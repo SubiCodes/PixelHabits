@@ -8,6 +8,7 @@ import { Activity, useActivityStore } from '@/store/useActivityStore';
 import LoadingPage from '../LoadingPage';
 import ErrorPage from '../ErrorPage';
 import CardActivity from '../activity_components/CardActivity';
+import { DialogViewActivity } from '../activity_components/DialogViewActivity';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -75,7 +76,16 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                     <></>
                 )}
             </div>
-            <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
+            <DialogEditBio
+                open={isEditBioOpen}
+                onOpenChange={handleEditBioOpenChange}
+                bio={userProfile.bio} userId={userProfile.id}
+                onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
+            <DialogViewActivity
+                open={isActivityOpen}
+                close={() => setIsActivityOpen(false)}
+                activity={openedActivity}
+            />
         </div >
     )
 }
