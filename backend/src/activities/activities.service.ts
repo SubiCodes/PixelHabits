@@ -124,6 +124,14 @@ export class ActivitiesService {
       const activities = await this.databaseService.activities.findMany({
         where: { ownerId: userId },
         orderBy: { createdAt: 'desc' },
+        include: {owner: true}
+      })
+      return activities;
+    } else {
+      const activities = await this.databaseService.activities.findMany({
+        where: { ownerId: userId, isPublic: true },
+        orderBy: { createdAt: 'desc' },
+        include: {owner: true}
       })
       return activities;
     }
