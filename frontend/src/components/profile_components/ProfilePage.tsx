@@ -10,6 +10,7 @@ import ErrorPage from '../ErrorPage';
 import CardActivity from '../activity_components/CardActivity';
 import { DialogViewActivity } from '../activity_components/DialogViewActivity';
 import { useLikeStore } from '@/store/useLikeStore';
+import { DialogEditActivity } from '../activity_components/DialogEditActivity';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -32,9 +33,21 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const gettingUserActivities = useActivityStore((state) => state.gettingUserActivities);
     const gettingUserActivitiesError = useActivityStore((state) => state.gettingUserActivitiesError);
 
+    const [isEditActivityDialogOpen, setIsEditActivityDialogOpen] = React.useState<boolean>(false);
+
+    const openEditActivityDialog = async (activity: Activity) => {
+        setOpenedActivity(activity);
+        setIsEditActivityDialogOpen(true);
+    };
+
     const openActivity = (activity: Activity) => {
         setOpenedActivity(activity);
         setIsActivityOpen(true);
+    };
+
+    const closeViewAndEditDialogs = () => {
+        setIsActivityOpen(false);
+        setIsEditActivityDialogOpen(false);
     };
 
     const likeActivityOnUserActivities = useActivityStore((state) => state.likeActivityOnUserActivities);
@@ -97,10 +110,18 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 open={isActivityOpen}
                 close={() => setIsActivityOpen(false)}
                 activity={openedActivity}
+                editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
                 newActivityFormat={true}
                 handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
                 fromUserProfile={true}
             />
+            <DialogEditActivity
+                open={isEditActivityDialogOpen}
+                onOpenChange={setIsEditActivityDialogOpen}
+                activity={openedActivity ?? null}
+                onEditSuccess={closeViewAndEditDialogs}
+            />
+
         </div >
     )
 }
