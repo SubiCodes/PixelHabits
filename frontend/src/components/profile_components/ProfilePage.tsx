@@ -27,6 +27,12 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const gettingUserActivities = useActivityStore((state) => state.gettingUserActivities);
     const gettingUserActivitiesError = useActivityStore((state) => state.gettingUserActivitiesError);
 
+    React.useEffect(() => {
+        if (currentTab === "Activities") {
+            getUserActivities(userProfile.id, stackUser?.id || '');
+        };
+    }, [currentTab]);
+
     return (
         <div className="flex flex-col w-full">
             <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)} />
