@@ -41,7 +41,7 @@ export type PartialActivity = Partial<Omit<Activity, 'id' | 'ownerId' | 'created
 interface ActivityStore {
     addingActivity: boolean;
     addActivity: (activity: FormData) => Promise<void>;
-    editActivity: (activityId: string, activity: Activity, mediasToDelete: string[]) => Promise<void>;
+    editActivity: (activityId: string, activity: Activity, mediasToDelete: string[], fromProfile?: boolean) => Promise<void>;
     editingActivity: boolean;
     deleteActivity: (activityId: string) => Promise<void>;
     deletingActivity: boolean;
@@ -94,7 +94,7 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
         }
     },
     editingActivity: false,
-    editActivity: async (activityId: string, activity: Activity, mediasToDelete: string[]) => {
+    editActivity: async (activityId: string, activity: Activity, mediasToDelete: string[], fromProfile: boolean = false) => {
         try {
             set({ editingActivity: true });
             toast.loading('Editing activity...', { id: 'edit-activity' });
@@ -120,11 +120,19 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
             }
             const res = await api.patch(`/activities/${activityId}`, form);
 
-            set((state) => ({
-                habitActivities: state.habitActivities.map((activity) =>
-                    activity.id === activityId ? res.data : activity
-                ),
-            }));
+            if (fromProfile) {
+                set((state) => ({
+                    userActivities: state.userActivities.map((activity) =>
+                        activity.id === activityId ? res.data : activity
+                    ),
+                }));
+            } else {
+                set((state) => ({
+                    habitActivities: state.habitActivities.map((activity) =>
+                        activity.id === activityId ? res.data : activity
+                    ),
+                }));
+            }
 
             toast.success('Activity updated successfully', {
                 id: 'edit-activity',
