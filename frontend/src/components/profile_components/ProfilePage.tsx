@@ -5,6 +5,7 @@ import { User } from '@/store/useProfileStore';
 import { useUser } from '@stackframe/stack';
 import TabsProfilePages from './TabsProfilePages';
 import { useActivityStore } from '@/store/useActivityStore';
+import LoadingPage from '../LoadingPage';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -35,15 +36,23 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
             />
             <div className='flex flex-1 overflow-auto'>
                 {currentTab === "Activities" ? (
-                    <div className='grid grid-cols-3 space-x-2 space-y-2'>
+                    gettingUserActivities ? (
+                        <LoadingPage />
+                    ) : activities.length === 0 ? (
+                        <div className='flex flex-1 items-center justify-center p-4'>
+                            <p className='text-muted-foreground'>No activities to show.</p>
+                        </div>
+                    ) : (
+                        <div className='grid grid-cols-3 space-x-2 space-y-2'>
 
-                    </div>
+                        </div>
+                    )
                 ) : (
                     <></>
                 )}
             </div>
             <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
-        </div>
+        </div >
     )
 }
 
