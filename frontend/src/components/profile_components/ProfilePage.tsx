@@ -20,7 +20,10 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
 
     const [currentTab, setCurrentTab] = React.useState<string>("Activities");
 
-    // const activities = useActivityStore((state) => state.userActivities);
+    const activities = useActivityStore((state) => state.userActivities);
+    const getUserActivities = useActivityStore((state) => state.getUserActivities);
+    const gettingUserActivities = useActivityStore((state) => state.gettingUserActivities);
+    const gettingUserActivitiesError = useActivityStore((state) => state.gettingUserActivitiesError);
 
     return (
         <div className="flex flex-col w-full">
