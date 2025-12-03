@@ -23,7 +23,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
         <div className="flex flex-col w-full">
             <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)} />
             <TabsProfilePages
-                pages={["Activities", "Habits", "Likes"]}
+                pages={["Activities", "Habits", `${userProfile.id === stackUser?.id ? "Likes" : ""}`]}
                 activeTab={currentTab}
                 onChangeTab={(tab) => setCurrentTab(tab)}
             />
