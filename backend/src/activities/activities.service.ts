@@ -208,14 +208,39 @@ export class ActivitiesService {
       mediaUrls = mediaUrls.filter(url => !mediaUrlsToDelete.includes(url));
     }
 
-    return this.databaseService.activities.update({
+    const rawActivity = await this.databaseService.activities.update({
       where: { id },
       data: {
         caption: updateActivityDto.caption ?? existingActivity?.caption,
         isPublic: updateActivityDto.isPublic ?? existingActivity?.isPublic,
         mediaUrls,
       },
+      include: {
+        owner: true,
+        likes: { select: { ownerId: true } },
+        comments: { select: { id: true } }
+      }
     });
+
+    // Map likes to array of ownerIds, comments to count
+    const { likes, comments, ...rest } = rawActivity;
+    let activity = {
+      ...rest,
+      likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+      comments: Array.isArray(comments) ? comments.length : 0
+    };
+
+    // Enrich with user data if available
+    try {
+      if (typeof enrichWithUserData === 'function') {
+        const enriched = await enrichWithUserData([activity]);
+        activity = serializeModelDates(enriched)[0];
+      }
+    } catch {
+      // enrichment util not available, skip
+    }
+
+    return activity;
   }
 
   async remove(id: string) {
