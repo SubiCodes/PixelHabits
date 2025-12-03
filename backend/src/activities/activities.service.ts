@@ -118,6 +118,17 @@ export class ActivitiesService {
     return activities;
   }
 
+  async findUserActivities(userId: string, requestingUserId: string) {
+    const isOwner = userId === requestingUserId;
+    if (isOwner) {
+      const activities = await this.databaseService.activities.findMany({
+        where: { ownerId: userId },
+        orderBy: { createdAt: 'desc' },
+      })
+      return activities;
+    }
+  }
+
   findOne(id: string) {
     return this.databaseService.activities.findUnique({
       where: { id },

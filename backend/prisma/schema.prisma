@@ -21,6 +21,7 @@ model activities {
   createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
   updatedAt  DateTime  @db.Timestamptz(6) @map("updated_at")
   habits     habits    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  owner      users_sync @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   comments   comments[]
   likes      likes[]
   views      views[]
@@ -109,6 +110,7 @@ model users_sync {
   deletedAt             DateTime? @db.Timestamptz(6) @map("deleted_at")
   bio                   String?
   isNew                 Boolean   @default(true)
+  activities            activities[]
 
   @@schema("neon_auth")
 }

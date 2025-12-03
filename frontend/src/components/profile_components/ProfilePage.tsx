@@ -4,6 +4,7 @@ import { DialogEditBio } from './DialogEditBio'
 import { User } from '@/store/useProfileStore';
 import { useUser } from '@stackframe/stack';
 import TabsProfilePages from './TabsProfilePages';
+import { useActivityStore } from '@/store/useActivityStore';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -18,6 +19,8 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     };
 
     const [currentTab, setCurrentTab] = React.useState<string>("Activities");
+
+    // const activities = useActivityStore((state) => state.userActivities);
 
     return (
         <div className="flex flex-col w-full">
