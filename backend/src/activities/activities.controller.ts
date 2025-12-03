@@ -29,6 +29,14 @@ export class ActivitiesController {
     return this.activitiesService.findAll(habitId, requestingUserId);
   }
 
+  @Get('user/:userId')
+  async findUserActivities(
+    @Param('userId') userId: string,
+    @Query('requestingUserId') requestingUserId: string
+  ) {
+    return this.activitiesService.findUserActivities(userId, requestingUserId);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const activity = await this.activitiesService.findOne(id);
