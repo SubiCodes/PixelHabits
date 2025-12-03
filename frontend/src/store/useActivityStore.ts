@@ -55,6 +55,8 @@ interface ActivityStore {
     userActivities: Activity[];
     gettingUserActivities: boolean;
     gettingUserActivitiesError: string | null;
+    likeActivityOnUserActivities: (activityId: string, userId: string, addLike: boolean) => void;
+    isUserLikedUserActivity: (activityId: string, userId: string) => boolean;
 }
 
 export const useActivityStore = create<ActivityStore>((set, get) => ({
@@ -260,4 +262,30 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
     userActivities: [],
     gettingUserActivities: false,
     gettingUserActivitiesError: null,
+    likeActivityOnUserActivities: (activityId: string, userId: string, addLike: boolean) => {
+        set((state) => ({
+            userActivities: state.userActivities.map(activity => {
+                if (activity.id !== activityId) return activity;
+                const likes = Array.isArray(activity.likes) ? activity.likes : [];
+                if (addLike) {
+                    // Add userId if not already present
+                    return {
+                        ...activity,
+                        likes: likes.includes(userId) ? likes : [...likes, userId]
+                    };
+                } else {
+                    // Remove userId if present
+                    return {
+                        ...activity,
+                        likes: likes.filter(id => id !== userId)
+                    };
+                }
+            })
+        }));
+    },
+    isUserLikedUserActivity: (activityId: string, userId: string) => {
+        const activity = get().userActivities.find(act => act.id === activityId);
+        if (!activity || !Array.isArray(activity.likes)) return false;
+        return activity.likes.includes(userId);
+    },
 }))

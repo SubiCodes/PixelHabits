@@ -28,12 +28,15 @@ interface DialogCreateHabitProps {
     editFunc?: (activity: Activity | null) => void
     deleteFunc?: () => void
     newActivityFormat?: boolean
+    handleLikeFunction?: () => void
+    fromUserProfile?: boolean
 }
 
-export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false }: DialogCreateHabitProps) {
+export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false, handleLikeFunction, fromUserProfile = false }: DialogCreateHabitProps) {
 
     const user = useUser();
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
+    const isUserLikedUserActivity = useActivityStore((state) => state.isUserLikedUserActivity);
     const likeActivity = useActivityStore((state) => state.likeActivity);
     const like = useLikeStore((state) => state.like);
     const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies)
@@ -106,9 +109,9 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                             caption={activity.caption ?? ''}
                             likesNumber={activity.likes.length}
                             commentsNumber={activity.comments}
-                            onLike={() => handleLike(activity.id)}
+                            onLike={() => handleLikeFunction ? handleLikeFunction() : undefined}
                             onComment={handleComment}
-                            isLiked={user ? isUserLiked(activity.id, user.id) : false}
+                            isLiked={user ? (fromUserProfile ? isUserLikedUserActivity(activity.id, user.id) : isUserLiked(activity.id, user.id)) : false}
                         />
                     ) : (
                         <p>No media available</p>

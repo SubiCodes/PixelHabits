@@ -8,6 +8,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Heart, MessageCircle } from "lucide-react"
+import { useActivityStore } from '@/store/useActivityStore'
+import { useLikeStore } from '@/store/useLikeStore'
 
 type MediaType = string | File;
 
@@ -160,8 +162,8 @@ function CarouselMediaWithActionButtons({
                         variant="ghost"
                         size="icon"
                         className={`h-12 w-12 rounded-full backdrop-blur-sm shadow-lg transition-colors ${isLiked
-                                ? 'bg-red-500/30 hover:bg-red-500/40'
-                                : 'bg-white/20 hover:bg-white/30'
+                            ? 'bg-red-500/30 hover:bg-red-500/40'
+                            : 'bg-white/20 hover:bg-white/30'
                             }`}
                         onClick={onLike}
                     >

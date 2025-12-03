@@ -9,6 +9,7 @@ import LoadingPage from '../LoadingPage';
 import ErrorPage from '../ErrorPage';
 import CardActivity from '../activity_components/CardActivity';
 import { DialogViewActivity } from '../activity_components/DialogViewActivity';
+import { useLikeStore } from '@/store/useLikeStore';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -34,8 +35,18 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const openActivity = (activity: Activity) => {
         setOpenedActivity(activity);
         setIsActivityOpen(true);
-        console.log("Opened activity:", activity);  
-    }
+    };
+
+    const likeActivityOnUserActivities = useActivityStore((state) => state.likeActivityOnUserActivities);
+    const isUserLiked = useActivityStore((state) => state.isUserLikedUserActivity);
+    const like = useLikeStore((state) => state.like);
+
+    const handleLike = async (activityId: string) => {
+        if (!stackUser) return;
+        const isLiked = isUserLiked(activityId, stackUser.id);
+        likeActivityOnUserActivities(activityId, stackUser.id, !isLiked);
+        await like(activityId, stackUser.id);
+    };
 
     React.useEffect(() => {
         if (currentTab === "Activities") {
@@ -87,6 +98,8 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 close={() => setIsActivityOpen(false)}
                 activity={openedActivity}
                 newActivityFormat={true}
+                handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
+                fromUserProfile={true}
             />
         </div >
     )
