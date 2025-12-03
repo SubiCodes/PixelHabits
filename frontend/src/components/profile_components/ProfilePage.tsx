@@ -49,12 +49,14 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 activeTab={currentTab}
                 onChangeTab={(tab) => setCurrentTab(tab)}
             />
-            <div className='flex flex-1 overflow-auto'>
+            <div className='flex flex-1 overflow-auto mt-2'>
                 {currentTab === "Activities" ? (
                     gettingUserActivities ? (
-                        <LoadingPage />
+                        <div className='flex flex-1 w-full h-full items-center justify-center p-4'>
+                            <LoadingPage />
+                        </div>
                     ) : gettingUserActivitiesError ? (
-                        <div className='flex flex-1 items-center justify-center p-4'>
+                        <div className='flex flex-1 w-full h-full items-center justify-center p-4'>
                             <ErrorPage errorMessage={gettingUserActivitiesError} retryAction={() => getUserActivities(userProfile.id, stackUser?.id || '')} />
                         </div>
                     ) : activities.length === 0 ? (
@@ -62,7 +64,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                             <p className='text-muted-foreground'>No activities to show.</p>
                         </div>
                     ) : (
-                        <div className='grid grid-cols-3 space-x-2 space-y-2'>
+                        <div className='w-full grid grid-cols-3 px-2'>
                             {activities.map((activity) => (
                                 <CardActivity key={activity.id} activity={activity} openActivity={() => openActivity(activity)} />
                             ))}
