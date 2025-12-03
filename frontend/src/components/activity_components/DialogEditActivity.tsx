@@ -16,9 +16,10 @@ interface DialogEditActivityProps {
   onOpenChange: (open: boolean) => void;
   activity: Activity | null;
   onEditSuccess?: () => void;
+  fromProfile?: boolean;
 }
 
-export function DialogEditActivity({ open, onOpenChange, activity, onEditSuccess }: DialogEditActivityProps) {
+export function DialogEditActivity({ open, onOpenChange, activity, onEditSuccess, fromProfile = false }: DialogEditActivityProps) {
   const handleClose = () => {
     onOpenChange(false);
     // Call onEditSuccess callback if provided
@@ -34,7 +35,7 @@ export function DialogEditActivity({ open, onOpenChange, activity, onEditSuccess
             Edit the details of your activity below and click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <FormEditActivity onSuccess={handleClose} activity={activity} />
+        <FormEditActivity onSuccess={handleClose} activity={activity} fromProfile={fromProfile} />
       </DialogContent>
     </Dialog>
   );

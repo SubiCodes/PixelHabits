@@ -120,6 +120,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 onOpenChange={setIsEditActivityDialogOpen}
                 activity={openedActivity ?? null}
                 onEditSuccess={closeViewAndEditDialogs}
+                fromProfile={true}
             />
 
         </div >

@@ -56,6 +56,7 @@ type FormValues = z.infer<typeof formSchema>
 interface FormEditActivityProps {
     onSuccess?: () => void
     activity: Activity | null
+    fromProfile?: boolean
 }
 
 // Sortable media item component
@@ -119,7 +120,7 @@ function SortableMediaItem({ id, index, media, onRemove }: { id: string; index: 
     );
 }
 
-export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps) {
+export function FormEditActivity({ onSuccess, activity, fromProfile = false }: FormEditActivityProps) {
 
     // activityStore / user not needed for edit defaults; backend update not implemented yet
 
@@ -197,7 +198,7 @@ export function FormEditActivity({ onSuccess, activity }: FormEditActivityProps)
             isPublic: data.isPublic,
         };
         
-        await editActivity(activity.id, updatedActivity, removedMediaUrls);
+        await editActivity(activity.id, updatedActivity, removedMediaUrls, fromProfile);
         if (onSuccess) onSuccess();
     }
 
