@@ -61,6 +61,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
             <AlertDialogContent className="pb-2 px-2 pt-0 max-w-md h-auto">
                 <AlertDialogHeader className="border-b border-black grid grid-cols-3 w-full items-center py-2">
                     <div>
+                        {user?.id === activity?.owner?.id && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button className="bg-transparent">
@@ -78,6 +79,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
+                        )}
                     </div>
                     <AlertDialogTitle className="font-bold text-center">View Activity</AlertDialogTitle>
                     <div className="flex justify-end">
