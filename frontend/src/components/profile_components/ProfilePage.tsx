@@ -3,6 +3,7 @@ import ProfileHeader from './ProfileHeader'
 import { DialogEditBio } from './DialogEditBio'
 import { User } from '@/store/useProfileStore';
 import { useUser } from '@stackframe/stack';
+import TabsProfilePages from './TabsProfilePages';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -15,10 +16,11 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const handleEditBioOpenChange = (open: boolean) => {
         setIsEditBioOpen(open);
     }
-    
+
     return (
         <div className="flex flex-col w-full">
             <ProfileHeader user={userProfile} isOwner={userProfile.id === stackUser?.id} onEditBio={() => handleEditBioOpenChange(true)} />
+            <TabsProfilePages />
             <DialogEditBio open={isEditBioOpen} onOpenChange={handleEditBioOpenChange} bio={userProfile.bio} userId={userProfile.id} onEditProfileSuccess={() => handleEditBioOpenChange(false)} />
         </div>
     )
