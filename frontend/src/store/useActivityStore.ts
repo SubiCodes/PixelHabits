@@ -53,7 +53,7 @@ interface ActivityStore {
     getUserActivities: (userId: string, requestingUserId: string) => Promise<void>;
     userActivities: Activity[];
     gettingUserActivities: boolean;
-    gettingUserActivitiesError: boolean;
+    gettingUserActivitiesError: string | null;
 }
 
 export const useActivityStore = create<ActivityStore>((set, get) => ({
@@ -231,25 +231,26 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
     },
     getUserActivities: async (userId: string, requestingUserId: string) => {
         try {
-            set({ gettingUserActivities: true, gettingUserActivitiesError: false });
+            set({ gettingUserActivities: true, gettingUserActivitiesError: null });
             const res = await api.get(`/activities/user/${userId}`, {
                 params: { requestingUserId }
             });
             set({ userActivities: res.data });
         } catch (err) {
             console.log('API response (error):', err);
-            set({ gettingUserActivitiesError: true });
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
                 toast.error(message || 'Failed to get activities', {
                     id: 'get-user-activities',
                     description: suggestion || 'Please try again later',
                 });
+                set({ gettingUserActivitiesError: message || 'Failed to get activities' });
             } else {
                 toast.error('Failed to get activities', {
                     id: 'get-user-activities',
                     description: 'An unexpected error occurred',
                 });
+                set({ gettingUserActivitiesError: 'Failed to get activities' });
             };
         } finally {
             set({ gettingUserActivities: false });
@@ -257,5 +258,5 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
     },
     userActivities: [],
     gettingUserActivities: false,
-    gettingUserActivitiesError: false,
+    gettingUserActivitiesError: null,
 }))
