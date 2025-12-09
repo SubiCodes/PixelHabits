@@ -43,7 +43,7 @@ interface ActivityStore {
     addActivity: (activity: FormData) => Promise<void>;
     editActivity: (activityId: string, activity: Activity, mediasToDelete: string[], fromProfile?: boolean) => Promise<void>;
     editingActivity: boolean;
-    deleteActivity: (activityId: string) => Promise<void>;
+    deleteActivity: (activityId: string, fromProfile?: boolean) => Promise<void>;
     deletingActivity: boolean;
     habitActivities: Activity[];
     gettingActivities: boolean;
@@ -159,15 +159,22 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
         }
     },
     deletingActivity: false,
-    deleteActivity: async (activityId: string) => {
+    deleteActivity: async (activityId: string, fromProfile: boolean = false) => {
         try {
             set({ deletingActivity: true });
             toast.loading('Deleting activity...', { id: 'delete-activity' });
             await api.delete(`/activities/${activityId}`);
-            set((state) => ({
-                habitActivities: state.habitActivities.filter((activity) => activity.id !== activityId),
-            }));
-            toast.success('Activity deleted successfully', { id: 'delete-activity' });
+            
+            if (fromProfile) {
+                set((state) => ({
+                    userActivities: state.userActivities.filter((activity) => activity.id !== activityId),
+                }));
+            } else {
+                set((state) => ({
+                    habitActivities: state.habitActivities.filter((activity) => activity.id !== activityId),
+                }));
+            }
+            toast.success('Activity deleted successfully', { id: 'delete-activity', description: 'Activity successfully removed.' });
         } catch (err) {
             console.log('API response (error):', err);
             set({ gettingActivitiesError: true });
