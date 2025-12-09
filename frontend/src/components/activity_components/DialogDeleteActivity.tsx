@@ -18,14 +18,15 @@ interface DialogDeleteActivityProps {
     open: boolean;
     activity: Activity | null
     closeViews: () => void
+    fromProfile?: boolean;
 }
 
 
-export function DialogDeleteActivity({ open, activity, closeViews }: DialogDeleteActivityProps) {
+export function DialogDeleteActivity({ open, activity, closeViews, fromProfile = false }: DialogDeleteActivityProps) {
 
     const activityStore = useActivityStore();
     const deleteActivity = async () => {
-        await activityStore.deleteActivity(activity?.id ?? "");
+        await activityStore.deleteActivity(activity?.id ?? "", fromProfile);
         closeViews();
     }
 
