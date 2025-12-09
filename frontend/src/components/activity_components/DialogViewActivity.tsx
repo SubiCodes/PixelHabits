@@ -104,7 +104,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                         <CarouselMediaWithActionButtons
                             media={activity.mediaUrls}
                             posterName={activity.owner?.name ?? 'Unknown User'}
-                            posterAvatar={!newActivityFormat ? activity.owner?.profileImageUrl : activity.owner?.rawJson?.profile_image_url}
+                            posterAvatar={activity.owner?.profileImageUrl ?? ''}
                             postDate={activity.createdAt.toString()}
                             caption={activity.caption ?? ''}
                             likesNumber={activity.likes.length}
