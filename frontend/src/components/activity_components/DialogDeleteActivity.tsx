@@ -30,7 +30,7 @@ export function DialogDeleteActivity({ open, activity, closeViews }: DialogDelet
     }
 
     return (
-        <AlertDialog open={open}>
+        <AlertDialog open={open} onOpenChange={(isOpen) => !isOpen && closeViews()}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

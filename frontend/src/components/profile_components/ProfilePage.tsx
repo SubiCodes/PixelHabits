@@ -49,13 +49,18 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const closeViewAndEditDialogs = () => {
         setIsActivityOpen(false);
         setIsEditActivityDialogOpen(false);
-    };  
+    };
 
     const [isDeleteActivityDialogOpen, setIsDeleteActivityDialogOpen] = React.useState<boolean>(false);
+    const [activityToDelete, setActivityToDelete] = React.useState<string | null>(null);
+    const openDeleteActivityDialog = (activityId: string) => {
+        setActivityToDelete(activityId);
+        setIsDeleteActivityDialogOpen(true);
+    }
     const closeViewAndDeleteDialogs = () => {
         setIsActivityOpen(false);
         setIsDeleteActivityDialogOpen(false);
-    }
+    };
 
     const likeActivityOnUserActivities = useActivityStore((state) => state.likeActivityOnUserActivities);
     const isUserLiked = useActivityStore((state) => state.isUserLikedUserActivity);
@@ -118,6 +123,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 close={() => setIsActivityOpen(false)}
                 activity={openedActivity}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
+                deleteFunc={() => openDeleteActivityDialog(activityToDelete ?? "")}
                 handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
                 fromUserProfile={true}
             />
