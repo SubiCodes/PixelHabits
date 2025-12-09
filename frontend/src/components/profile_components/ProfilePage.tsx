@@ -13,6 +13,7 @@ import { useLikeStore } from '@/store/useLikeStore';
 import { DialogEditActivity } from '../activity_components/DialogEditActivity';
 import { DialogDeleteActivity } from '../activity_components/DialogDeleteActivity';
 import { useHabitStore } from '@/store/useHabitStore';
+import CardHabits from '../habit_components/CardHabits';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -85,7 +86,11 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     React.useEffect(() => {
         if (currentTab === "Activities") {
             getUserActivities(userProfile.id, stackUser?.id || '');
-        };
+        } else {
+            if (stackUser) {
+                useHabitStore.getState().getHabitsByUserId(userProfile.id, stackUser.id);
+            }
+        }
     }, [currentTab]);
 
     return (
@@ -119,16 +124,14 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                         </div>
                     )
                 ) : (
-                    // <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
-                    //     {habits.map((habit) => (
-                    //         <CardHabits
-                    //             habit={habit}
-                    //             openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
-                    //             key={habit.id}
-                    //         />
-                    //     ))}
-                    // </div>
-                    <></>
+                    <div className="w-full px-2 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+                        {habits.map((habit) => (
+                            <CardHabits
+                                habit={habit}
+                                key={habit.id}
+                            />
+                        ))}
+                    </div>
                 )}
             </div>
             <DialogEditBio
