@@ -129,6 +129,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                             <CardHabits
                                 habit={habit}
                                 key={habit.id}
+                                fromProfile={true}
                             />
                         ))}
                     </div>
