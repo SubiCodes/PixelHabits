@@ -138,6 +138,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 open={isDeleteActivityDialogOpen}
                 activity={openedActivity}
                 closeViews={closeViewAndDeleteDialogs}
+                fromProfile={true}
             />
         </div >
     )
