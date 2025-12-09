@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ProfileHeader from './ProfileHeader'
 import { DialogEditBio } from './DialogEditBio'
 import { User } from '@/store/useProfileStore';
@@ -12,6 +12,7 @@ import { DialogViewActivity } from '../activity_components/DialogViewActivity';
 import { useLikeStore } from '@/store/useLikeStore';
 import { DialogEditActivity } from '../activity_components/DialogEditActivity';
 import { DialogDeleteActivity } from '../activity_components/DialogDeleteActivity';
+import { useHabitStore } from '@/store/useHabitStore';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -27,6 +28,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
 
     const [currentTab, setCurrentTab] = React.useState<string>("Activities");
 
+    //#region Activties Tab State and Functions
     const [openedActivity, setOpenedActivity] = React.useState<Activity | null>(null);
     const [isActivityOpen, setIsActivityOpen] = React.useState<boolean>(false);
     const activities = useActivityStore((state) => state.userActivities);
@@ -72,6 +74,13 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
         likeActivityOnUserActivities(activityId, stackUser.id, !isLiked);
         await like(activityId, stackUser.id);
     };
+    //#endregion
+
+    const habits = useHabitStore((state) => state.habits);
+    const gettingUserHabits = useHabitStore((state) => state.gettingUserHabits);
+
+    const [isCreateActivityDialogOpen, setIsCreateActivityDialogOpen] = React.useState<boolean>(false);
+    const [selectedHabitId, setSelectedHabitId] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         if (currentTab === "Activities") {
@@ -110,6 +119,15 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                         </div>
                     )
                 ) : (
+                    // <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+                    //     {habits.map((habit) => (
+                    //         <CardHabits
+                    //             habit={habit}
+                    //             openCreateActivityDialog={() => openCreateActivityDialog(habit.id)}
+                    //             key={habit.id}
+                    //         />
+                    //     ))}
+                    // </div>
                     <></>
                 )}
             </div>
