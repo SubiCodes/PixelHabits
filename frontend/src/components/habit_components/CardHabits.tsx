@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { toZonedTime , format } from 'date-fns-tz';
+import { toZonedTime, format } from 'date-fns-tz';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 // ...existing code...
 import { MoreVertical, Pencil, PlusIcon, Trash2 } from 'lucide-react'
@@ -21,12 +21,15 @@ import streak50to99 from '../../lottie-jsons/Streak50to99.json';
 import streak100 from '../../lottie-jsons/Streak100.json';
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { fromTheme } from 'tailwind-merge';
+import { fr } from 'date-fns/locale';
 
 
 interface CardHabitsProps {
     habit: Habit;
     openCreateActivityDialog?: () => void;
     boxCount?: number;
+    fromProfile?: boolean;
 }
 
 
@@ -34,10 +37,10 @@ interface CardHabitsProps {
 const PH_TZ = 'Asia/Manila';
 function getPHDateString(date: Date) {
     // Get the date in Asia/Manila timezone, format as yyyy-MM-dd
-    return format(toZonedTime (date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
+    return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
 }
 
-function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabitsProps) {
+function CardHabits({ habit, openCreateActivityDialog, boxCount = 80, fromProfile = false }: CardHabitsProps) {
     const router = useRouter();
 
     // Calculate today's PH date and activity dates set (PH)
@@ -92,39 +95,41 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
                         <span className="text-sm text-muted-foreground">{formattedDate}</span>
                     </div>
 
-                    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-                        <DropdownMenuTrigger asChild>
-                            <span
-                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
-                                tabIndex={0}
-                                role="button"
-                                aria-label="Open menu"
-                                onClick={e => e.stopPropagation()}
-                            >
-                                <MoreVertical className="h-4 w-4" />
-                            </span>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                            <DialogEditHabit
-                                habit={habit}
-                                trigger={
-                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
-                                        <Pencil className="mr-2 h-4 w-4" />
-                                        <span>Edit Habit</span>
-                                    </DropdownMenuItem>
-                                }
-                            />
-                            <DialogDeleteHabit
-                                habit={habit}
-                                trigger={
-                                    <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
-                                        <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-                                        <span className="text-destructive">Delete Habit</span>
-                                    </DropdownMenuItem>
-                                }
-                            />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    {!fromProfile && (
+                        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+                            <DropdownMenuTrigger asChild>
+                                <span
+                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
+                                    tabIndex={0}
+                                    role="button"
+                                    aria-label="Open menu"
+                                    onClick={e => e.stopPropagation()}
+                                >
+                                    <MoreVertical className="h-4 w-4" />
+                                </span>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                                <DialogEditHabit
+                                    habit={habit}
+                                    trigger={
+                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
+                                            <Pencil className="mr-2 h-4 w-4" />
+                                            <span>Edit Habit</span>
+                                        </DropdownMenuItem>
+                                    }
+                                />
+                                <DialogDeleteHabit
+                                    habit={habit}
+                                    trigger={
+                                        <DropdownMenuItem onSelect={(e) => { e.preventDefault(); }}>
+                                            <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                                            <span className="text-destructive">Delete Habit</span>
+                                        </DropdownMenuItem>
+                                    }
+                                />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
                 </div>
                 {habit.description && (
                     <CardDescription className="mt-2 text-sm cursor-pointer" onClick={openHabit}>
@@ -197,7 +202,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80 }: CardHabi
                                     className="px-2 py-1 text-xs border rounded disabled:opacity-50"
                                     onClick={() => setPage((p) => Math.min(maxPage, p + 1))}
                                     disabled={page === maxPage}
-                                >   
+                                >
                                     Next
                                 </button>
                             </div>
