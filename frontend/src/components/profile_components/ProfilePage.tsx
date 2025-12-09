@@ -11,6 +11,7 @@ import CardActivity from '../activity_components/CardActivity';
 import { DialogViewActivity } from '../activity_components/DialogViewActivity';
 import { useLikeStore } from '@/store/useLikeStore';
 import { DialogEditActivity } from '../activity_components/DialogEditActivity';
+import { DialogDeleteActivity } from '../activity_components/DialogDeleteActivity';
 
 interface ProfilePageProps {
     userProfile: User;
@@ -48,7 +49,13 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
     const closeViewAndEditDialogs = () => {
         setIsActivityOpen(false);
         setIsEditActivityDialogOpen(false);
-    };
+    };  
+
+    const [isDeleteActivityDialogOpen, setIsDeleteActivityDialogOpen] = React.useState<boolean>(false);
+    const closeViewAndDeleteDialogs = () => {
+        setIsActivityOpen(false);
+        setIsDeleteActivityDialogOpen(false);
+    }
 
     const likeActivityOnUserActivities = useActivityStore((state) => state.likeActivityOnUserActivities);
     const isUserLiked = useActivityStore((state) => state.isUserLikedUserActivity);
@@ -121,7 +128,11 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 onEditSuccess={closeViewAndEditDialogs}
                 fromProfile={true}
             />
-
+            <DialogDeleteActivity
+                open={isDeleteActivityDialogOpen}
+                activity={openedActivity}
+                closeViews={closeViewAndDeleteDialogs}
+            />
         </div >
     )
 }
