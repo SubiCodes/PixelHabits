@@ -67,6 +67,7 @@ export class SearchService {
           contains: searchTerm,
           mode: 'insensitive',
         },
+        isPublic: true,
       },
       select: {
         id: true,
@@ -111,6 +112,7 @@ export class SearchService {
           contains: searchTerm,
           mode: 'insensitive',
         },
+        isPublic: true,
       },
       select: {
         id: true,
