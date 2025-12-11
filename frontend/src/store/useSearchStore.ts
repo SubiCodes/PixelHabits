@@ -16,6 +16,9 @@ interface SearchStore {
     createSearch: (id: string, searches: string[]) => Promise<void>
     creartingSearch: boolean
     removeSearch: (id: string, searchTerm: string) => Promise<void>
+    gettingSearchResults: boolean
+    getSearchResults: (searchText: string) => Promise<void>
+    getSearchResultsError: string | null
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -81,5 +84,8 @@ export const useSearchStore = create<SearchStore>((set) => ({
                 description: 'Please try again later',
             });
         }
-    }
+    },
+    gettingSearchResults: false,
+    getSearchResults: async (searchText: string) => {},
+    getSearchResultsError: null,
 }));
