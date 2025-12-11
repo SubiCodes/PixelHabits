@@ -53,8 +53,7 @@ function Search() {
   };
 
   const handleRemoveRecentSearch = (search: string) => {
-    // Will be implemented later with backend integration
-    console.log("Remove:", search);
+    
   };
 
   const handleSearchSubmit = async (e: React.FormEvent) => {

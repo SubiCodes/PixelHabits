@@ -15,6 +15,7 @@ interface SearchStore {
     suggestions: string[]
     createSearch: (id: string, searches: string[]) => Promise<void>
     creartingSearch: boolean
+    removeSearch: (id: string, searchTerm: string) => Promise<void>
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -66,4 +67,19 @@ export const useSearchStore = create<SearchStore>((set) => ({
             set({ creartingSearch: false });
         }
     },
+    removeSearch: async (id: string, searchTerm: string) => {
+        try {
+            // Optimistically update UI
+            set((state) => ({
+                recentSearches: state.recentSearches.filter(term => term !== searchTerm)
+            }));
+            
+            await api.delete(`/search/${id}`, { data: { searchTerm } });
+        } catch (error) {
+            toast.error('Unable to remove search.', {
+                id: 'remove_search',
+                description: 'Please try again later',
+            });
+        }
+    }
 }));
