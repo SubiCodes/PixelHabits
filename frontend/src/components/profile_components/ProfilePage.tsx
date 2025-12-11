@@ -148,6 +148,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
                 deleteFunc={() => openedActivity && openDeleteActivityDialog(openedActivity)}
                 handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
                 fromUserProfile={true}
+                playVideo={true}
             />
             <DialogEditActivity
                 open={isEditActivityDialogOpen}
