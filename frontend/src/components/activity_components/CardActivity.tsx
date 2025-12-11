@@ -2,17 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-
-export interface Activity {
-    id: string;
-    ownerId: string;
-    habitId: string;
-    caption: string;
-    mediaUrls: (string | File)[];
-    isPublic: boolean;
-    createdAt: string | Date;
-    updatedAt: string | Date;
-}
+import { Heart } from 'lucide-react';
+import { Activity } from '@/store/useActivityStore';
 
 interface CardActivityProps {
   activity: Activity;
@@ -29,7 +20,7 @@ function CardActivity({ activity, openActivity }: CardActivityProps) {
       mediaElement = (
         <video
           src={firstMedia}
-          className="w-full h-64 object-cover rounded"
+          className="w-full h-80 object-cover rounded"
           controls={false}
           playsInline
           muted
@@ -39,7 +30,7 @@ function CardActivity({ activity, openActivity }: CardActivityProps) {
       );
     } else {
       mediaElement = (
-        <div className="w-full h-44 md:h-64 relative rounded overflow-hidden">
+        <div className="w-full h-56 md:h-80 relative rounded overflow-hidden">
           <Image
             src={firstMedia}
             alt={activity.caption}
@@ -57,6 +48,36 @@ function CardActivity({ activity, openActivity }: CardActivityProps) {
   return (
     <button className="w-full min-w-full max-w-full border rounded-xs shadow bg-white cursor-pointer hover:shadow-lg transition-shadow" onClick={() => openActivity()}>
       {mediaElement}
+      {/* User Info and Likes */}
+      <div className="flex items-center justify-between p-3">
+        <div className="flex items-center gap-2">
+          {/* User Icon */}
+          <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold overflow-hidden relative flex-shrink-0">
+            {activity.owner?.profileImageUrl ? (
+              <Image
+                src={activity.owner.profileImageUrl}
+                alt={activity.owner.name || "User"}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <span>{activity.owner?.name?.[0]?.toUpperCase() || "U"}</span>
+            )}
+          </div>
+          
+          {/* User Name */}
+          <span className="text-sm font-medium text-foreground truncate">
+            {activity.owner?.name || "User"}
+          </span>
+        </div>
+        
+        {/* Likes */}
+        <div className="flex items-center gap-1 text-muted-foreground">
+          <Heart className="h-4 w-4" />
+          <span className="text-sm">{activity?.likes.length || 0}</span>
+        </div>
+      </div>
+      
     </button>
   );
 }
