@@ -58,7 +58,8 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
     const { id } = React.use(params);
     const user = useUser();
     const habit = useHabitStore((state) => state.habit);
-    const getHabit = useHabitStore((state) => state.getHabit);
+    const gettingHabit = useHabitStore((state) => state.gettingHabit);
+    const getHabitById = useHabitStore((state) => state.getHabitById);
 
     const calendarParentRef = React.useRef<HTMLDivElement>(null);
 
@@ -68,12 +69,13 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
     const gettingActivitiesError = useActivityStore((state) => state.gettingActivitiesError);
 
     useEffect(() => {
-        if (!user) return;
-        getHabit(id);
-        getActivitiesByHabitId(id, user.id);
-    }, [id, user, getActivitiesByHabitId, getHabit]);
+        getHabitById(id);
+        if (user) {
+            getActivitiesByHabitId(id, user.id);
+        }
+    }, [id, user, getActivitiesByHabitId, getHabitById]);
 
-    if (gettingActivities) {
+    if (gettingHabit || gettingActivities) {
         return <LoadingPage />;
     }
 
@@ -115,38 +117,40 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                         </header>
                         {/* Dropdown options button - top right, spaced away from streak */}
                         <div className="absolute top-4 right-2 z-10">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <button
-                                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-0 rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
-                                        aria-label="Open habit options"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="6" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="18" r="1.5" /></svg>
-                                    </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-48">
-                                    <DialogEditHabit
-                                        habit={habit}
-                                        atHabitPage={true}
-                                        trigger={
-                                            <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13z" /></svg>
-                                                <span>Edit Habit</span>
-                                            </DropdownMenuItem>
-                                        }
-                                    />
-                                    <DialogDeleteHabit
-                                        habit={habit}
-                                        atHabitPage={true}
-                                        trigger={
-                                            <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                                                <span className="text-destructive">Delete Habit</span>
-                                            </DropdownMenuItem>
-                                        }
-                                    />
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                            {habit.ownerId === user?.id && (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <button
+                                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-0 rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 hover:cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50 size-9"
+                                            aria-label="Open habit options"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="6" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="12" cy="18" r="1.5" /></svg>
+                                        </button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-48">
+                                        <DialogEditHabit
+                                            habit={habit}
+                                            atHabitPage={true}
+                                            trigger={
+                                                <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13z" /></svg>
+                                                    <span>Edit Habit</span>
+                                                </DropdownMenuItem>
+                                            }
+                                        />
+                                        <DialogDeleteHabit
+                                            habit={habit}
+                                            atHabitPage={true}
+                                            trigger={
+                                                <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-4 w-4 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                                    <span className="text-destructive">Delete Habit</span>
+                                                </DropdownMenuItem>
+                                            }
+                                        />
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            )}
                         </div>
                     </div>
                     <div ref={calendarParentRef} className="w-full">

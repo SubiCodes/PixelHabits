@@ -35,6 +35,8 @@ interface HabitStore {
     gettingUserHabits: boolean
     getHabitsByUserId: (ownerId: string, requestingUserId: string) => Promise<void>
     habit: Habit | null
+    gettingHabit: boolean
+    getHabitById: (habitId: string) => Promise<void>
     getHabit: (habitId: string) => Habit | undefined
     addingHabit: boolean
     addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => Promise<void>
@@ -63,6 +65,28 @@ export const useHabitStore = create<HabitStore>((set) => ({
         }
     },
     habit: null,
+    gettingHabit: false,
+    getHabitById: async (habitId: string) => {
+        try {
+            set({ gettingHabit: true });
+            const res = await api.get(`/habits/${habitId}`);
+            set({ habit: res.data });
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response?.data) {
+                const { message, suggestion } = error.response.data;
+                toast.error(message || 'Failed to fetch habit', {
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Failed to fetch habit', {
+                    description: 'An unexpected error occurred',
+                });
+            }
+            throw error;
+        } finally {
+            set({ gettingHabit: false });
+        }
+    },
     getHabit: (habitId: string): Habit | undefined => {
         const habit = useHabitStore.getState().habits.find((habit: Habit) => habit.id === habitId);
         set({ habit: habit });
