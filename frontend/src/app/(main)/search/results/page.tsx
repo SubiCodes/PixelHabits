@@ -24,9 +24,9 @@ function SearchResults() {
     }, [query]);
 
     return (
-        <div className="flex flex-col h-screen bg-background">
+        <div className="flex flex-col h-screen overflow-hidden">
             {/* Header */}
-            <div className="sticky top-0 z-10 bg-background border-b">
+            <div className="flex-shrink-0 bg-background border-b">
                 <div className="flex items-center gap-3 p-4">
                     <button
                         onClick={() => router.back()}
@@ -46,7 +46,7 @@ function SearchResults() {
             </div>
 
             {/* Content */}
-            <ScrollArea className="flex-1">
+            <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {gettingSearchResults ? (
                     <LoadingPage />
                 ) : getSearchResultsError ? (
@@ -60,7 +60,7 @@ function SearchResults() {
                         )}
                     </div>
                 )}
-            </ScrollArea>
+            </div>
         </div>
     );
 }
