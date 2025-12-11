@@ -26,7 +26,7 @@ export class SearchService {
       },
     });
     return addedSearch;
-  }
+  };
 
   async remove(id: string, searchTerm: string) {
     const user = await this.databaseService.users_sync.findUnique({
@@ -43,5 +43,13 @@ export class SearchService {
       },
     });
     return updatedUser;
+  };
+
+  async getRecentSearches(id: string) {
+    const user = await this.databaseService.users_sync.findUnique({
+      where: { id: id },
+      select: { searches: true },
+    });
+    return user?.searches || [];  
   }
 }
