@@ -12,10 +12,17 @@ export class SearchService {
       select: { searches: true },
     });
 
+    const existingSearches = user?.searches || [];
+    const newSearches = createSearchDto.searches;
+    
+    // Remove duplicates if they exist, then add them to the end
+    const filteredSearches = existingSearches.filter(term => !newSearches.includes(term));
+    const updatedSearches = [...filteredSearches, ...newSearches];
+
     const addedSearch = await this.databaseService.users_sync.update({
       where: { id: createSearchDto.userId },
       data: {
-        searches: [...(user?.searches || []), ...createSearchDto.searches],
+        searches: updatedSearches,
       },
     });
     return addedSearch;
