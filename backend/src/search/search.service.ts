@@ -7,8 +7,19 @@ import { DatabaseService } from 'src/database/database.service';
 export class SearchService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  create(createSearchDto: CreateSearchDto) {
-    return 'This action adds a new search';
+  async create(createSearchDto: CreateSearchDto) {
+    const user = await this.databaseService.users_sync.findUnique({
+      where: { id: createSearchDto.userId },
+      select: { searches: true },
+    });
+    
+    const addedSearch = await this.databaseService.users_sync.update({
+      where: { id: createSearchDto.userId },
+      data: { 
+        searches: [...(user?.searches || []), ...createSearchDto.searches],
+      },
+    });
+    return addedSearch;
   }
 
   findAll() {
