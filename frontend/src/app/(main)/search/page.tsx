@@ -162,7 +162,7 @@ function Search() {
                 <TrendingUp className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Suggestions</h2>
               </div>
-              {!suggestions || suggestions.length === 0 ? (
+              {gettingSuggestions ? null : (!suggestions || suggestions.length === 0) ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <SearchIcon className="h-12 w-12 text-muted-foreground/50 mb-3" />
                   <p className="text-muted-foreground text-sm">No suggestions found</p>
