@@ -24,6 +24,7 @@ interface CarouselMediaForDisplayProps {
     onLike?: () => void;
     onComment?: () => void;
     isLiked?: boolean;
+    playVideo?: boolean;
 }
 
 function CarouselMediaWithActionButtons({
@@ -36,12 +37,19 @@ function CarouselMediaWithActionButtons({
     commentsNumber,
     onLike,
     onComment,
-    isLiked = false
+    isLiked = false,
+    playVideo = false
 }: CarouselMediaForDisplayProps) {
 
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
+    const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([]);
+
+    // Initialize video refs array
+    React.useEffect(() => {
+        videoRefs.current = videoRefs.current.slice(0, media.length);
+    }, [media.length]);
 
     const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
         const video = e.currentTarget;
@@ -63,6 +71,7 @@ function CarouselMediaWithActionButtons({
             } else if (isVideo) {
                 return (
                     <video
+                        ref={(el) => { videoRefs.current[index] = el; }}
                         src={item}
                         className="max-w-full max-h-full object-contain cursor-pointer"
                         onClick={handleVideoClick}
@@ -82,6 +91,7 @@ function CarouselMediaWithActionButtons({
             } else if (isVideo) {
                 return (
                     <video
+                        ref={(el) => { videoRefs.current[index] = el; }}
                         src={url}
                         className="max-w-full max-h-full object-contain cursor-pointer"
                         onClick={handleVideoClick}
@@ -121,6 +131,29 @@ function CarouselMediaWithActionButtons({
             setCurrent(media.length > 0 ? 1 : 0)
         }
     }, [media.length, api])
+
+    // Auto-play/pause video based on playVideo prop and current slide
+    React.useEffect(() => {
+        const currentIndex = current - 1; // current is 1-indexed
+        const currentVideo = videoRefs.current[currentIndex];
+
+        if (currentVideo) {
+            if (playVideo) {
+                currentVideo.play().catch(() => {
+                    // Handle autoplay restrictions silently
+                });
+            } else {
+                currentVideo.pause();
+            }
+        }
+
+        // Pause all other videos
+        videoRefs.current.forEach((video, index) => {
+            if (video && index !== currentIndex) {
+                video.pause();
+            }
+        });
+    }, [playVideo, current])
 
     if (media.length === 0) {
         return (
