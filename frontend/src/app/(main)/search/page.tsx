@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchStore } from "@/store/useSearchStore";
 import { useUser } from "@stackframe/stack";
+import LoadingPage from "@/components/LoadingPage";
 
 function Search() {
   const user = useUser();
@@ -106,7 +107,9 @@ function Search() {
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Recent Searches</h2>
               </div>
-              {!recentSearches || recentSearches.length === 0 ? (
+              {gettingRecentSearches ? (
+                <LoadingPage />
+              ) : !recentSearches || recentSearches.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Clock className="h-12 w-12 text-muted-foreground/50 mb-3" />
                   <p className="text-muted-foreground text-sm">No recent searches</p>
