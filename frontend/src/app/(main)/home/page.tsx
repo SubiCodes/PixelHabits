@@ -136,6 +136,7 @@ export default function Home() {
               isLiked={activity.likes.includes(user?.id ?? "")}
               onLike={() => likeContent(activity.id)}
               onComment={() => openCommentSheet(activity.id)}
+              playVideo={activity.id === visibleId}
             />
           </section>
         ))}
