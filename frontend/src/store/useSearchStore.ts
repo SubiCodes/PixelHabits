@@ -13,12 +13,18 @@ interface SearchStore {
     getRecentSearches: (id: string) => Promise<void>
     gettingRecentSearches: boolean
     recentSearches: string[],
+
     getSuggestions: (searchText: string) => Promise<void>
     gettingSuggestions: boolean
     suggestions: string[]
+
     createSearch: (id: string, searches: string[]) => Promise<void>
     creartingSearch: boolean
+
     removeSearch: (id: string, searchTerm: string) => Promise<void>
+
+    currentSearchText?: string
+
     searchResults: {habits: Habit[], users: User[], activities: Activity[]} | []
     gettingSearchResults: boolean
     getSearchResults: (searchText: string) => Promise<{ users: User[], habits: Habit[], activities: Activity[] } | void>
