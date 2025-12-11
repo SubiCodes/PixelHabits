@@ -22,6 +22,8 @@ function Search() {
   const createSearch = useSearchStore((state) => state.createSearch);
   const creartingSearch = useSearchStore((state) => state.creartingSearch);
 
+  const removeSearch = useSearchStore((state) => state.removeSearch);
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Hardcoded recent searches
@@ -53,7 +55,8 @@ function Search() {
   };
 
   const handleRemoveRecentSearch = (search: string) => {
-    
+    if (!user) return;
+    removeSearch(user.id, search);
   };
 
   const handleSearchSubmit = async (e: React.FormEvent) => {
