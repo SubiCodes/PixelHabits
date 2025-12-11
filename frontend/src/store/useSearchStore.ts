@@ -108,12 +108,14 @@ export const useSearchStore = create<SearchStore>((set) => ({
                     description: suggestion || 'Please try again later',
                 });
                 set({ getSearchResultsError: message || 'Unable to get search results.' });
+                console.error(message);
             } else {
                 toast.error('Unable to get search results.', {
                     id: 'get_search_results',
                     description: 'Please try again later.',
                 });
                 set({ getSearchResultsError: 'Unable to get search results.' });
+                console.error('Unable to get search results.');
             }
         } finally {
             set({ gettingSearchResults: false });
