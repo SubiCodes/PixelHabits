@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSearchDto } from './dto/create-search.dto';
 import { UpdateSearchDto } from './dto/update-search.dto';
+import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class SearchService {
+  constructor(private readonly databaseService: DatabaseService) {}
+
   create(createSearchDto: CreateSearchDto) {
     return 'This action adds a new search';
   }
