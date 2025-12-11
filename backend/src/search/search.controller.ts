@@ -25,4 +25,9 @@ export class SearchController {
   getSuggestions(@Param('searchText') searchText: string) {
     return this.searchService.getSuggestions(searchText);
   }
+
+  @Get('results/:searchText')
+  search(@Param('searchText') searchText: string) {
+    return this.searchService.search(searchText);
+  }
 }
