@@ -21,6 +21,19 @@ export interface Activity {
 export interface Habit {
     id: string;
     ownerId: string;
+    owner?: {
+        id: string;
+        name: string;
+        email: string;
+        profileImageUrl: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rawJson?: any;
+        createdAt?: string;
+        updatedAt?: string | null;
+        deletedAt?: string | null;
+        bio?: string | null;
+        isNew?: boolean;
+    }
     title: string;
     description: string;
     isPublic: boolean;
@@ -71,6 +84,7 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ gettingHabit: true });
             const res = await api.get(`/habits/${habitId}`);
             set({ habit: res.data });
+            console.log('Fetched habit:', res.data);    
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.data) {
                 const { message, suggestion } = error.response.data;

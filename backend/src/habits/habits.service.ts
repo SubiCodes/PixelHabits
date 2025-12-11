@@ -123,6 +123,12 @@ export class HabitsService {
       activities = await enrichWithUserData(activities);
       activities = activities.map(act => serializeModelDates([act])[0]);
     }
+    // Enrich habit with owner data
+    let enrichedHabit = habit;
+    if (typeof enrichWithUserData === 'function') {
+      const enrichedHabits = await enrichWithUserData([habit]);
+      enrichedHabit = enrichedHabits[0];
+    }
     const activityDates = Array.from(new Set(
       activities.map(a => {
         const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
@@ -156,7 +162,7 @@ export class HabitsService {
         }
       }
     }
-    return { ...habit, activities, streak };
+    return { ...enrichedHabit, activities, streak };
   }
 
   async update(id: string, updateHabitDto: UpdateHabitDto): Promise<habits> {

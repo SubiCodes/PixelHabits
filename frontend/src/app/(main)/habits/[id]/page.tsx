@@ -6,6 +6,10 @@ import { useHabitStore } from '@/store/useHabitStore';
 import { useUser } from '@stackframe/stack';
 import React, { useEffect, useState } from 'react';
 import Lottie from 'lottie-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useProfileStore, type User } from '@/store/useProfileStore';
 import streakInactive from '../../../../lottie-jsons/StreakInactive.json';
 import streak3to49 from '../../../../lottie-jsons/Streak3To49.json';
 import streak50to99 from '../../../../lottie-jsons/Streak50to99.json';
@@ -56,6 +60,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
     }
 
     const { id } = React.use(params);
+    const router = useRouter();
     const user = useUser();
     const habit = useHabitStore((state) => state.habit);
     const gettingHabit = useHabitStore((state) => state.gettingHabit);
@@ -91,9 +96,37 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
 
     return (
         <div className="w-full flex flex-col gap-2 p-2">
-            {/* Header Section */}
             {habit && (
                 <>
+                    {/* Back Button and Owner Section */}
+                    <div className="flex items-center justify-between mb-2">
+                        <button
+                            onClick={() => router.back()}
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                            <span className="text-sm font-medium">Back</span>
+                        </button>
+                        
+                        {habit.owner && (
+                            <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                                onClick={() => { if (habit.owner) router.push(`/search/profile/${habit.owner.id}`) }}>
+                                <Avatar className="h-8 w-8">
+                                    <AvatarImage 
+                                        src={habit.owner.profileImageUrl} 
+                                        alt={habit.owner.name || 'User'} 
+                                    />
+                                    <AvatarFallback>{habit.owner.name?.charAt(0) || 'U'}</AvatarFallback>
+                                </Avatar>
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-medium text-foreground">{habit.owner.name}</span>
+                                    <span className="text-xs text-muted-foreground">Habit Owner</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Header Section */}
                     <div className="relative">
                         <header className="w-full bg-gradient-to-r from-green-100 via-white to-green-50 rounded-t-xl shadow p-8 border-b flex flex-col md:flex-row items-center justify-between mb-0">
                             <div className="flex-1 min-w-0">
