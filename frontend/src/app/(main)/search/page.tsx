@@ -116,7 +116,7 @@ function Search() {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {recentSearches.map((search, index) => (
+                  {[...recentSearches].reverse().map((search, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer group"
