@@ -134,33 +134,14 @@ export class SearchService {
     });
 
     // Search users by name
-    const usersRaw = await this.databaseService.users_sync.findMany({
+    const users = await this.databaseService.users_sync.findMany({
       where: {
         name: {
           contains: searchTerm,
           mode: 'insensitive',
         },
       },
-      select: {
-        id: true,
-        name: true,
-        bio: true,
-        rawJson: true,
-      },
       take: 20,
-    });
-
-    // Parse rawJson to extract profile_image_url
-    const users = usersRaw.map(user => {
-      const rawJson = typeof user.rawJson === 'string' 
-        ? JSON.parse(user.rawJson) 
-        : user.rawJson;
-      return {
-        id: user.id,
-        name: user.name,
-        bio: user.bio,
-        profile_image_url: rawJson.profile_image_url || null,
-      };
     });
 
     // Search public activities by caption
