@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 import axios from 'axios';
 import { toast } from 'sonner';
+import { User } from './useProfileStore';
+import { Habit } from './useHabitStore';
+import { Activity } from './useActivityStore';
 
 const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
@@ -17,7 +20,7 @@ interface SearchStore {
     creartingSearch: boolean
     removeSearch: (id: string, searchTerm: string) => Promise<void>
     gettingSearchResults: boolean
-    getSearchResults: (searchText: string) => Promise<void>
+    getSearchResults: (searchText: string) => Promise<{users: User[], habits: Habit[], activities: Activity[] } | void>
     getSearchResultsError: string | null
 }
 
