@@ -52,4 +52,77 @@ export class SearchService {
     });
     return user?.searches || [];  
   }
+
+  async getSuggestions(searchText: string) {
+    if (!searchText || searchText.trim().length === 0) {
+      return { habits: [], users: [], activities: [] };
+    }
+
+    const searchTerm = searchText.toLowerCase();
+
+    // Search habits by title
+    const habits = await this.databaseService.habits.findMany({
+      where: {
+        title: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+      },
+      take: 5,
+    });
+
+    // Search users by username
+    const usersRaw = await this.databaseService.users_sync.findMany({
+      where: {
+        name: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        rawJson: true,
+      },
+      take: 5,
+    });
+
+    // Parse rawJson to extract profile_image_url
+    const users = usersRaw.map(user => {
+      const rawJson = typeof user.rawJson === 'string' 
+        ? JSON.parse(user.rawJson) 
+        : user.rawJson;
+      return {
+        id: user.id,
+        name: user.name,
+        profile_image_url: rawJson.profile_image_url || null,
+      };
+    });
+
+    // Search activities by caption
+    const activities = await this.databaseService.activities.findMany({
+      where: {
+        caption: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        caption: true,
+      },
+      take: 5,
+    });
+
+    return {
+      habits,
+      users,
+      activities,
+    };
+  }
 }

@@ -20,4 +20,9 @@ export class SearchController {
   getRecentSearches(@Param('id') id: string) {
     return this.searchService.getRecentSearches(id);
   }
+
+  @Get('suggestions/:searchText')
+  getSuggestions(@Param('searchText') searchText: string) {
+    return this.searchService.getSuggestions(searchText);
+  }
 }
