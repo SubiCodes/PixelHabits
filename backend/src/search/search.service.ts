@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSearchDto } from './dto/create-search.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { enrichWithUserData } from 'src/common/utils/user-enrichment.util';
+import { serializeModelDates } from 'src/utils/serializeModelDates';
 
 @Injectable()
 export class SearchService {
@@ -14,7 +16,7 @@ export class SearchService {
 
     const existingSearches = user?.searches || [];
     const newSearches = createSearchDto.searches;
-    
+
     // Remove duplicates if they exist, then add them to the end
     const filteredSearches = existingSearches.filter(term => !newSearches.includes(term));
     const updatedSearches = [...filteredSearches, ...newSearches];
@@ -35,7 +37,7 @@ export class SearchService {
     });
 
     const updatedSearches = (user?.searches || []).filter(term => term !== searchTerm);
-    
+
     const updatedUser = await this.databaseService.users_sync.update({
       where: { id: id },
       data: {
@@ -50,7 +52,7 @@ export class SearchService {
       where: { id: id },
       select: { searches: true },
     });
-    return user?.searches || [];  
+    return user?.searches || [];
   }
 
   async getSuggestions(searchText: string): Promise<string[]> {
@@ -145,7 +147,7 @@ export class SearchService {
     });
 
     // Search public activities by caption
-    const activities = await this.databaseService.activities.findMany({
+    const rawActivities = await this.databaseService.activities.findMany({
       where: {
         caption: {
           contains: searchTerm,
@@ -153,8 +155,30 @@ export class SearchService {
         },
         isPublic: true,
       },
+      include: {
+        likes: { select: { ownerId: true } },
+        comments: { select: { id: true } }
+      },
       take: 20,
     });
+
+    let activities = rawActivities.map(activity => {
+      const { likes, comments, ...rest } = activity;
+      return {
+        ...rest,
+        likes: Array.isArray(likes) ? likes.map(like => like.ownerId) : [],
+        comments: Array.isArray(comments) ? comments.length : 0
+      };
+    });
+
+    try {
+      if (activities.length > 0 && typeof enrichWithUserData === 'function') {
+        activities = await enrichWithUserData(activities);
+        activities = activities.map(act => serializeModelDates([act])[0]);
+      }
+    } catch {
+      // enrichment util not available, skip
+    }
 
     return {
       habits,
