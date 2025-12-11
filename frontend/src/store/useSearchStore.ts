@@ -32,7 +32,16 @@ export const useSearchStore = create<SearchStore>((set) => ({
     },
     suggestions: [],
     gettingSuggestions: false,  
-    getSuggestions: async (searchText: string) => {},
+    getSuggestions: async (searchText: string) => {
+        try {
+            set({ gettingSuggestions: true });
+            const res = await api.get(`/search/suggestions/${searchText}`);
+            set({ suggestions: res.data });
+        } catch (error) {} 
+        finally {
+            set({ gettingSuggestions: false });
+        }
+    },
     creartingSearch: false,
     createSearch: async (id: string, searches: string[]) => {
         try {
