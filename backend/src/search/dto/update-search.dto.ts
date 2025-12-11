@@ -1,4 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateSearchDto } from './create-search.dto';
+import { IsString, IsArray } from 'class-validator';
 
-export class UpdateSearchDto extends PartialType(CreateSearchDto) {}
+export class UpdateSearchDto {
+  @IsArray()
+  @IsString({ each: true })
+  searches: string[];
+}
