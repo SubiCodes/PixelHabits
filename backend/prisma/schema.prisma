@@ -110,6 +110,7 @@ model users_sync {
   deletedAt             DateTime? @db.Timestamptz(6) @map("deleted_at")
   bio                   String?
   isNew                 Boolean   @default(true)
+  searches              String[]  @default([])
   activities            activities[]
 
   @@schema("neon_auth")
