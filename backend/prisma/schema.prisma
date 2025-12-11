@@ -1,117 +1,115 @@
 generator client {
-  provider   = "prisma-client"
-  output       = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
   previewFeatures = ["multiSchema"]
-
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["public", "neon_auth"]
+  schemas  = ["neon_auth", "public"]
 }
 
 model activities {
-  id         String     @id
-  ownerId    String    @map("owner_id")
-  habitId    String    @map("habit_id")
-  caption    String
-  mediaUrls  String[]  @map("media_urls")
-  isPublic   Boolean   @default(false) @map("is_public")
-  createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt  DateTime  @db.Timestamptz(6) @map("updated_at")
-  habits     habits    @relation(fields: [habitId], references: [id], onDelete: Cascade)
-  owner      users_sync @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  comments   comments[]
-  likes      likes[]
-  views      views[]
+  id        String     @id
+  ownerId   String     @map("owner_id")
+  habitId   String     @map("habit_id")
+  caption   String
+  mediaUrls String[]   @map("media_urls")
+  isPublic  Boolean    @default(false) @map("is_public")
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime   @map("updated_at") @db.Timestamptz(6)
+  habits    habits     @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  comments  comments[]
+  likes     likes[]
+  views     views[]
 
   @@schema("public")
 }
 
 model comments {
-  id           String     @id
-  ownerId      String    @map("owner_id")
-  commentText  String    @map("comment_text")
-  activityId   String    @map("activity_id")
-  createdAt    DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
-  activities   activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  replies replies[]
-  likes commentLikes[]
+  id          String         @id
+  ownerId     String         @map("owner_id")
+  commentText String         @map("comment_text")
+  activityId  String         @map("activity_id")
+  createdAt   DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  likes       commentLikes[]
+  activities  activities     @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  replies     replies[]
 
   @@schema("public")
 }
 
 model commentLikes {
-  id         String    @id @default(uuid())
-  ownerId    String    @map("owner_id")
-  commentId  String    @map("comment_id")
-  createdAt  DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
-  comments   comments  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  ownerId   String   @map("owner_id")
+  commentId String   @map("comment_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  comments  comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, commentId])
   @@schema("public")
 }
 
 model replies {
-  id         String   @id @default(uuid())
-  ownerId    String   @map("owner_id")
-  replyText  String   @map("reply_text")
-  commentId  String   @map("comment_id")
-  createdAt  DateTime @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt DateTime @default(now()) @db.Timestamptz(6) @map("updated_at")
-  comments   comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  ownerId   String   @map("owner_id")
+  replyText String   @map("reply_text")
+  commentId String   @map("comment_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+  comments  comments @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@schema("public")
 }
 
 model habits {
   id          String       @id
-  ownerId     String      @map("owner_id")
+  ownerId     String       @map("owner_id")
   title       String
   description String
-  isPublic    Boolean     @default(false) @map("is_public")
-  createdAt   DateTime    @default(now()) @db.Timestamptz(6) @map("created_at")
-  updatedAt   DateTime    @db.Timestamptz(6) @map("updated_at")
+  isPublic    Boolean      @default(false) @map("is_public")
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime     @map("updated_at") @db.Timestamptz(6)
   activities  activities[]
 
   @@schema("public")
 }
 
 model likes {
-  id          String     @id
-  ownerId     String    @map("owner_id")
-  activityId  String    @map("activity_id")
-  createdAt   DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
-  activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id         String     @id
+  ownerId    String     @map("owner_id")
+  activityId String     @map("activity_id")
+  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  activities activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
   @@schema("public")
 }
 
 model views {
-  id          String     @id
-  activityId  String    @map("activity_id")
-  createdAt   DateTime  @default(now()) @db.Timestamptz(6) @map("created_at")
-  ownerId     String    @map("owner_id")
-  activities  activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  id         String     @id
+  activityId String     @map("activity_id")
+  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  ownerId    String     @map("owner_id")
+  activities activities @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   @@unique([ownerId, activityId])
   @@schema("public")
 }
 
 model users_sync {
-  id                    String    @id @default(dbgenerated("(raw_json ->> 'id'::text)"))
-  rawJson               Json      @map("raw_json")
-  name                  String?   @default(dbgenerated("(raw_json ->> 'display_name'::text)"))
-  email                 String?   @default(dbgenerated("(raw_json ->> 'primary_email'::text)"))
-  createdAt             DateTime  @default(dbgenerated("to_timestamp((trunc((((raw_json ->> 'signed_up_at_millis'::text))::bigint)::double precision) / (1000)::double precision))")) @db.Timestamptz(6) @map("created_at")
-  updatedAt             DateTime? @db.Timestamptz(6) @map("updated_at")
-  deletedAt             DateTime? @db.Timestamptz(6) @map("deleted_at")
-  bio                   String?
-  isNew                 Boolean   @default(true)
-  searches              String[]  @default([])
-  activities            activities[]
+  rawJson   Json      @map("raw_json")
+  id        String    @id @default(dbgenerated("(raw_json ->> 'id'::text)"))
+  name      String?   @default(dbgenerated("(raw_json ->> 'display_name'::text)"))
+  email     String?   @default(dbgenerated("(raw_json ->> 'primary_email'::text)"))
+  createdAt DateTime? @default(dbgenerated("to_timestamp((trunc((((raw_json ->> 'signed_up_at_millis'::text))::bigint)::double precision) / (1000)::double precision))")) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime? @map("updated_at") @db.Timestamptz(6)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(6)
+  bio       String?
+  isNew     Boolean   @default(true)
+  searches  String[]  @default([])
 
+  @@index([deletedAt])
   @@schema("neon_auth")
 }
