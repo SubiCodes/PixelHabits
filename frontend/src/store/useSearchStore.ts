@@ -23,8 +23,6 @@ interface SearchStore {
 
     removeSearch: (id: string, searchTerm: string) => Promise<void>
 
-    currentSearchText?: string
-
     searchResults: {habits: Habit[], users: User[], activities: Activity[]} | []
     gettingSearchResults: boolean
     getSearchResults: (searchText: string) => Promise<{ users: User[], habits: Habit[], activities: Activity[] } | void>
