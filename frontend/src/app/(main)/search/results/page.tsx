@@ -5,11 +5,17 @@ import { useSearchParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSearchStore } from "@/store/useSearchStore";
 
 function SearchResults() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
+
+  const gettingSearchResults = useSearchStore((state) => state.gettingSearchResults);
+  const searchResults = useSearchStore((state) => state.searchResults);
+  const getSearchResults = useSearchStore((state) => state.getSearchResults);
+  const getSearchResultsError = useSearchStore((state) => state.getSearchResultsError);
 
   return (
     <div className="flex flex-col h-screen bg-background">
