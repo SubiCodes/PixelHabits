@@ -133,7 +133,7 @@ function SearchResults() {
                                         {group.type === 'habit' && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {group.items.map((item) => (
-                                                    <CardHabits key={item.id} habit={item.data as any} />
+                                                    <CardHabits key={item.id} habit={item.data as any} fromProfile={true}/>
                                                 ))}
                                             </div>
                                         )}
@@ -160,7 +160,7 @@ function SearchResults() {
                                 searchResults.habits?.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {searchResults.habits.map((habit) => (
-                                            <CardHabits key={habit.id} habit={habit} />
+                                            <CardHabits key={habit.id} habit={habit} fromProfile={true}/>
                                         ))}
                                     </div>
                                 ) : (
