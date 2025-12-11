@@ -46,6 +46,7 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
     const activity = useIndividualActivityStore((state) => state.activity);
     const gettingActivity = useIndividualActivityStore((state) => state.gettingActivity);
     const getActivityById = useIndividualActivityStore((state) => state.getActivityById);
+    const updateActivity = useIndividualActivityStore((state) => state.updateActivity);
 
     useEffect(() => {
         if (open && activityId) {
@@ -59,16 +60,19 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
     }, [activity, gettingActivity]);
 
     const handleLike = async (activityId: string) => {
-        if (!user) return;
-        const isLiked = isUserLiked(activityId, user.id);
-        if (isLiked) {
-            likeActivity(activityId, user.id, false);
-            activity!.likes = activity!.likes.filter(id => id !== user.id);
-        } else {
-            likeActivity(activityId, user.id, true);
-            activity?.likes.push(user.id);
-        }
-        const result = await like(activityId, user.id);
+        if (!user || !activity) return;
+
+        console.log("triggered");
+        // Create new likes array with updated values
+        const newLikes = activity.likes.includes(user.id)
+            ? activity.likes.filter(id => id !== user.id)
+            : [...activity.likes, user.id];
+
+        // Update activity with new likes array
+        updateActivity({ ...activity, likes: newLikes });
+        
+        // Call API to persist the like/unlike
+        like(activityId, user.id);
     };
 
     const handleComment = async () => {
@@ -127,9 +131,9 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
                             caption={activity.caption ?? ''}
                             likesNumber={activity.likes.length}
                             commentsNumber={activity.comments}
-                            onLike={() => handleLikeFunction ? handleLikeFunction() : undefined}
+                            onLike={() => activity && handleLike(activity.id)}
                             onComment={handleComment}
-                            isLiked={user ? (fromUserProfile ? isUserLikedUserActivity(activity.id, user.id) : isUserLiked(activity.id, user.id)) : false}
+                            isLiked={!!user && (activity?.likes.includes(user.id) ?? false)}
                             playVideo={playVideo}
                         />
                     ) : (

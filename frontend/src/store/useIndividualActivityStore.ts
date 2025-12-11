@@ -11,6 +11,7 @@ interface IndividualActivityStore {
     activity: Activity | null
     gettingActivity: boolean
     getActivityById: (activityId: string) => Promise<void>
+    updateActivity: (activity: Activity) => void
 }
 
 export const useIndividualActivityStore = create<IndividualActivityStore>((set) => ({
@@ -37,5 +38,8 @@ export const useIndividualActivityStore = create<IndividualActivityStore>((set) 
         } finally {
             set({ gettingActivity: false });
         }
+    },
+    updateActivity: (activity: Activity) => {
+        set({ activity });
     }
 }))
