@@ -9,6 +9,7 @@ import {
   Trophy, 
   User, 
   Settings, 
+  Search,
   MoreHorizontal,
   LogOut
 } from "lucide-react"
@@ -22,6 +23,11 @@ const navigationItems = [
     name: "Home",
     href: "/home",
     icon: Home,
+  },
+  {
+    name: "Search",
+    href: "/search",
+    icon: Search,
   },
   {
     name: "Habits",
