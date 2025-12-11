@@ -4,12 +4,20 @@ import React, { useState } from "react";
 import { Search as SearchIcon, X, Clock, TrendingUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSearchStore } from "@/store/useSearchStore";
 
 function Search() {
+
+  const getRecentSearches = useSearchStore((state) => state.getRecentSearches);
+  const gettingRecentSearches = useSearchStore((state) => state.gettingRecentSearches);
+  const recentSearches = useSearchStore((state) => state.recentSearches);
+  const createSearch = useSearchStore((state) => state.createSearch);
+  const creartingSearch = useSearchStore((state) => state.creartingSearch);
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Hardcoded recent searches
-  const recentSearches = [
+  const recentSearchess = [
     "Morning workout routine",
     "Healthy breakfast ideas",
     "Meditation techniques",
