@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchStore } from "@/store/useSearchStore";
 import { useUser } from "@stackframe/stack";
+import { useRouter } from "next/navigation";
 import LoadingPage from "@/components/LoadingPage";
 
 function Search() {
   const user = useUser();
+  const router = useRouter();
 
   const getRecentSearches = useSearchStore((state) => state.getRecentSearches);
   const gettingRecentSearches = useSearchStore((state) => state.gettingRecentSearches);
@@ -51,7 +53,9 @@ function Search() {
   };
 
   const handleSearchClick = (query: string) => {
-    setSearchQuery(query);
+    if (!user) return;
+    createSearch(user.id, [query.trim()]);
+    router.push(`/search/results?q=${encodeURIComponent(query)}`);
   };
 
   const handleRemoveRecentSearch = (search: string) => {
@@ -63,6 +67,7 @@ function Search() {
     e.preventDefault();
     if (!searchQuery.trim() || !user) return;
     
+    router.push(`/search/results?q=${encodeURIComponent(searchQuery.trim())}`);
     await createSearch(user.id, [searchQuery.trim()]);
   };
 
