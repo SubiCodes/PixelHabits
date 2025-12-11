@@ -70,6 +70,16 @@ function Search() {
     }
   }, []);
 
+  React.useEffect(() => {
+    if (!searchQuery.trim()) return;
+
+    const timeoutId = setTimeout(() => {
+      getSuggestions(searchQuery.trim());
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Search Header */}
