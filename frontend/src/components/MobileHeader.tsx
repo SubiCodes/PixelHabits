@@ -33,10 +33,10 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
           size="icon"
           onClick={onMenuClick}
           className={
-            isHome ? "h-9 w-9 bg-transparent shadow-none border-none" : "h-9 w-9"
+            isHome ? "h-9 w-9 bg-transparent shadow-none border-none text-black" : "h-9 w-9 text-black"
           }
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5 text-black" />
           <span className="sr-only">Toggle menu</span>
         </Button>
         {!isHome && (

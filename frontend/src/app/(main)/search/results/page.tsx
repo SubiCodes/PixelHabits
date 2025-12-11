@@ -35,7 +35,7 @@ function SearchResults() {
                         <ArrowLeft className="h-5 w-5" />
                     </button>
                     <div className="flex-1">
-                        <h1 className="text-lg font-semibold">Search Results</h1>
+                        <h1 className="text-lg font-semibold text-foreground">Search Results</h1>
                         {query && (
                             <p className="text-sm text-muted-foreground">
                                 Results for &quot;{query}&quot;

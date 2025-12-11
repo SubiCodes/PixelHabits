@@ -14,7 +14,7 @@ export default function MainLayout({
 
   return (
     <AuthGuard>
-      <div className="min-h-screen w-full md:flex md:justify-center md:bg-muted/20">
+      <div className="min-h-screen w-full md:flex md:justify-center bg-background">
         <div className="flex flex-col md:flex-row w-full md:max-w-7xl min-h-screen md:border-x border-border bg-background">
           <MobileHeader onMenuClick={() => setDrawerOpen(true)} />
           <MainSidebar open={drawerOpen} onOpenChange={setDrawerOpen} />
