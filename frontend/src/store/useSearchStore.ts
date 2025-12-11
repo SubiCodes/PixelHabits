@@ -15,6 +15,13 @@ export const useSearchStore = create<SearchStore>((set) => ({
     recentSearches: [],
     gettingRecentSearches: false,
     getRecentSearches: async (id: string) => {
-
+        try {
+            set({ gettingRecentSearches: true });
+            const recents = await api.get(`/search/${id}`);
+            set({ recentSearches: recents.data });
+        } catch (error) { }
+        finally {
+            set({ gettingRecentSearches: false });
+        }
     },
 }));
