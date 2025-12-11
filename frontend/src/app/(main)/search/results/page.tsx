@@ -71,6 +71,16 @@ function SearchResults() {
                                 const activities = (searchResults && !Array.isArray(searchResults)) ? searchResults.activities : [];
                                 const users = (searchResults && !Array.isArray(searchResults)) ? searchResults.users : [];
                                 const habits = (searchResults && !Array.isArray(searchResults)) ? searchResults.habits : [];
+                                
+                                if (activities.length === 0 && users.length === 0 && habits.length === 0) {
+                                    return (
+                                        <div className="flex flex-col items-center justify-center py-12 text-center">
+                                            <p className="text-lg font-medium text-muted-foreground">No results found</p>
+                                            <p className="text-sm text-muted-foreground mt-2">Try searching with different keywords</p>
+                                        </div>
+                                    );
+                                }
+                                
                                 const interleaved: Array<{ type: 'activity' | 'user' | 'habit', data: any, id: string }> = [];
                                 
                                 let actIndex = 0, userIndex = 0, habitIndex = 0;
@@ -132,24 +142,47 @@ function SearchResults() {
                             })()}
                             
                             {activeTab === "Activities" && (searchResults && !Array.isArray(searchResults)) && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {searchResults.activities?.map((activity) => (
-                                        <CardActivity key={activity.id} activity={activity} openActivity={() => {}} />
-                                    ))}
-                                </div>
+                                searchResults.activities?.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {searchResults.activities.map((activity) => (
+                                            <CardActivity key={activity.id} activity={activity} openActivity={() => {}} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                        <p className="text-lg font-medium text-muted-foreground">No activities found</p>
+                                        <p className="text-sm text-muted-foreground mt-2">Try searching with different keywords</p>
+                                    </div>
+                                )
                             )}
                             
                             {activeTab === "Habits" && (searchResults && !Array.isArray(searchResults)) && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {searchResults.habits?.map((habit) => (
-                                        <CardHabits key={habit.id} habit={habit} />
-                                    ))}
-                                </div>
+                                searchResults.habits?.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {searchResults.habits.map((habit) => (
+                                            <CardHabits key={habit.id} habit={habit} />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                        <p className="text-lg font-medium text-muted-foreground">No habits found</p>
+                                        <p className="text-sm text-muted-foreground mt-2">Try searching with different keywords</p>
+                                    </div>
+                                )
                             )}
                             
-                            {activeTab === "User" && (searchResults && !Array.isArray(searchResults)) && searchResults.users?.map((user) => (
-                                <CardUser key={user.id} user={user} onClick={() => {}} />
-                            ))}
+                            {activeTab === "User" && (searchResults && !Array.isArray(searchResults)) && (
+                                searchResults.users?.length > 0 ? (
+                                    searchResults.users.map((user) => (
+                                        <CardUser key={user.id} user={user} onClick={() => {}} />
+                                    ))
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                        <p className="text-lg font-medium text-muted-foreground">No users found</p>
+                                        <p className="text-sm text-muted-foreground mt-2">Try searching with different keywords</p>
+                                    </div>
+                                )
+                            )}
                         </div>
                     </div>
                 )}
