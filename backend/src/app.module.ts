@@ -12,9 +12,10 @@ import { ContentsModule } from './contents/contents.module';
 import { CommentLikesModule } from './comment_likes/comment_likes.module';
 import { RepliesModule } from './replies/replies.module';
 import { ProfileModule } from './profile/profile.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule, CommentLikesModule, RepliesModule, ProfileModule],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule, CommentLikesModule, RepliesModule, ProfileModule, SearchModule],
   controllers: [AppController],
   providers: [AppService],
 })
