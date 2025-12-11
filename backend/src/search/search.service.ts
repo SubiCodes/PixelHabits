@@ -19,13 +19,13 @@ export class SearchService {
     const filteredSearches = existingSearches.filter(term => !newSearches.includes(term));
     const updatedSearches = [...filteredSearches, ...newSearches];
 
-    const addedSearch = await this.databaseService.users_sync.update({
+    await this.databaseService.users_sync.update({
       where: { id: createSearchDto.userId },
       data: {
         searches: updatedSearches,
       },
     });
-    return addedSearch;
+    return updatedSearches;
   };
 
   async remove(id: string, searchTerm: string) {
