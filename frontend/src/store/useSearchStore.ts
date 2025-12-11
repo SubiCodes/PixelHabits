@@ -10,6 +10,9 @@ interface SearchStore {
     getRecentSearches: (id: string) => Promise<void>
     gettingRecentSearches: boolean
     recentSearches: string[],
+    getSuggestions: (searchText: string) => Promise<void>
+    gettingSuggestions: boolean
+    suggestions: string[]
     createSearch: (id: string, searches: string[]) => Promise<void>
     creartingSearch: boolean
 }
@@ -27,6 +30,9 @@ export const useSearchStore = create<SearchStore>((set) => ({
             set({ gettingRecentSearches: false });
         }
     },
+    suggestions: [],
+    gettingSuggestions: false,  
+    getSuggestions: async (searchText: string) => {},
     creartingSearch: false,
     createSearch: async (id: string, searches: string[]) => {
         try {
