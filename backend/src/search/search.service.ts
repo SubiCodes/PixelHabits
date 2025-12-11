@@ -53,9 +53,9 @@ export class SearchService {
     return user?.searches || [];  
   }
 
-  async getSuggestions(searchText: string) {
+  async getSuggestions(searchText: string): Promise<string[]> {
     if (!searchText || searchText.trim().length === 0) {
-      return { habits: [], users: [], activities: [] };
+      return [];
     }
 
     const searchTerm = searchText.toLowerCase();
@@ -70,15 +70,13 @@ export class SearchService {
         isPublic: true,
       },
       select: {
-        id: true,
         title: true,
-        description: true,
       },
       take: 5,
     });
 
     // Search users by username
-    const usersRaw = await this.databaseService.users_sync.findMany({
+    const users = await this.databaseService.users_sync.findMany({
       where: {
         name: {
           contains: searchTerm,
@@ -86,23 +84,9 @@ export class SearchService {
         },
       },
       select: {
-        id: true,
         name: true,
-        rawJson: true,
       },
       take: 5,
-    });
-
-    // Parse rawJson to extract profile_image_url
-    const users = usersRaw.map(user => {
-      const rawJson = typeof user.rawJson === 'string' 
-        ? JSON.parse(user.rawJson) 
-        : user.rawJson;
-      return {
-        id: user.id,
-        name: user.name,
-        profile_image_url: rawJson.profile_image_url || null,
-      };
     });
 
     // Search activities by caption
@@ -115,16 +99,18 @@ export class SearchService {
         isPublic: true,
       },
       select: {
-        id: true,
         caption: true,
       },
       take: 5,
     });
 
-    return {
-      habits,
-      users,
-      activities,
-    };
+    // Flatten all results into a single string array
+    const suggestions = [
+      ...habits.map(h => h.title),
+      ...users.map(u => u.name).filter(name => name !== null),
+      ...activities.map(a => a.caption),
+    ];
+
+    return suggestions;
   }
 }
