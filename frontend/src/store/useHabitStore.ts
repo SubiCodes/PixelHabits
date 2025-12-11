@@ -84,7 +84,6 @@ export const useHabitStore = create<HabitStore>((set) => ({
             set({ gettingHabit: true });
             const res = await api.get(`/habits/${habitId}`);
             set({ habit: res.data });
-            console.log('Fetched habit:', res.data);    
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.data) {
                 const { message, suggestion } = error.response.data;

@@ -161,7 +161,7 @@ export class HabitsService {
           }
         }
       }
-    }
+    } 
     return { ...enrichedHabit, activities, streak };
   }
 

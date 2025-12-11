@@ -200,7 +200,6 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
         try {
             set({ gettingActivities: true, gettingActivitiesError: false });
             const res = await api.get(`/activities?habitId=${habitId}&requestingUserId=${userId}`);
-            console.log('API response (success):', res.data);
             set({ habitActivities: res.data });
         } catch (err) {
             console.log('API response (error):', err);
