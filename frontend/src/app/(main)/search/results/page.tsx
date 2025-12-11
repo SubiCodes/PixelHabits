@@ -126,7 +126,7 @@ function SearchResults() {
                                         {group.type === 'user' && (
                                             <div className="flex flex-col gap-4">
                                                 {group.items.map((item) => (
-                                                    <CardUser key={item.id} user={item.data as any} onClick={() => {}} />
+                                                    <CardUser key={item.id} user={item.data as any} onClick={() => router.push(`/search/profile/${item.data.id}`)} />
                                                 ))}
                                             </div>
                                         )}
@@ -174,7 +174,7 @@ function SearchResults() {
                             {activeTab === "User" && (searchResults && !Array.isArray(searchResults)) && (
                                 searchResults.users?.length > 0 ? (
                                     searchResults.users.map((user) => (
-                                        <CardUser key={user.id} user={user} onClick={() => {}} />
+                                        <CardUser key={user.id} user={user} onClick={() => router.push(`/search/profile/${user.id}`)} />
                                     ))
                                 ) : (
                                     <div className="flex flex-col items-center justify-center py-12 text-center">
