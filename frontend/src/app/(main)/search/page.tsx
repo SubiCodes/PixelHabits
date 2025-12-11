@@ -54,11 +54,20 @@ function Search() {
     console.log("Remove:", search);
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    
+    // Add your search submission logic here
+    console.log("Search submitted:", searchQuery);
+    // Example: createSearch(userId, [searchQuery.trim()]);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Search Header */}
       <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="flex items-center gap-3 p-4">
+        <form onSubmit={handleSearchSubmit} className="flex items-center gap-3 p-4">
           <div className="relative flex-1">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
@@ -70,6 +79,7 @@ function Search() {
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={handleClearSearch}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -77,7 +87,7 @@ function Search() {
               </button>
             )}
           </div>
-        </div>
+        </form>
       </div>
 
       {/* Content */}
