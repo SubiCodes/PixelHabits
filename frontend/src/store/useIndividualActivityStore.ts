@@ -19,6 +19,8 @@ export const useIndividualActivityStore = create<IndividualActivityStore>((set) 
     getActivityById: async (activityId: string) => {
         try {
             set({ gettingActivity: true });
+            const res = await api.get(`/activities/${activityId}`);
+            set({ activity: res.data });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
