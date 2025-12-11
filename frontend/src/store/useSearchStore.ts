@@ -19,6 +19,7 @@ interface SearchStore {
     createSearch: (id: string, searches: string[]) => Promise<void>
     creartingSearch: boolean
     removeSearch: (id: string, searchTerm: string) => Promise<void>
+    searchResults: {habits: Habit[], users: User[], activities: Activity[]} | []
     gettingSearchResults: boolean
     getSearchResults: (searchText: string) => Promise<{ users: User[], habits: Habit[], activities: Activity[] } | void>
     getSearchResultsError: string | null
@@ -88,6 +89,7 @@ export const useSearchStore = create<SearchStore>((set) => ({
             });
         }
     },
+    searchResults: [],
     gettingSearchResults: false,
     getSearchResults: async (searchText: string) => {
         try {
