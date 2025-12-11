@@ -20,7 +20,7 @@ interface SearchStore {
     creartingSearch: boolean
     removeSearch: (id: string, searchTerm: string) => Promise<void>
     gettingSearchResults: boolean
-    getSearchResults: (searchText: string) => Promise<{users: User[], habits: Habit[], activities: Activity[] } | void>
+    getSearchResults: (searchText: string) => Promise<{ users: User[], habits: Habit[], activities: Activity[] } | void>
     getSearchResultsError: string | null
 }
 
@@ -38,13 +38,13 @@ export const useSearchStore = create<SearchStore>((set) => ({
         }
     },
     suggestions: [],
-    gettingSuggestions: false,  
+    gettingSuggestions: false,
     getSuggestions: async (searchText: string) => {
         try {
             set({ gettingSuggestions: true });
             const res = await api.get(`/search/suggestions/${searchText}`);
             set({ suggestions: res.data });
-        } catch (error) {} 
+        } catch (error) { }
         finally {
             set({ gettingSuggestions: false });
         }
@@ -79,7 +79,7 @@ export const useSearchStore = create<SearchStore>((set) => ({
             set((state) => ({
                 recentSearches: state.recentSearches.filter(term => term !== searchTerm)
             }));
-            
+
             await api.delete(`/search/${id}`, { data: { searchTerm } });
         } catch (error) {
             toast.error('Unable to remove search.', {
@@ -89,6 +89,27 @@ export const useSearchStore = create<SearchStore>((set) => ({
         }
     },
     gettingSearchResults: false,
-    getSearchResults: async (searchText: string) => {},
+    getSearchResults: async (searchText: string) => {
+        try {
+            set({ gettingSearchResults: true });
+            const res = await api.get(`/search/results/${searchText}`);
+            set({ getSearchResultsError: res.data });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Unable to get search results.', {
+                    id: 'get_search_results',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Unable to get search results.', {
+                    id: 'get_search_results',
+                    description: 'Please try again later.',
+                });
+            }
+        } finally {
+            set({ gettingSearchResults: false });
+        }
+    },
     getSearchResultsError: null,
 }));
