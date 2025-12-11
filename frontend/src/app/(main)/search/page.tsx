@@ -11,6 +11,11 @@ function Search() {
   const getRecentSearches = useSearchStore((state) => state.getRecentSearches);
   const gettingRecentSearches = useSearchStore((state) => state.gettingRecentSearches);
   const recentSearches = useSearchStore((state) => state.recentSearches);
+
+  const getSuggestions = useSearchStore((state) => state.getSuggestions);
+  const gettingSuggestions = useSearchStore((state) => state.gettingSuggestions);
+  const suggestions = useSearchStore((state) => state.suggestions);
+
   const createSearch = useSearchStore((state) => state.createSearch);
   const creartingSearch = useSearchStore((state) => state.creartingSearch);
 
@@ -26,7 +31,7 @@ function Search() {
   ];
 
   // Hardcoded suggestions
-  const suggestions = [
+  const suggestionss = [
     "Morning workout routine for beginners",
     "Morning yoga stretches",
     "Morning meditation",
