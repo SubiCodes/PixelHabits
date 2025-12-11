@@ -49,7 +49,6 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
 
     useEffect(() => {
         if (open && activityId) {
-            console.log('Fetching activity with ID:', activityId);
             getActivityById(activityId);
         }
     }, [open, activityId]);
