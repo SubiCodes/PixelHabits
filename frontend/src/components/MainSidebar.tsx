@@ -87,7 +87,7 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
               priority
             />
           </div>
-          <span className="text-lg font-bold text-black">Pixel Habits</span>
+          <span className="text-lg font-bold text-foreground">Pixel Habits</span>
         </Link>
       </div>
 
@@ -103,13 +103,13 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
               href={item.href}
               onClick={handleLinkClick}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors text-black",
+                "flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors text-foreground",
                 "hover:bg-accent",
                 isActive && "font-bold"
               )}
             >
-              <Icon className={cn("h-5 w-5 text-black", isActive && "stroke-[2.5]")} />
-              <span className={cn("text-base text-black", isActive && "font-bold")}>
+              <Icon className={cn("h-5 w-5 text-foreground", isActive && "stroke-[2.5]")} />
+              <span className={cn("text-base text-foreground", isActive && "font-bold")}>
                 {item.name}
               </span>
             </Link>
@@ -122,10 +122,10 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
         <Button
           onClick={handleSignOut}
           variant="ghost"
-          className="w-full justify-start gap-3 px-3 py-2.5 h-auto rounded-full hover:bg-accent text-base text-black"
+          className="w-full justify-start gap-3 px-3 py-2.5 h-auto rounded-full hover:bg-accent text-base text-foreground"
         >
-          <LogOut className="h-5 w-5 text-black" />
-          <span className="text-black">Sign out</span>
+          <LogOut className="h-5 w-5 text-foreground" />
+          <span className="text-foreground">Sign out</span>
         </Button>
 
         {user && (
@@ -147,10 +147,10 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm truncate text-black">
+              <p className="font-semibold text-sm truncate text-foreground">
                 {user.displayName || "User"}
               </p>
-              <p className="text-xs text-black/60 truncate">
+              <p className="text-xs text-muted-foreground truncate">
                 @{user.primaryEmail?.split('@')[0] || "username"}
               </p>
             </div>
@@ -187,7 +187,7 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   priority
                 />
               </div>
-              <span className="hidden lg:inline text-lg xl:text-xl font-bold text-black">Pixel Habits</span>
+              <span className="hidden lg:inline text-lg xl:text-xl font-bold text-foreground">Pixel Habits</span>
             </Link>
           </div>
 
@@ -202,13 +202,13 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 rounded-full transition-colors text-black",
+                    "flex items-center gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 rounded-full transition-colors text-foreground",
                     "hover:bg-accent",
                     isActive && "font-bold"
                   )}
                 >
-                  <Icon className={cn("h-5 w-5 xl:h-6 xl:w-6 text-black", isActive && "stroke-[2.5]")} />
-                  <span className={cn("hidden lg:inline text-base xl:text-lg text-black", isActive && "font-bold")}>
+                  <Icon className={cn("h-5 w-5 xl:h-6 xl:w-6 text-foreground", isActive && "stroke-[2.5]")} />
+                  <span className={cn("hidden lg:inline text-base xl:text-lg text-foreground", isActive && "font-bold")}>
                     {item.name}
                   </span>
                 </Link>
@@ -221,10 +221,10 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
             <Button
               onClick={handleSignOut}
               variant="ghost"
-              className="w-full justify-start gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 h-auto rounded-full hover:bg-accent text-base xl:text-lg text-black"
+              className="w-full justify-start gap-3 xl:gap-4 px-3 xl:px-4 py-2.5 xl:py-3 h-auto rounded-full hover:bg-accent text-base xl:text-lg text-foreground"
             >
-              <LogOut className="h-5 w-5 xl:h-6 xl:w-6 text-black" />
-              <span className="hidden lg:inline text-black">Sign out</span>
+              <LogOut className="h-5 w-5 xl:h-6 xl:w-6 text-foreground" />
+              <span className="hidden lg:inline text-foreground">Sign out</span>
             </Button>
 
             {user && (
@@ -245,10 +245,10 @@ export function MainSidebar({ open, onOpenChange }: MainSidebarProps) {
                   )}
                 </div>
                 <div className="hidden lg:block flex-1 min-w-0">
-                  <p className="font-semibold text-sm xl:text-base truncate text-black">
+                  <p className="font-semibold text-sm xl:text-base truncate text-foreground">
                     {user.displayName || "User"}
                   </p>
-                  <p className="text-xs xl:text-sm text-black/60 truncate">
+                  <p className="text-xs xl:text-sm text-muted-foreground truncate">
                     @{user.primaryEmail?.split('@')[0] || "username"}
                   </p>
                 </div>
