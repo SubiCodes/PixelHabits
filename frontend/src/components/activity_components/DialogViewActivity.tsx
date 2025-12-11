@@ -30,9 +30,10 @@ interface DialogCreateHabitProps {
     newActivityFormat?: boolean
     handleLikeFunction?: () => void
     fromUserProfile?: boolean
+    playVideo?: boolean
 }
 
-export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false, handleLikeFunction, fromUserProfile = false }: DialogCreateHabitProps) {
+export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false, handleLikeFunction, fromUserProfile = false, playVideo = false }: DialogCreateHabitProps) {
 
     const user = useUser();
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
@@ -112,6 +113,7 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
                             onLike={() => handleLikeFunction ? handleLikeFunction() : undefined}
                             onComment={handleComment}
                             isLiked={user ? (fromUserProfile ? isUserLikedUserActivity(activity.id, user.id) : isUserLiked(activity.id, user.id)) : false}
+                            playVideo={playVideo}
                         />
                     ) : (
                         <p>No media available</p>
