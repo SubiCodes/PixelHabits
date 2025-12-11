@@ -201,7 +201,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
             <DialogViewActivity
                 open={isActivityOpen}
                 close={() => setIsActivityOpen(false)}
-                activity={selectedActivity}
+                activityId={selectedActivity?.id || null}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
                 deleteFunc={() => openDeleteActivityDialog(selectedActivity?.id || "")}
                 playVideo={true}

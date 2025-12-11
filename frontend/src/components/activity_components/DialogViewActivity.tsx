@@ -11,7 +11,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import { ReactNode, useState } from "react"
+import { useState, useEffect } from "react"
 import { Ellipsis, X, Edit, Trash2 } from "lucide-react"
 import { Activity, useActivityStore } from "@/store/useActivityStore"
 import CarouselMediaWithActionButtons from "./CarouselMediaWithActionButtons"
@@ -19,21 +19,21 @@ import { useUser } from "@stackframe/stack"
 import { useLikeStore } from "@/store/useLikeStore"
 import CommentSheet from "./CommentSheet"
 import { useCommentStore } from "@/store/useCommentStore"
+import { useIndividualActivityStore } from "@/store/useIndividualActivityStore"
+import LoadingPage from "@/components/LoadingPage"
 
 interface DialogCreateHabitProps {
-    trigger?: ReactNode
     open: boolean
     close: () => void
-    activity: Activity | null
+    activityId: string | null
     editFunc?: (activity: Activity | null) => void
     deleteFunc?: () => void
-    newActivityFormat?: boolean
     handleLikeFunction?: () => void
     fromUserProfile?: boolean
     playVideo?: boolean
 }
 
-export function DialogViewActivity({ trigger, open, close, activity, editFunc, deleteFunc, newActivityFormat = false, handleLikeFunction, fromUserProfile = false, playVideo = false }: DialogCreateHabitProps) {
+export function DialogViewActivity({ open, close, activityId, editFunc, deleteFunc, handleLikeFunction, fromUserProfile = false, playVideo = false }: DialogCreateHabitProps) {
 
     const user = useUser();
     const isUserLiked = useActivityStore((state) => state.isUserLiked);
@@ -42,6 +42,22 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
     const like = useLikeStore((state) => state.like);
     const clearOpenedCommentsAndReplies = useCommentStore((state) => state.clearOpenedCommentsAndReplies)
     const [isCommentSheetOpen, setIsCommentSheetOpen] = useState<boolean>(false);
+
+    const activity = useIndividualActivityStore((state) => state.activity);
+    const gettingActivity = useIndividualActivityStore((state) => state.gettingActivity);
+    const getActivityById = useIndividualActivityStore((state) => state.getActivityById);
+
+    useEffect(() => {
+        if (open && activityId) {
+            console.log('Fetching activity with ID:', activityId);
+            getActivityById(activityId);
+        }
+    }, [open, activityId]);
+
+    useEffect(() => {
+        console.log('Activity data:', activity);
+        console.log('Getting activity:', gettingActivity);
+    }, [activity, gettingActivity]);
 
     const handleLike = async (activityId: string) => {
         if (!user) return;
@@ -101,7 +117,9 @@ export function DialogViewActivity({ trigger, open, close, activity, editFunc, d
 
                 {/* Media Display with Overlay */}
                 <div className="relative w-full h-[600px] flex items-center justify-center bg-black overflow-hidden">
-                    {activity?.mediaUrls && activity?.mediaUrls.length > 0 ? (
+                    {gettingActivity ? (
+                        <LoadingPage />
+                    ) : activity?.mediaUrls && activity?.mediaUrls.length > 0 ? (
                         <CarouselMediaWithActionButtons
                             media={activity.mediaUrls}
                             posterName={activity.owner?.name ?? 'Unknown User'}

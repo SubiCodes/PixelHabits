@@ -143,7 +143,7 @@ function ProfilePage({ userProfile }: ProfilePageProps) {
             <DialogViewActivity
                 open={isActivityOpen}
                 close={() => setIsActivityOpen(false)}
-                activity={openedActivity}
+                activityId={openedActivity?.id || null}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
                 deleteFunc={() => openedActivity && openDeleteActivityDialog(openedActivity)}
                 handleLikeFunction={() => handleLike(openedActivity ? openedActivity.id : '')}
