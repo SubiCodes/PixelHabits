@@ -99,7 +99,7 @@ export const useSearchStore = create<SearchStore>((set) => ({
         try {
             set({ gettingSearchResults: true });
             const res = await api.get(`/search/results/${searchText}`);
-            set({ getSearchResults: res.data });
+            set({ searchResults: res.data });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
