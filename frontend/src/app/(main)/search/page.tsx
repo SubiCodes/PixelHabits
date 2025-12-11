@@ -90,29 +90,39 @@ function Search() {
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Recent Searches</h2>
               </div>
-              <div className="space-y-2">
-                {recentSearches.map((search, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer group"
-                    onClick={() => handleSearchClick(search)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm">{search}</span>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveRecentSearch(search);
-                      }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+              {recentSearches.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Clock className="h-12 w-12 text-muted-foreground/50 mb-3" />
+                  <p className="text-muted-foreground text-sm">No recent searches</p>
+                  <p className="text-muted-foreground/70 text-xs mt-1">
+                    Your search history will appear here
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {recentSearches.map((search, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer group"
+                      onClick={() => handleSearchClick(search)}
                     >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+                      <div className="flex items-center gap-3">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm">{search}</span>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveRecentSearch(search);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -123,22 +133,32 @@ function Search() {
                 <TrendingUp className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Suggestions</h2>
               </div>
-              <div className="space-y-2">
-                {suggestions
-                  .filter((suggestion) =>
-                    suggestion.toLowerCase().includes(searchQuery.toLowerCase())
-                  )
-                  .map((suggestion, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer"
-                      onClick={() => handleSearchClick(suggestion)}
-                    >
-                      <SearchIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm">{suggestion}</span>
-                    </div>
-                  ))}
-              </div>
+              {suggestions.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <SearchIcon className="h-12 w-12 text-muted-foreground/50 mb-3" />
+                  <p className="text-muted-foreground text-sm">No suggestions found</p>
+                  <p className="text-muted-foreground/70 text-xs mt-1">
+                    Try searching for habits, users, or activities
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {suggestions
+                    .filter((suggestion) =>
+                      suggestion.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                        onClick={() => handleSearchClick(suggestion)}
+                      >
+                        <SearchIcon className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm">{suggestion}</span>
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
           )}
         </div>
