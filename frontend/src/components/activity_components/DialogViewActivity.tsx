@@ -54,16 +54,9 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
         }
     }, [open, activityId]);
 
-    useEffect(() => {
-        console.log('Activity data:', activity);
-        console.log('Getting activity:', gettingActivity);
-    }, [activity, gettingActivity]);
 
     const handleLike = async (activityId: string) => {
         if (!user || !activity) return;
-
-        console.log("triggered");
-        // Create new likes array with updated values
         const newLikes = activity.likes.includes(user.id)
             ? activity.likes.filter(id => id !== user.id)
             : [...activity.likes, user.id];
