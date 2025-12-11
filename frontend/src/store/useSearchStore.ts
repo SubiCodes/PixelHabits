@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
@@ -8,7 +9,9 @@ const api = axios.create({
 interface SearchStore {
     getRecentSearches: (id: string) => Promise<void>
     gettingRecentSearches: boolean
-    recentSearches: string[]
+    recentSearches: string[],
+    createSearch: (id: string, searches: string[]) => Promise<void>
+    creartingSearch: boolean
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -22,6 +25,30 @@ export const useSearchStore = create<SearchStore>((set) => ({
         } catch (error) { }
         finally {
             set({ gettingRecentSearches: false });
+        }
+    },
+    creartingSearch: false,
+    createSearch: async (id: string, searches: string[]) => {
+        try {
+            set({ creartingSearch: true });
+            const res = await api.post(`/search`, { userId: id, searches: searches });
+            set({ recentSearches: res.data.searches });
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.data) {
+                const { message, suggestion } = err.response.data;
+                toast.error(message || 'Unable to search.', {
+                    id: 'create_search',
+                    description: suggestion || 'Please try again later',
+                });
+            } else {
+                toast.error('Unable to search.', {
+                    id: 'create_search',
+                    description: 'Unable to search.',
+                });
+            }
+        }
+        finally {
+            set({ creartingSearch: false });
         }
     },
 }));
