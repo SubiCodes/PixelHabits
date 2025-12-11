@@ -167,6 +167,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                 activity={selectedActivity}
                 editFunc={(activity) => activity && openEditActivityDialog(activity as unknown as Activity)}
                 deleteFunc={() => openDeleteActivityDialog(selectedActivity?.id || "")}
+                playVideo={true}
             />
             <DialogEditActivity open={isEditActivityDialogOpen} onOpenChange={setIsEditActivityDialogOpen} activity={selectedActivity ?? null} onEditSuccess={closeViewAndEditDialogs} />
             <DialogDeleteActivity
