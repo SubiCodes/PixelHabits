@@ -5,8 +5,10 @@ import { Search as SearchIcon, X, Clock, TrendingUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchStore } from "@/store/useSearchStore";
+import { useUser } from "@stackframe/stack";
 
 function Search() {
+  const user = useUser();
 
   const getRecentSearches = useSearchStore((state) => state.getRecentSearches);
   const gettingRecentSearches = useSearchStore((state) => state.gettingRecentSearches);
@@ -54,13 +56,11 @@ function Search() {
     console.log("Remove:", search);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleSearchSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim() || !user) return;
     
-    // Add your search submission logic here
-    console.log("Search submitted:", searchQuery);
-    // Example: createSearch(userId, [searchQuery.trim()]);
+    await createSearch(user.id, [searchQuery.trim()]);
   };
 
   return (
@@ -100,7 +100,7 @@ function Search() {
                 <Clock className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Recent Searches</h2>
               </div>
-              {recentSearches.length === 0 ? (
+              {!recentSearches || recentSearches.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Clock className="h-12 w-12 text-muted-foreground/50 mb-3" />
                   <p className="text-muted-foreground text-sm">No recent searches</p>
@@ -143,7 +143,7 @@ function Search() {
                 <TrendingUp className="h-5 w-5 text-muted-foreground" />
                 <h2 className="text-lg font-semibold">Suggestions</h2>
               </div>
-              {suggestions.length === 0 ? (
+              {!suggestions || suggestions.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <SearchIcon className="h-12 w-12 text-muted-foreground/50 mb-3" />
                   <p className="text-muted-foreground text-sm">No suggestions found</p>

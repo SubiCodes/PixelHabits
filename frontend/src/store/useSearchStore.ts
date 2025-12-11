@@ -47,7 +47,7 @@ export const useSearchStore = create<SearchStore>((set) => ({
         try {
             set({ creartingSearch: true });
             const res = await api.post(`/search`, { userId: id, searches: searches });
-            set({ recentSearches: res.data.searches });
+            set({ recentSearches: res.data });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
