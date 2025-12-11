@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchStore } from "@/store/useSearchStore";
 import LoadingPage from "@/components/LoadingPage";
-import Error from "next/error";
+import ErrorPage from "@/components/ErrorPage";
 
 function SearchResults() {
     const router = useRouter();
@@ -48,13 +48,17 @@ function SearchResults() {
             {/* Content */}
             <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {gettingSearchResults ? (
-                    <LoadingPage />
+                    <div className="flex flex-1 min-h-full items-center justify-center">
+                        <LoadingPage />
+                    </div>
                 ) : getSearchResultsError ? (
-                    <Error statusCode={500} title="Failed to load search results" />
+                    <div className="flex flex-1 min-h-full items-center justify-center">
+                        <ErrorPage retryAction={() => getSearchResults(query)}/>
+                    </div>
                 ) : (
                     <div className="p-4">
                         {query && (
-                            <p className="text-muted-foreground">
+                            <p className="text-foreground">
                                 Showing results for: &ldquo;<span className="font-semibold text-foreground">{query}</span>&rdquo;
                             </p>
                         )}
