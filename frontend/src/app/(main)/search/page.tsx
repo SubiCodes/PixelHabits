@@ -63,6 +63,12 @@ function Search() {
     await createSearch(user.id, [searchQuery.trim()]);
   };
 
+  React.useEffect(() => {
+    if (user) {
+      getRecentSearches(user.id);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Search Header */}
