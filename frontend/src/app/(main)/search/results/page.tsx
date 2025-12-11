@@ -8,6 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSearchStore } from "@/store/useSearchStore";
 import LoadingPage from "@/components/LoadingPage";
 import ErrorPage from "@/components/ErrorPage";
+import TabsProfilePages from "@/components/profile_components/TabsProfilePages";
 
 function SearchResults() {
     const router = useRouter();
@@ -18,6 +19,8 @@ function SearchResults() {
     const searchResults = useSearchStore((state) => state.searchResults);
     const getSearchResults = useSearchStore((state) => state.getSearchResults);
     const getSearchResultsError = useSearchStore((state) => state.getSearchResultsError);
+
+    const [activeTab, setActiveTab] = React.useState("All");
 
     React.useEffect(() => {
         getSearchResults(query);
@@ -57,11 +60,7 @@ function SearchResults() {
                     </div>
                 ) : (
                     <div className="p-4">
-                        {query && (
-                            <p className="text-foreground">
-                                Showing results for: &ldquo;<span className="font-semibold text-foreground">{query}</span>&rdquo;
-                            </p>
-                        )}
+                       <TabsProfilePages pages={["All", "Activities", "Habits", "User"]} activeTab={activeTab} onChangeTab={(tab) => setActiveTab(tab)} />
                     </div>
                 )}
             </div>
