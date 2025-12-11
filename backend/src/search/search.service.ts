@@ -3,6 +3,7 @@ import { CreateSearchDto } from './dto/create-search.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { enrichWithUserData } from 'src/common/utils/user-enrichment.util';
 import { serializeModelDates } from 'src/utils/serializeModelDates';
+import { toZonedTime, format } from 'date-fns-tz';
 
 @Injectable()
 export class SearchService {
@@ -132,7 +133,62 @@ export class SearchService {
         },
         isPublic: true,
       },
+      include: {
+        activities: {
+          include: {
+            likes: { select: { ownerId: true } },
+            comments: { select: { id: true } }
+          }
+        },
+      },
       take: 20,
+    });
+
+    // Add current streak property to each habit (consecutive days ending at last activity, alive if last activity is today or yesterday)
+    const habitsWithStreak = habits.map(habit => {
+      const PH_TZ = 'Asia/Manila';
+      function getPHDateString(date: Date) {
+        return format(toZonedTime(date, PH_TZ), 'yyyy-MM-dd', { timeZone: PH_TZ });
+      }
+      const activities = (habit.activities ?? []).map(activity => ({
+        ...activity,
+        likes: activity.likes ? activity.likes.map(like => like.ownerId) : [],
+        comments: activity.comments ? activity.comments.length : 0
+      }));
+      const activityDates = Array.from(new Set(
+        activities.map(a => {
+          const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+          return getPHDateString(date);
+        })
+      ));
+      activityDates.sort();
+      let streak = 0;
+      if (activityDates.length > 0) {
+        const now = new Date();
+        const todayStr = getPHDateString(now);
+        const yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        const yesterdayStr = getPHDateString(yesterday);
+        const lastActivityDateStr = activityDates[activityDates.length - 1];
+        const lastDateStr = lastActivityDateStr;
+        if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
+          streak = 1;
+          for (let i = activityDates.length - 1; i > 0; i--) {
+            const prevStr = activityDates[i - 1];
+            const currStr = activityDates[i];
+            // Parse as local midnight
+            const prevDate = new Date(prevStr + 'T00:00:00');
+            const currDate = new Date(currStr + 'T00:00:00');
+            const diffDays = Math.round((currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+              streak++;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+      return { ...habit, activities, streak };
     });
 
     // Search users by name
@@ -181,7 +237,7 @@ export class SearchService {
     }
 
     return {
-      habits,
+      habits: habitsWithStreak,
       users,
       activities,
     };
