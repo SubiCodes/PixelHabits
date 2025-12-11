@@ -28,26 +28,6 @@ function Search() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Hardcoded recent searches
-  const recentSearchess = [
-    "Morning workout routine",
-    "Healthy breakfast ideas",
-    "Meditation techniques",
-    "Running tips",
-    "Yoga poses for beginners",
-  ];
-
-  // Hardcoded suggestions
-  const suggestionss = [
-    "Morning workout routine for beginners",
-    "Morning yoga stretches",
-    "Morning meditation",
-    "Morning run playlist",
-    "Morning habit tracker",
-    "Morning journaling prompts",
-    "Morning skincare routine",
-  ];
-
   const handleClearSearch = () => {
     setSearchQuery("");
   };
