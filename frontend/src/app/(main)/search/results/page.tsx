@@ -9,6 +9,8 @@ import { useSearchStore } from "@/store/useSearchStore";
 import LoadingPage from "@/components/LoadingPage";
 import ErrorPage from "@/components/ErrorPage";
 import TabsProfilePages from "@/components/profile_components/TabsProfilePages";
+import CardActivity from "@/components/activity_components/CardActivity";
+import CardHabits from "@/components/habit_components/CardHabits";
 
 function SearchResults() {
     const router = useRouter();
@@ -59,8 +61,9 @@ function SearchResults() {
                         <ErrorPage retryAction={() => getSearchResults(query)}/>
                     </div>
                 ) : (
-                    <div className="p-4">
+                    <div className="flex flex-col p-4">
                        <TabsProfilePages pages={["All", "Activities", "Habits", "User"]} activeTab={activeTab} onChangeTab={(tab) => setActiveTab(tab)} />
+                        
                     </div>
                 )}
             </div>
