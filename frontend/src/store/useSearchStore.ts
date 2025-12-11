@@ -99,7 +99,7 @@ export const useSearchStore = create<SearchStore>((set) => ({
         try {
             set({ gettingSearchResults: true });
             const res = await api.get(`/search/results/${searchText}`);
-            set({ getSearchResultsError: res.data });
+            set({ getSearchResults: res.data });
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;
@@ -107,11 +107,13 @@ export const useSearchStore = create<SearchStore>((set) => ({
                     id: 'get_search_results',
                     description: suggestion || 'Please try again later',
                 });
+                set({ getSearchResultsError: message || 'Unable to get search results.' });
             } else {
                 toast.error('Unable to get search results.', {
                     id: 'get_search_results',
                     description: 'Please try again later.',
                 });
+                set({ getSearchResultsError: 'Unable to get search results.' });
             }
         } finally {
             set({ gettingSearchResults: false });
