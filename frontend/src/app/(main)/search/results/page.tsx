@@ -13,6 +13,7 @@ import TabsProfilePages from "@/components/profile_components/TabsProfilePages";
 import CardActivity from "@/components/activity_components/CardActivity";
 import CardHabits from "@/components/habit_components/CardHabits";
 import CardUser from "@/components/user_components/CardUser";
+import { DialogViewActivity } from "@/components/activity_components/DialogViewActivity";
 
 function SearchResults() {
     const router = useRouter();
@@ -25,6 +26,14 @@ function SearchResults() {
     const getSearchResultsError = useSearchStore((state) => state.getSearchResultsError);
 
     const [activeTab, setActiveTab] = React.useState("All");
+
+    const [isActivityOpen, setIsActivityOpen] = React.useState<boolean>(false);
+    const [selectedActivity, setSelectedActivity] = React.useState<string | null>(null);
+
+    const handleOpenActivity = (activityId: string) => {
+        setSelectedActivity(activityId);
+        setIsActivityOpen(true);
+    }
 
     React.useEffect(() => {
         getSearchResults(query);
@@ -60,18 +69,18 @@ function SearchResults() {
                     </div>
                 ) : getSearchResultsError ? (
                     <div className="flex flex-1 min-h-full items-center justify-center">
-                        <ErrorPage retryAction={() => getSearchResults(query)}/>
+                        <ErrorPage retryAction={() => getSearchResults(query)} />
                     </div>
                 ) : (
                     <div className="flex flex-col p-4">
-                       <TabsProfilePages pages={["All", "Activities", "Habits", "User"]} activeTab={activeTab} onChangeTab={(tab) => setActiveTab(tab)} />
-                        
+                        <TabsProfilePages pages={["All", "Activities", "Habits", "User"]} activeTab={activeTab} onChangeTab={(tab) => setActiveTab(tab)} />
+
                         <div className="mt-4 space-y-4">
                             {activeTab === "All" && (() => {
                                 const activities = (searchResults && !Array.isArray(searchResults)) ? searchResults.activities : [];
                                 const users = (searchResults && !Array.isArray(searchResults)) ? searchResults.users : [];
                                 const habits = (searchResults && !Array.isArray(searchResults)) ? searchResults.habits : [];
-                                
+
                                 if (activities.length === 0 && users.length === 0 && habits.length === 0) {
                                     return (
                                         <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -80,11 +89,11 @@ function SearchResults() {
                                         </div>
                                     );
                                 }
-                                
+
                                 const interleaved: Array<{ type: 'activity' | 'user' | 'habit', data: any, id: string }> = [];
-                                
+
                                 let actIndex = 0, userIndex = 0, habitIndex = 0;
-                                
+
                                 while (actIndex < activities.length || userIndex < users.length || habitIndex < habits.length) {
                                     // Add 2 activities
                                     for (let i = 0; i < 2 && actIndex < activities.length; i++) {
@@ -102,7 +111,7 @@ function SearchResults() {
                                         interleaved.push({ type: 'habit', data: habit, id: habit.id });
                                     }
                                 }
-                                
+
                                 // Group consecutive items of the same type
                                 const grouped: Array<{ type: 'activity' | 'user' | 'habit', items: any[] }> = [];
                                 for (const item of interleaved) {
@@ -113,13 +122,13 @@ function SearchResults() {
                                         grouped.push({ type: item.type, items: [item] });
                                     }
                                 }
-                                
+
                                 return grouped.map((group, groupIndex) => (
                                     <div key={`group-${group.type}-${groupIndex}`}>
                                         {group.type === 'activity' && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {group.items.map((item) => (
-                                                    <CardActivity key={item.id} activity={item.data as any} openActivity={() => {}} />
+                                                    <CardActivity key={item.id} activity={item.data as any} openActivity={() => handleOpenActivity(item.id)} />
                                                 ))}
                                             </div>
                                         )}
@@ -133,19 +142,19 @@ function SearchResults() {
                                         {group.type === 'habit' && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {group.items.map((item) => (
-                                                    <CardHabits key={item.id} habit={item.data as any} fromProfile={true}/>
+                                                    <CardHabits key={item.id} habit={item.data as any} fromProfile={true} />
                                                 ))}
                                             </div>
                                         )}
                                     </div>
                                 ));
                             })()}
-                            
+
                             {activeTab === "Activities" && (searchResults && !Array.isArray(searchResults)) && (
                                 searchResults.activities?.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {searchResults.activities.map((activity) => (
-                                            <CardActivity key={activity.id} activity={activity} openActivity={() => {}} />
+                                            <CardActivity key={activity.id} activity={activity} openActivity={() => handleOpenActivity(activity.id)} />
                                         ))}
                                     </div>
                                 ) : (
@@ -155,12 +164,12 @@ function SearchResults() {
                                     </div>
                                 )
                             )}
-                            
+
                             {activeTab === "Habits" && (searchResults && !Array.isArray(searchResults)) && (
                                 searchResults.habits?.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {searchResults.habits.map((habit) => (
-                                            <CardHabits key={habit.id} habit={habit} fromProfile={true}/>
+                                            <CardHabits key={habit.id} habit={habit} fromProfile={true} />
                                         ))}
                                     </div>
                                 ) : (
@@ -170,7 +179,7 @@ function SearchResults() {
                                     </div>
                                 )
                             )}
-                            
+
                             {activeTab === "User" && (searchResults && !Array.isArray(searchResults)) && (
                                 searchResults.users?.length > 0 ? (
                                     searchResults.users.map((user) => (
@@ -187,6 +196,12 @@ function SearchResults() {
                     </div>
                 )}
             </div>
+            <DialogViewActivity
+                open={isActivityOpen}
+                close={() => setIsActivityOpen(false)}
+                activityId={selectedActivity || null}
+                playVideo={true}
+            />
         </div>
     );
 }
