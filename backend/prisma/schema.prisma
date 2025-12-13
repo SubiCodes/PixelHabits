@@ -98,6 +98,15 @@ model views {
   @@schema("public")
 }
 
+model leaderboards {
+  id        String   @id @default(uuid())
+  type      String   @unique
+  userIds   String[] @default([]) @map("user_ids")
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@schema("public")
+}
+
 model users_sync {
   rawJson   Json      @map("raw_json")
   id        String    @id @default(dbgenerated("(raw_json ->> 'id'::text)"))
