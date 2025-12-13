@@ -201,6 +201,15 @@ export class LeaderboardsService {
         return streak;
     }
 
+    async getLeaderboards() {
+        const leaderboards = await this.databaseService.leaderboards.findMany();
+
+        return {
+            interaction: leaderboards.find(lb => lb.type === 'interaction') || null,
+            streak: leaderboards.find(lb => lb.type === 'streak') || null,
+        };
+    }
+
     private getPHDateString(date: Date): string {
         // Convert to Philippine timezone (UTC+8)
         const phDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
