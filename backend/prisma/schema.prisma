@@ -102,6 +102,7 @@ model leaderboards {
   id        String   @id @default(uuid())
   type      String   @unique
   userIds   String[] @default([]) @map("user_ids")
+  amounts   Int[]    @default([])
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
 
   @@schema("public")
