@@ -11,7 +11,7 @@ export interface LeaderBoardType {
     userIds: string[];
     amounts: number[];
     updatedAt: string | Date;
-}
+};
 
 interface LeaderBoardStore {
     interactionLeaders: LeaderBoardType | null
@@ -19,4 +19,14 @@ interface LeaderBoardStore {
     gettingLeaderBoards: boolean
     getLeaderBoards: () => Promise<void>
     gettingLeaderBoardsError: string | null
-}
+};
+
+export const useLeaderBoardStore = create<LeaderBoardStore>((set) => ({
+    interactionLeaders: null,
+    streakLeaders: null,
+    gettingLeaderBoards: false,
+    gettingLeaderBoardsError: null, 
+    getLeaderBoards: async () => {
+
+    },
+}));
