@@ -15,6 +15,9 @@ export class LeaderboardsService {
         try {
             // Calculate interaction leaders
             await this.calculateInteractionLeaders();
+            
+            // Calculate streak leaders
+            await this.calculateStreakLeaders();
 
             console.log('Leaderboards updated successfully');
         } catch (error) {
@@ -88,5 +91,112 @@ export class LeaderboardsService {
         });
 
         console.log('Interaction leaders updated:', sortedUsers.length, 'users');
+    }
+
+    private async calculateStreakLeaders() {
+        // Get all users from users_sync table
+        const users = await this.databaseService.users_sync.findMany({
+            where: {
+                deletedAt: null,
+            },
+            select: {
+                id: true,
+            }
+        });
+
+        const userStreaks: { userId: string; streak: number }[] = [];
+
+        // Calculate streak for each user
+        for (const user of users) {
+            const activities = await this.databaseService.activities.findMany({
+                where: {
+                    ownerId: user.id,
+                },
+                select: {
+                    createdAt: true,
+                },
+                orderBy: {
+                    createdAt: 'asc',
+                }
+            });
+
+            const streak = this.calculateUserStreak(activities);
+            if (streak > 0) {
+                userStreaks.push({ userId: user.id, streak });
+            }
+        }
+
+        // Sort by streak (descending) and get top 10
+        const sortedUsers = userStreaks
+            .sort((a, b) => b.streak - a.streak)
+            .slice(0, 10)
+            .map(({ userId }) => userId);
+
+        // Update or create the streak leaderboard
+        await this.databaseService.leaderboards.upsert({
+            where: { type: 'streak' },
+            update: {
+                userIds: sortedUsers,
+                updatedAt: new Date(),
+            },
+            create: {
+                type: 'streak',
+                userIds: sortedUsers,
+            }
+        });
+
+        console.log('Streak leaders updated:', sortedUsers.length, 'users');
+    }
+
+    private calculateUserStreak(activities: { createdAt: Date }[]): number {
+        if (activities.length === 0) return 0;
+
+        // Get unique activity dates in PH timezone
+        const activityDates = Array.from(new Set(
+            activities.map(a => {
+                const date = typeof a.createdAt === 'string' ? new Date(a.createdAt) : a.createdAt;
+                return this.getPHDateString(date);
+            })
+        ));
+        activityDates.sort();
+
+        let streak = 0;
+        if (activityDates.length > 0) {
+            const now = new Date();
+            const todayStr = this.getPHDateString(now);
+            const yesterday = new Date(now);
+            yesterday.setDate(now.getDate() - 1);
+            const yesterdayStr = this.getPHDateString(yesterday);
+            const lastActivityDateStr = activityDates[activityDates.length - 1];
+            const lastDateStr = lastActivityDateStr;
+
+            if (lastDateStr === todayStr || lastDateStr === yesterdayStr) {
+                streak = 1;
+                for (let i = activityDates.length - 1; i > 0; i--) {
+                    const prevStr = activityDates[i - 1];
+                    const currStr = activityDates[i];
+                    // Parse as local midnight
+                    const prevDate = new Date(prevStr + 'T00:00:00');
+                    const currDate = new Date(currStr + 'T00:00:00');
+                    const diffDays = Math.round((currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24));
+                    if (diffDays === 1) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return streak;
+    }
+
+    private getPHDateString(date: Date): string {
+        // Convert to Philippine timezone (UTC+8)
+        const phDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+        const year = phDate.getFullYear();
+        const month = String(phDate.getMonth() + 1).padStart(2, '0');
+        const day = String(phDate.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }
