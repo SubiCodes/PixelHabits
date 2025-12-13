@@ -14,9 +14,10 @@ import { RepliesModule } from './replies/replies.module';
 import { ProfileModule } from './profile/profile.module';
 import { SearchModule } from './search/search.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { LeaderboardsModule } from './leaderboards/leaderboards.module';
 
 @Module({
-  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule, CommentLikesModule, RepliesModule, ProfileModule, SearchModule, ScheduleModule.forRoot()],
+  imports: [DatabaseModule, HabitsModule, CloudinaryModule, ActivitiesModule, ViewsModule, LikesModule, CommentsModule, ContentsModule, CommentLikesModule, RepliesModule, ProfileModule, SearchModule, ScheduleModule.forRoot(), LeaderboardsModule],
   controllers: [AppController],
   providers: [AppService],
 })
