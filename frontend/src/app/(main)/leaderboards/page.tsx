@@ -11,6 +11,8 @@ import Streak3To49 from '@/lottie-jsons/Streak3To49.json';
 import Streak50to99 from '@/lottie-jsons/Streak50to99.json';
 import Streak100 from '@/lottie-jsons/Streak100.json';
 import { useLeaderBoardStore } from '@/store/useLeaderBoards.store';
+import LoadingPage from '@/components/LoadingPage';
+import ErrorPage from '@/components/ErrorPage';
 
 function Leaderboards() {
   const [timeUntilRefresh, setTimeUntilRefresh] = useState('');
@@ -88,6 +90,22 @@ function Leaderboards() {
     }
   };
 
+  if (gettingLeaderBoards) {
+    return (
+      <div className='min-h-full max-h-full min-w-full max-w-full flex items-center justify-center'>
+        <LoadingPage />;
+      </div>
+    );
+  }
+
+  if (gettingLeaderBoardsError) {
+    return (
+      <div className='min-h-full max-h-full min-w-full max-w-full flex items-center justify-center'>
+        <ErrorPage errorMessage={gettingLeaderBoardsError} retryAction={getLeaderBoards}/>
+      </div>
+    );
+  }
+
   return (
     <div className="max-h-screen overflow-auto bg-background pb-6">
       {/* Header */}
@@ -126,44 +144,42 @@ function Leaderboards() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {gettingLeaderBoards ? (
-              <p className="text-center text-muted-foreground py-8">Loading...</p>
-            ) : streakLeaders.length === 0 ? (
+            {streakLeaders.length === 0 ? (
               <p className="text-center text-muted-foreground py-8">No streak leaders yet</p>
             ) : (
               streakLeaders.map((leader, index) => (
-              <div
-                key={leader.id}
-                className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
-              >
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
-                  {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
-                </div>
+                <div
+                  key={leader.id}
+                  className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
+                >
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
+                    {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
+                  </div>
 
-                <Avatar className="h-12 w-12 border-2">
-                  <AvatarImage src={leader.profileImageUrl} />
-                  <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                  <Avatar className="h-12 w-12 border-2">
+                    <AvatarImage src={leader.profileImageUrl} />
+                    <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
 
-                <div className="flex-1">
-                  <p className="font-semibold">{leader.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {leader.streak} day streak
-                  </p>
-                </div>
+                  <div className="flex-1">
+                    <p className="font-semibold">{leader.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {leader.streak} day streak
+                    </p>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <Lottie
-                    animationData={getStreakAnimation(leader.streak)}
-                    loop
-                    className="h-12 w-12"
-                  />
-                  <Badge variant="secondary" className="text-base font-bold px-3 py-1">
-                    {leader.streak}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Lottie
+                      animationData={getStreakAnimation(leader.streak)}
+                      loop
+                      className="h-12 w-12"
+                    />
+                    <Badge variant="secondary" className="text-base font-bold px-3 py-1">
+                      {leader.streak}
+                    </Badge>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
             )}
           </CardContent>
         </Card>
@@ -180,37 +196,35 @@ function Leaderboards() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {gettingLeaderBoards ? (
-              <p className="text-center text-muted-foreground py-8">Loading...</p>
-            ) : interactionLeaders.length === 0 ? (
+            {interactionLeaders.length === 0 ? (
               <p className="text-center text-muted-foreground py-8">No interaction leaders yet</p>
             ) : (
               interactionLeaders.map((leader, index) => (
-              <div
-                key={leader.id}
-                className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
-              >
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
-                  {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
+                <div
+                  key={leader.id}
+                  className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
+                >
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
+                    {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
+                  </div>
+
+                  <Avatar className="h-12 w-12 border-2">
+                    <AvatarImage src={leader.profileImageUrl} />
+                    <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+
+                  <div className="flex-1">
+                    <p className="font-semibold">{leader.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {leader.points.toLocaleString()} interactions
+                    </p>
+                  </div>
+
+                  <Badge variant="secondary" className="text-base font-bold px-3 py-1">
+                    {leader.points.toLocaleString()}
+                  </Badge>
                 </div>
-
-                <Avatar className="h-12 w-12 border-2">
-                  <AvatarImage src={leader.profileImageUrl} />
-                  <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-
-                <div className="flex-1">
-                  <p className="font-semibold">{leader.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {leader.points.toLocaleString()} interactions
-                  </p>
-                </div>
-
-                <Badge variant="secondary" className="text-base font-bold px-3 py-1">
-                  {leader.points.toLocaleString()}
-                </Badge>
-              </div>
-            ))
+              ))
             )}
           </CardContent>
         </Card>
