@@ -37,6 +37,7 @@ export const useLeaderBoardStore = create<LeaderBoardStore>((set) => ({
                 interactionLeaders: res.data.interaction,
                 streakLeaders: res.data.streak,
             });
+            console.log('Leaderboards fetched', res.data);
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
                 const { message, suggestion } = err.response.data;

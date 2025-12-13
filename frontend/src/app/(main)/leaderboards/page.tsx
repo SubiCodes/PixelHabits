@@ -27,14 +27,14 @@ function Leaderboards() {
   const interactionLeaders = interactionLeadersData?.users.map((user, index) => ({
     id: user.id,
     name: user.name || 'Unknown User',
-    profileImageUrl: (user.rawJson as any)?.profileImageUrl || '',
+    profileImageUrl: (user.rawJson as any)?.profile_image_url || '',
     points: interactionLeadersData.amounts[index] || 0,
   })) || [];
 
   const streakLeaders = streakLeadersData?.users.map((user, index) => ({
     id: user.id,
     name: user.name || 'Unknown User',
-    profileImageUrl: (user.rawJson as any)?.profileImageUrl || '',
+    profileImageUrl: (user.rawJson as any)?.profile_image_url || '',
     streak: streakLeadersData.amounts[index] || 0,
   })) || [];
 
