@@ -204,9 +204,32 @@ export class LeaderboardsService {
     async getLeaderboards() {
         const leaderboards = await this.databaseService.leaderboards.findMany();
 
+        const interactionLeaderboard = leaderboards.find(lb => lb.type === 'interaction');
+        const streakLeaderboard = leaderboards.find(lb => lb.type === 'streak');
+
+        // Enrich with user data
+        const enrichedInteraction = interactionLeaderboard ? await this.enrichLeaderboardWithUsers(interactionLeaderboard) : null;
+        const enrichedStreak = streakLeaderboard ? await this.enrichLeaderboardWithUsers(streakLeaderboard) : null;
+
         return {
-            interaction: leaderboards.find(lb => lb.type === 'interaction') || null,
-            streak: leaderboards.find(lb => lb.type === 'streak') || null,
+            interaction: enrichedInteraction,
+            streak: enrichedStreak,
+        };
+    }
+
+    private async enrichLeaderboardWithUsers(leaderboard: any) {
+        const users = await Promise.all(
+            leaderboard.userIds.map(async (userId: string) => {
+                const user = await this.databaseService.users_sync.findUnique({
+                    where: { id: userId },
+                });
+                return user;
+            })
+        );
+
+        return {
+            ...leaderboard,
+            users,
         };
     }
 

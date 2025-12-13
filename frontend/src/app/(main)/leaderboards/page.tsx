@@ -9,9 +9,16 @@ import Lottie from 'lottie-react';
 import Streak3To49 from '@/lottie-jsons/Streak3To49.json';
 import Streak50to99 from '@/lottie-jsons/Streak50to99.json';
 import Streak100 from '@/lottie-jsons/Streak100.json';
+import { useLeaderBoardStore } from '@/store/useLeaderBoards.store';
 
 function Leaderboards() {
   const [timeUntilRefresh, setTimeUntilRefresh] = useState('');
+
+  // const interactionLeaders = useLeaderBoardStore((state) => state.interactionLeaders);
+  // const streakLeaders = useLeaderBoardStore((state) => state.streakLeaders);
+  // const gettingLeaderBoards = useLeaderBoardStore((state) => state.gettingLeaderBoards);
+  // const getLeaderBoards = useLeaderBoardStore((state) => state.getLeaderBoards);
+  // const gettingLeaderBoardsError = useLeaderBoardStore((state) => state.gettingLeaderBoardsError);
 
   // Hardcoded leaderboard data
   const interactionLeaders = [
@@ -34,17 +41,17 @@ function Leaderboards() {
     const updateCountdown = () => {
       const now = new Date();
       const phTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
-      
+
       // Calculate next 12AM Philippine time
       const nextMidnight = new Date(phTime);
       nextMidnight.setHours(24, 0, 0, 0);
-      
+
       const diff = nextMidnight.getTime() - phTime.getTime();
-      
+
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
+
       setTimeUntilRefresh(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
     };
 
@@ -124,7 +131,7 @@ function Leaderboards() {
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
                   {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
                 </div>
-                
+
                 <Avatar className="h-12 w-12 border-2">
                   <AvatarImage src={leader.profileImageUrl} />
                   <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
@@ -172,7 +179,7 @@ function Leaderboards() {
                 <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold ${index < 3 ? getMedalColor(index + 1) : 'text-muted-foreground'}`}>
                   {index < 3 ? <Trophy className="h-5 w-5" /> : `#${index + 1}`}
                 </div>
-                
+
                 <Avatar className="h-12 w-12 border-2">
                   <AvatarImage src={leader.profileImageUrl} />
                   <AvatarFallback>{leader.name.charAt(0)}</AvatarFallback>
