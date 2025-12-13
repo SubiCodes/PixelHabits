@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -14,28 +15,30 @@ import { useLeaderBoardStore } from '@/store/useLeaderBoards.store';
 function Leaderboards() {
   const [timeUntilRefresh, setTimeUntilRefresh] = useState('');
 
-  // const interactionLeaders = useLeaderBoardStore((state) => state.interactionLeaders);
-  // const streakLeaders = useLeaderBoardStore((state) => state.streakLeaders);
-  // const gettingLeaderBoards = useLeaderBoardStore((state) => state.gettingLeaderBoards);
-  // const getLeaderBoards = useLeaderBoardStore((state) => state.getLeaderBoards);
-  // const gettingLeaderBoardsError = useLeaderBoardStore((state) => state.gettingLeaderBoardsError);
+  const interactionLeadersData = useLeaderBoardStore((state) => state.interactionLeaders);
+  const streakLeadersData = useLeaderBoardStore((state) => state.streakLeaders);
+  const gettingLeaderBoards = useLeaderBoardStore((state) => state.gettingLeaderBoards);
+  const getLeaderBoards = useLeaderBoardStore((state) => state.getLeaderBoards);
+  const gettingLeaderBoardsError = useLeaderBoardStore((state) => state.gettingLeaderBoardsError);
 
-  // Hardcoded leaderboard data
-  const interactionLeaders = [
-    { id: '1', name: 'Alex Johnson', profileImageUrl: '', points: 1250 },
-    { id: '2', name: 'Maria Garcia', profileImageUrl: '', points: 1180 },
-    { id: '3', name: 'James Smith', profileImageUrl: '', points: 950 },
-    { id: '4', name: 'Sarah Lee', profileImageUrl: '', points: 875 },
-    { id: '5', name: 'Chris Brown', profileImageUrl: '', points: 720 },
-  ];
+  // Transform store data to UI format
+  const interactionLeaders = interactionLeadersData?.users.map((user, index) => ({
+    id: user.id,
+    name: user.name || 'Unknown User',
+    profileImageUrl: (user.rawJson as any)?.profileImageUrl || '',
+    points: interactionLeadersData.amounts[index] || 0,
+  })) || [];
 
-  const streakLeaders = [
-    { id: '1', name: 'Emma Wilson', profileImageUrl: '', streak: 127 },
-    { id: '2', name: 'David Chen', profileImageUrl: '', streak: 89 },
-    { id: '3', name: 'Lisa Park', profileImageUrl: '', streak: 56 },
-    { id: '4', name: 'Mike Taylor', profileImageUrl: '', streak: 34 },
-    { id: '5', name: 'Anna Martinez', profileImageUrl: '', streak: 21 },
-  ];
+  const streakLeaders = streakLeadersData?.users.map((user, index) => ({
+    id: user.id,
+    name: user.name || 'Unknown User',
+    profileImageUrl: (user.rawJson as any)?.profileImageUrl || '',
+    streak: streakLeadersData.amounts[index] || 0,
+  })) || [];
+
+  useEffect(() => {
+    getLeaderBoards();
+  }, [getLeaderBoards]);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -123,7 +126,12 @@ function Leaderboards() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {streakLeaders.map((leader, index) => (
+            {gettingLeaderBoards ? (
+              <p className="text-center text-muted-foreground py-8">Loading...</p>
+            ) : streakLeaders.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No streak leaders yet</p>
+            ) : (
+              streakLeaders.map((leader, index) => (
               <div
                 key={leader.id}
                 className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
@@ -155,7 +163,8 @@ function Leaderboards() {
                   </Badge>
                 </div>
               </div>
-            ))}
+            ))
+            )}
           </CardContent>
         </Card>
 
@@ -171,7 +180,12 @@ function Leaderboards() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {interactionLeaders.map((leader, index) => (
+            {gettingLeaderBoards ? (
+              <p className="text-center text-muted-foreground py-8">Loading...</p>
+            ) : interactionLeaders.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No interaction leaders yet</p>
+            ) : (
+              interactionLeaders.map((leader, index) => (
               <div
                 key={leader.id}
                 className={`flex items-center gap-4 p-4 rounded-lg border transition-all hover:shadow-md ${getMedalBg(index + 1)}`}
@@ -196,7 +210,8 @@ function Leaderboards() {
                   {leader.points.toLocaleString()}
                 </Badge>
               </div>
-            ))}
+            ))
+            )}
           </CardContent>
         </Card>
       </div>
