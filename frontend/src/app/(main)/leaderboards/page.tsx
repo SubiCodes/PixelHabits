@@ -93,7 +93,7 @@ function Leaderboards() {
   if (gettingLeaderBoards) {
     return (
       <div className='min-h-full max-h-full min-w-full max-w-full flex items-center justify-center'>
-        <LoadingPage />;
+        <LoadingPage />
       </div>
     );
   }

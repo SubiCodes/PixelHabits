@@ -53,7 +53,7 @@ export const useLeaderBoardStore = create<LeaderBoardStore>((set) => ({
                 set({ gettingLeaderBoardsError: 'Unable to get leaderboards.' });
             }
         } finally {
-            set({ gettingLeaderBoards: true });
+            set({ gettingLeaderBoards: false });
         }
     },
 }));
