@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import axios from 'axios';
 import { toast } from 'sonner';
+import { User } from './useProfileStore';
 
 const api = axios.create({
     baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
@@ -11,6 +12,7 @@ export interface LeaderBoardType {
     type: "interaction" | "streak";
     userIds: string[];
     amounts: number[];
+    users: User[];
     updatedAt: string | Date;
 };
 
