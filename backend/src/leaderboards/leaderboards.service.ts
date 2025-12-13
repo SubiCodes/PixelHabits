@@ -72,21 +72,25 @@ export class LeaderboardsService {
         }
 
         // Sort users by interaction count and get top 10
-        const sortedUsers = Array.from(userInteractions.entries())
+        const sortedLeaders = Array.from(userInteractions.entries())
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 10)
-            .map(([userId]) => userId);
+            .slice(0, 10);
+        
+        const sortedUsers = sortedLeaders.map(([userId]) => userId);
+        const sortedAmounts = sortedLeaders.map(([, amount]) => amount);
 
         // Update or create the interaction leaderboard
         await this.databaseService.leaderboards.upsert({
             where: { type: 'interaction' },
             update: {
                 userIds: sortedUsers,
+                amounts: sortedAmounts,
                 updatedAt: new Date(),
             },
             create: {
                 type: 'interaction',
                 userIds: sortedUsers,
+                amounts: sortedAmounts,
             }
         });
 
@@ -127,21 +131,25 @@ export class LeaderboardsService {
         }
 
         // Sort by streak (descending) and get top 10
-        const sortedUsers = userStreaks
+        const sortedLeaders = userStreaks
             .sort((a, b) => b.streak - a.streak)
-            .slice(0, 10)
-            .map(({ userId }) => userId);
+            .slice(0, 10);
+        
+        const sortedUsers = sortedLeaders.map(({ userId }) => userId);
+        const sortedAmounts = sortedLeaders.map(({ streak }) => streak);
 
         // Update or create the streak leaderboard
         await this.databaseService.leaderboards.upsert({
             where: { type: 'streak' },
             update: {
                 userIds: sortedUsers,
+                amounts: sortedAmounts,
                 updatedAt: new Date(),
             },
             create: {
                 type: 'streak',
                 userIds: sortedUsers,
+                amounts: sortedAmounts,
             }
         });
 
