@@ -71,8 +71,9 @@ export class LeaderboardsService {
             userInteractions.set(activity.ownerId, currentCount + totalInteractions);
         }
 
-        // Sort users by interaction count and get top 10
+        // Sort users by interaction count, filter out 0 points, and get top 10
         const sortedLeaders = Array.from(userInteractions.entries())
+            .filter(([, amount]) => amount > 0)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10);
         
@@ -130,8 +131,9 @@ export class LeaderboardsService {
             }
         }
 
-        // Sort by streak (descending) and get top 10
+        // Sort by streak (descending), filter out 0 streaks, and get top 10
         const sortedLeaders = userStreaks
+            .filter(({ streak }) => streak > 0)
             .sort((a, b) => b.streak - a.streak)
             .slice(0, 10);
         
