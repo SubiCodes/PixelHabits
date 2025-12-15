@@ -33,7 +33,7 @@ function Profile() {
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full pb-4">
       <ProfilePage userProfile={userProfile} />
     </div>
   );
