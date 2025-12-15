@@ -20,7 +20,7 @@ function CardActivity({ activity, openActivity }: CardActivityProps) {
       mediaElement = (
         <video
           src={firstMedia}
-          className="w-full h-80 object-cover rounded"
+          className="w-full h-72 md:h-80 object-cover rounded"
           controls={false}
           playsInline
           muted
@@ -30,7 +30,7 @@ function CardActivity({ activity, openActivity }: CardActivityProps) {
       );
     } else {
       mediaElement = (
-        <div className="w-full h-56 md:h-80 relative rounded overflow-hidden">
+        <div className="w-full h-72 md:h-80 relative rounded overflow-hidden">
           <Image
             src={firstMedia}
             alt={activity.caption}
