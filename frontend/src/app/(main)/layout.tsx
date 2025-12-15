@@ -14,11 +14,11 @@ export default function MainLayout({
 
   return (
     <AuthGuard>
-      <div className="min-h-screen w-full md:flex md:justify-center bg-background">
-        <div className="flex flex-col md:flex-row w-full md:max-w-7xl min-h-screen md:border-x border-border bg-background">
+      <div className="h-screen w-full md:flex md:justify-center bg-background overflow-hidden">
+        <div className="flex flex-col md:flex-row w-full md:max-w-7xl h-screen md:border-x border-border bg-background">
           <MobileHeader onMenuClick={() => setDrawerOpen(true)} />
           <MainSidebar open={drawerOpen} onOpenChange={setDrawerOpen} />
-          <main className="flex-1 min-h-screen md:border-x border-border">
+          <main className="flex-1 h-full md:border-x border-border overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full">
             {children}
           </main>
         </div>
