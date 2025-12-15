@@ -137,6 +137,7 @@ export default function Home() {
               onLike={() => likeContent(activity.id)}
               onComment={() => openCommentSheet(activity.id)}
               playVideo={activity.id === visibleId}
+              posterId={activity?.owner?.id ?? "" }
             />
           </section>
         ))}
