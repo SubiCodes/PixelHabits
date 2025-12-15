@@ -78,7 +78,12 @@ function SortableMediaItem({ id, index, media, onRemove }: { id: string; index: 
 
     const isFile = media instanceof File;
     const mediaUrl = isFile ? URL.createObjectURL(media) : media;
-    const mediaType = isFile ? media.type : "image";
+    
+    // Better video detection for both Files and URLs
+    const isVideo = isFile 
+        ? media.type.startsWith("video") 
+        : mediaUrl.includes('/upload/') && mediaUrl.includes('/video/') || 
+          mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) !== null;
 
     return (
         <div
@@ -92,8 +97,14 @@ function SortableMediaItem({ id, index, media, onRemove }: { id: string; index: 
                 {...listeners}
                 className="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
             >
-                {mediaType.startsWith("video") ? (
-                    <video src={mediaUrl} className="w-full h-full object-cover pointer-events-none" />
+                {isVideo ? (
+                    <video 
+                        src={mediaUrl} 
+                        className="w-full h-full object-cover pointer-events-none" 
+                        preload="metadata"
+                        muted
+                        playsInline
+                    />
                 ) : (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={mediaUrl} alt={`Media ${index}`} className="w-full h-full object-cover pointer-events-none" />
