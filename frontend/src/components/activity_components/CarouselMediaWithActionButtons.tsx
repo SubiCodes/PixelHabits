@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { act } from 'react'
 import {
     Carousel,
     CarouselContent,
@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Heart, MessageCircle } from "lucide-react"
 import { useActivityStore } from '@/store/useActivityStore'
 import { useLikeStore } from '@/store/useLikeStore'
+import { useRouter } from 'next/navigation'
 
 type MediaType = string | File;
 
@@ -25,6 +26,7 @@ interface CarouselMediaForDisplayProps {
     onComment?: () => void;
     isLiked?: boolean;
     playVideo?: boolean;
+    posterId?: string;
 }
 
 function CarouselMediaWithActionButtons({
@@ -38,13 +40,16 @@ function CarouselMediaWithActionButtons({
     onLike,
     onComment,
     isLiked = false,
-    playVideo = false
+    playVideo = false,
+    posterId 
 }: CarouselMediaForDisplayProps) {
 
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
     const [count, setCount] = React.useState(0)
     const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([]);
+
+    const router = useRouter();
 
     // Initialize video refs array
     React.useEffect(() => {
@@ -186,7 +191,8 @@ function CarouselMediaWithActionButtons({
 
             {/* Control buttons on the right - overlaying media */}
             <div className="absolute right-4 bottom-4 flex flex-col gap-4 z-20 items-center">
-                <Avatar className="h-12 w-12 border-2 border-white shadow-lg cursor-pointer mb-2">
+                <Avatar className="h-12 w-12 border-2 border-white shadow-lg cursor-pointer mb-2" 
+                    onClick={() => { if (posterId) router.push(`/search/profile/${posterId}`) }}>
                     <AvatarImage src={posterAvatar} alt={posterName} />
                     <AvatarFallback>{posterName.charAt(0)}</AvatarFallback>
                 </Avatar>
