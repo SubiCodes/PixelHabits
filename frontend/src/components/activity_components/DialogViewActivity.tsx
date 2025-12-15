@@ -128,6 +128,7 @@ export function DialogViewActivity({ open, close, activityId, editFunc, deleteFu
                             onComment={handleComment}
                             isLiked={!!user && (activity?.likes.includes(user.id) ?? false)}
                             playVideo={playVideo}
+                            posterId={activity?.owner?.id ?? "" }
                         />
                     ) : (
                         <p>No media available</p>
