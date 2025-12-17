@@ -4,7 +4,7 @@ import { Activity } from './useActivityStore';
 import { toast } from 'sonner';
 
 const api = axios.create({
-    baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000',
 });
 
 interface ActivityFeedStore {

@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { se } from 'date-fns/locale';
 
 const api = axios.create({
-    baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000',
 });
 
 export interface Comment {

@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 // Set base URL for axios
 const api = axios.create({
-    baseURL: process.env.BACKEND_URL || 'http://localhost:3000',
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000',
 });
 
 export interface Activity {
