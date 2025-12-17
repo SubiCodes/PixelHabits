@@ -42,7 +42,8 @@ export class CloudinaryUploadService {
 
   validateFiles(files: (Express.Multer.File | string)[]): void {
     const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-    const ALLOWED_MIME_TYPES = /^(image|video)\/(jpeg|jpg|png|gif|webp|mp4|mpeg|quicktime)$/;
+    // Expanded regex to include more video types from mobile devices
+    const ALLOWED_MIME_TYPES = /^(image\/(jpeg|jpg|png|gif|webp)|video\/(mp4|mpeg|quicktime|3gpp|3gpp2|x-matroska|webm|ogg|mov))$/;
 
     for (const file of files) {
       // Skip validation for strings (existing URLs)
@@ -50,7 +51,11 @@ export class CloudinaryUploadService {
         continue;
       }
 
+      // Log mimetype and size for debugging
+      console.log(`[VALIDATE] File: ${file.originalname}, mimetype: ${file.mimetype}, size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+
       if (file.size > MAX_FILE_SIZE) {
+        console.warn(`[VALIDATE] File too large: ${file.originalname} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
         throw new BadRequestException({
           statusCode: 400,
           error: 'FILE_TOO_LARGE',
@@ -60,11 +65,12 @@ export class CloudinaryUploadService {
       }
 
       if (!ALLOWED_MIME_TYPES.test(file.mimetype)) {
+        console.warn(`[VALIDATE] Invalid mimetype: ${file.originalname} (${file.mimetype})`);
         throw new BadRequestException({
           statusCode: 400,
           error: 'INVALID_FILE_TYPE',
-          message: `File ${file.originalname} has invalid type`,
-          suggestion: 'Allowed: images (jpeg, png, gif, webp) and videos (mp4, mpeg, quicktime)',
+          message: `File ${file.originalname} has invalid type (${file.mimetype})`,
+          suggestion: 'Allowed: images (jpeg, png, gif, webp) and videos (mp4, mpeg, quicktime, 3gpp, webm, ogg, mov)',
         });
       }
     }
