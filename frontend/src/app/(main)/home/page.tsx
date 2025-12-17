@@ -92,11 +92,12 @@ export default function Home() {
 
   //Fetch new content when user reaches near end of feed
   useEffect(() => {
-    if (((visibleIndex + 1) % 10 === 8) && (feed.length - (visibleIndex + 1) === 2)) {
-      const lastTwoIds = feed.slice(-2).map(item => item.id);
-      fetchFeed(user?.id ?? "", lastTwoIds);
-    }
-  }, [visibleId]);
+      // Fetch more when only 2 items are left in the feed
+      if (feed.length - (visibleIndex + 1) === 2) {
+        const lastTwoIds = feed.slice(-2).map(item => item.id);
+        fetchFeed(user?.id ?? "", lastTwoIds);
+      }
+    }, [visibleId]);
 
   //View the currently visible content
   useEffect(() => {
