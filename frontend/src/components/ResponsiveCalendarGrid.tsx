@@ -5,6 +5,7 @@ interface ResponsiveCalendarGridProps {
 }
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useMediaQuery } from '@/hooks/use-media-query';
 import type { Habit } from '@/store/useHabitStore';
 
 interface ResponsiveCalendarGridProps {
@@ -26,6 +27,7 @@ const ResponsiveCalendarGrid: React.FC<ResponsiveCalendarGridProps> = ({ habit, 
   const [columns, setColumns] = useState(10);
   const [page, setPage] = useState(0);
   const rows = 5;
+  const isMobile = useMediaQuery('(max-width: 640px)');
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,8 +54,8 @@ const ResponsiveCalendarGrid: React.FC<ResponsiveCalendarGridProps> = ({ habit, 
     <div className="w-full flex flex-col items-center">
       <div
         ref={containerRef}
-        className="grid gap-x-2 gap-y-1 justify-center w-full"
-        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gridAutoRows: `${boxSize}px` }}
+        className={`grid gap-x-2 gap-y-1 justify-center w-full ${isMobile ? 'grid-cols-15' : ''}`}
+        style={isMobile ? { gridAutoRows: `${boxSize}px` } : { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gridAutoRows: `${boxSize}px` }}
       >
         {(() => {
           const boxes = [];
