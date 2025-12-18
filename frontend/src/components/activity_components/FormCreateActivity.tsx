@@ -152,6 +152,19 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
         form.setValue("mediaUrls", updatedMedia);
     }
 
+    const MAX_FILE_SIZE = 40 * 1024 * 1024; // 40MB
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleAddFiles = (files: File[], field: any) => {
+        const filtered = files.filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
+        if (filtered.some(file => file.size >= MAX_FILE_SIZE)) {
+            toast.error("File too big", { description: "Max size is 40MB" });
+            return;
+        }
+
+        field.onChange([...field.value, ...filtered]);
+    }
+
     // Handle drag end event for reordering
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
@@ -228,8 +241,8 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                                             onClick={() => document.getElementById('media-upload-input')?.click()}
                                             onDrop={e => {
                                                 e.preventDefault();
-                                                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
-                                                field.onChange([...field.value, ...files]);
+                                                const files = Array.from(e.dataTransfer.files);
+                                                handleAddFiles(files, field);
                                             }}
                                             onDragOver={e => e.preventDefault()}
                                         >
@@ -240,8 +253,8 @@ export function FormCreateActivity({ onSuccess, habitId }: FormCreateActivityPro
                                                 multiple
                                                 style={{ display: 'none' }}
                                                 onChange={e => {
-                                                    const files = Array.from(e.target.files || []).filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
-                                                    field.onChange([...field.value, ...files]);
+                                                    const files = Array.from(e.target.files || []);
+                                                    handleAddFiles(files, field);
                                                 }}
                                             />
                                             <span className="text-sm text-muted-foreground mb-2">Click or drag & drop images/videos (max 5)</span>
