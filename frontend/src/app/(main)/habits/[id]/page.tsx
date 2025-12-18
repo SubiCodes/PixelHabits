@@ -191,7 +191,7 @@ function Habit({ params }: { params: Promise<{ id: string }> }) {
                             <ResponsiveCalendarGrid habit={habit} />
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2 pb-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-2 pb-4'>
                         {habitActivities.map((activity) => (
                             <CardActivity key={activity.id} activity={activity} openActivity={() => openActivity(activity)} />
                         ))}
