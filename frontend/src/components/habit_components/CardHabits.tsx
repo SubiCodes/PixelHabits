@@ -144,7 +144,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80, fromProfil
                     <div className="flex flex-col items-center w-full">
                         <div
                             className="grid gap-x-2 gap-y-1 justify-center"
-                            style={isMobile ? { gridTemplateColumns: `repeat(15, minmax(0, 1fr))`, gridAutoRows: '20px' } : { gridTemplateColumns: `repeat(${Math.ceil(boxCount / 5)}, minmax(0, 1fr))`, gridAutoRows: '20px' }}
+                            style={isMobile ? { gridTemplateColumns: `repeat(10, minmax(0, 1fr))`, gridAutoRows: '20px' } : { gridTemplateColumns: `repeat(${Math.ceil(boxCount / 5)}, minmax(0, 1fr))`, gridAutoRows: '20px' }}
                         >
                             {(() => {
                                 const boxes = [];

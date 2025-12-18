@@ -54,7 +54,7 @@ const ResponsiveCalendarGrid: React.FC<ResponsiveCalendarGridProps> = ({ habit, 
     <div className="w-full flex flex-col items-center">
       <div
         ref={containerRef}
-        className={`grid gap-x-2 gap-y-1 justify-center w-full ${isMobile ? 'grid-cols-15' : ''}`}
+        className={`grid gap-x-2 gap-y-1 justify-center w-full ${isMobile ? 'grid-cols-10' : ''}`}
         style={isMobile ? { gridAutoRows: `${boxSize}px` } : { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, gridAutoRows: `${boxSize}px` }}
       >
         {(() => {
