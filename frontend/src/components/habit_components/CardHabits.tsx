@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useMediaQuery } from '@/hooks/use-media-query';
 import { toZonedTime, format } from 'date-fns-tz';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 // ...existing code...
@@ -86,6 +87,8 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80, fromProfil
         }
     }
 
+    const isMobile = useMediaQuery('(max-width: 640px)');
+
     return (
         <Card className="w-full hover:shadow-lg transition-shadow duration-200">
             <CardHeader>
@@ -141,7 +144,7 @@ function CardHabits({ habit, openCreateActivityDialog, boxCount = 80, fromProfil
                     <div className="flex flex-col items-center w-full">
                         <div
                             className="grid gap-x-2 gap-y-1 justify-center"
-                            style={{ gridTemplateColumns: `repeat(${Math.ceil(boxCount / 5)}, minmax(0, 1fr))`, gridAutoRows: '20px' }}
+                            style={isMobile ? { gridTemplateColumns: `repeat(15, minmax(0, 1fr))`, gridAutoRows: '20px' } : { gridTemplateColumns: `repeat(${Math.ceil(boxCount / 5)}, minmax(0, 1fr))`, gridAutoRows: '20px' }}
                         >
                             {(() => {
                                 const boxes = [];
