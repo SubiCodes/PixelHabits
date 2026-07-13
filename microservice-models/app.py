@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, ConfigDict
 import pandas as pd
+from typing import Optional, List
 from src.recommender import get_recommendations
 from src.hate_speech_detector import HateSpeechDetector
 
@@ -17,8 +18,8 @@ class Activity(BaseModel):
     id: str
     owner_id: str = Field(alias="ownerId")
     habit_id: str = Field(alias="habitId")
-    caption: str | None
-    media_urls: list[str] = Field(alias="mediaUrls")
+    caption: Optional[str]
+    media_urls: List[str] = Field(alias="mediaUrls")
     is_public: bool = Field(alias="isPublic")
     created_at: str = Field(alias="createdAt")
     updated_at: str = Field(alias="updatedAt")
@@ -58,16 +59,16 @@ class CommentModerationRequest(BaseModel):
     created_at: str = Field(alias="createdAt")
 
 class CommentsModerationRequest(BaseModel):
-    comments: list[CommentModerationRequest]
+    comments: List[CommentModerationRequest]
 
 class RecommendationRequest(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
     
     user_id: str = Field(alias="userId")
-    activities: list[Activity]
-    likes: list[Like]
-    views: list[View]
-    comments: list[Comment]
+    activities: List[Activity]
+    likes: List[Like]
+    views: List[View]
+    comments: List[Comment]
     top_n: int = Field(default=10, alias="topN")
     cold_start_strategy: str = Field(default="popular", alias="coldStartStrategy")
 
@@ -93,7 +94,6 @@ def get_user_recommendations(request: RecommendationRequest):
     - top_n: Number of recommendations (optional, default 10)
     - cold_start_strategy: 'newest', 'popular', or 'random' (optional, default 'popular')
     """
-    # ...existing code...
     try:
         # Convert Pydantic models to dictionaries (using snake_case field names)
         activities_data = [activity.model_dump() for activity in request.activities]
