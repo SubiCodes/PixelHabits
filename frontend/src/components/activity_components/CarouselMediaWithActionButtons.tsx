@@ -71,14 +71,14 @@ function CarouselMediaWithActionButtons({
             const isVideo = /\.(mp4|webm|ogg)$/i.test(item);
             if (isImage) {
                 return (
-                    <img src={item} alt={`media-${index}`} className="max-w-full max-h-full object-contain" />
+                    <img src={item} alt={`media-${index}`} className="w-full h-full object-cover" />
                 );
             } else if (isVideo) {
                 return (
                     <video
                         ref={(el) => { videoRefs.current[index] = el; }}
                         src={item}
-                        className="max-w-full max-h-full object-contain cursor-pointer"
+                        className="w-full h-full object-cover cursor-pointer"
                         onClick={handleVideoClick}
                         playsInline
                         loop
@@ -91,14 +91,14 @@ function CarouselMediaWithActionButtons({
             const isVideo = item.type.startsWith("video/");
             if (isImage) {
                 return (
-                    <img src={url} alt={item.name} className="max-w-full max-h-full object-contain" />
+                    <img src={url} alt={item.name} className="w-full h-full object-cover" />
                 );
             } else if (isVideo) {
                 return (
                     <video
                         ref={(el) => { videoRefs.current[index] = el; }}
                         src={url}
-                        className="max-w-full max-h-full object-contain cursor-pointer"
+                        className="w-full h-full object-cover cursor-pointer"
                         onClick={handleVideoClick}
                         playsInline
                         loop

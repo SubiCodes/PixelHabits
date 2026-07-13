@@ -73,7 +73,7 @@ export default function Home() {
       },
       {
         root: null,
-        threshold: 0.5,
+        threshold: 0.6,
         rootMargin: '0px'
       }
     );
@@ -112,10 +112,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="w-full h-screen bg-[#181818]">
+    <div className="w-full h-full bg-[#181818] overflow-hidden">
       {/* Feed Content */}
       <div
-        className="flex-1 overflow-y-scroll w-full snap-y snap-mandatory custom-scrollbar h-full"
+        className="w-full h-full overflow-y-scroll snap-y snap-mandatory custom-scrollbar"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {feed && feed.map((activity, index) => (
@@ -124,7 +124,7 @@ export default function Home() {
             ref={(el) => { sectionRefs.current[index] = el }}
             data-index={index}
             data-id={activity.id}
-            className="w-full h-dvh flex items-center justify-center snap-start"
+            className="w-full h-full flex items-center justify-center snap-start snap-always overflow-hidden"
           >
             <CarouselMediaWithActionButtons
               media={activity.mediaUrls}
@@ -143,18 +143,18 @@ export default function Home() {
           </section>
         ))}
         {feed.length === 0 && !fetchingFeed && !fetchFeedError && (
-          <section className="w-full h-full flex flex-col gap-4 items-center justify-center snap-start">
+          <section className="w-full h-full flex flex-col gap-4 items-center justify-center snap-start snap-always">
             <p className="text-gray-300">No activities to show. You have interacted with all the available contents!</p>
             <Button onClick={() => fetchFeed(user?.id ?? "")} className='bg-white text-black hover:bg-gray-200 cursor-pointer'>Look Again?</Button>
           </section>
         )}
         {fetchingFeed && (
-          <section className="w-full h-dvh flex items-center justify-center snap-start">
+          <section className="w-full h-full flex items-center justify-center snap-start snap-always">
             <LoadingPage isMoonLoader={true} />
           </section>
         )}
         {fetchFeedError && (
-          <section className="w-full h-full flex flex-col gap-4 items-center justify-center snap-start">
+          <section className="w-full h-full flex flex-col gap-4 items-center justify-center snap-start snap-always">
             <p className="text-gray-300">Error loading feed. Please try again.</p>
             <Button onClick={() => fetchFeed(user?.id ?? "")} className='bg-white text-black hover:bg-gray-200 cursor-pointer'>Retry</Button>
           </section>
