@@ -1,28 +1,47 @@
 import pickle
 import re
 import os
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+
+def _ensure_nltk_resources():
+    """Download any NLTK resources the detector depends on, if missing."""
+    for resource, path in (
+        ("punkt", "tokenizers/punkt"),
+        ("punkt_tab", "tokenizers/punkt_tab"),
+        ("stopwords", "corpora/stopwords"),
+        ("wordnet", "corpora/wordnet"),
+    ):
+        try:
+            nltk.data.find(path)
+        except LookupError:
+            nltk.download(resource, quiet=True)
+
+
 class HateSpeechDetector:
     def __init__(self):
         """Initialize the hate speech detector by loading the model and vectorizer"""
+        # Make sure required NLTK data is present before we start tokenizing
+        _ensure_nltk_resources()
+
         base_dir = os.path.dirname(__file__)
         model_path = os.path.join(base_dir, 'hate_speech_model.pkl')
         vectorizer_path = os.path.join(base_dir, 'tfidf_vectorizer.pkl')
-        
+
         # Load model and vectorizer
         with open(model_path, 'rb') as f:
             self.model = pickle.load(f)
-        
+
         with open(vectorizer_path, 'rb') as f:
             self.vectorizer = pickle.load(f)
-        
+
         # Initialize NLTK components
         self.lemmatizer = WordNetLemmatizer()
         self.stop_words = set(stopwords.words('english'))
-        
+
         # Class mapping
         self.class_names = {
             0: 'hate_speech',

@@ -54,16 +54,23 @@ export class CommentsService {
           createdAt: newComment.createdAt.toISOString()
         })
       });
-      const moderationResult = await response.json();
-      // Map the API response back to match database format
-      commentWithModeration = {
-        id: moderationResult.id,
-        ownerId: moderationResult.owner_id || moderationResult.ownerId,
-        commentText: moderationResult.comment_text || moderationResult.commentText,
-        activityId: moderationResult.activity_id || moderationResult.activityId,
-        createdAt: new Date(moderationResult.created_at || moderationResult.createdAt),
-        isOffensive: moderationResult.isOffensive
-      };
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Moderation API returned ${response.status} for comment ${newComment.id}: ${errorText}`
+        );
+      } else {
+        const moderationResult = await response.json();
+        // Map the API response back to match database format
+        commentWithModeration = {
+          id: moderationResult.id,
+          ownerId: moderationResult.owner_id || moderationResult.ownerId,
+          commentText: moderationResult.comment_text || moderationResult.commentText,
+          activityId: moderationResult.activity_id || moderationResult.activityId,
+          createdAt: new Date(moderationResult.created_at || moderationResult.createdAt),
+          isOffensive: moderationResult.isOffensive
+        };
+      }
     } catch (error) {
       console.error('Error calling moderation API:', error);
     }
@@ -106,16 +113,23 @@ export class CommentsService {
               }))
             })
           });
-          const moderationResult = await response.json();
-          // Map the API response back to match database format
-          moderatedComments = moderationResult.comments.map((comment: any) => ({
-            id: comment.id,
-            ownerId: comment.owner_id || comment.ownerId,
-            commentText: comment.comment_text || comment.commentText,
-            activityId: comment.activity_id || comment.activityId,
-            createdAt: new Date(comment.created_at || comment.createdAt),
-            isOffensive: comment.isOffensive
-          }));
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error(
+              `Moderation API returned ${response.status} for activity ${activityId}: ${errorText}`
+            );
+          } else {
+            const moderationResult = await response.json();
+            // Map the API response back to match database format
+            moderatedComments = moderationResult.comments.map((comment: any) => ({
+              id: comment.id,
+              ownerId: comment.owner_id || comment.ownerId,
+              commentText: comment.comment_text || comment.commentText,
+              activityId: comment.activity_id || comment.activityId,
+              createdAt: new Date(comment.created_at || comment.createdAt),
+              isOffensive: comment.isOffensive
+            }));
+          }
         } catch (error) {
           console.error('Error calling moderation API:', error);
         }

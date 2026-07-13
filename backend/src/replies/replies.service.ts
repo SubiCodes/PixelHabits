@@ -31,6 +31,14 @@ export class RepliesService {
           createdAt: reply.createdAt.toISOString()
         })
       });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Moderation API returned ${response.status} for reply ${reply.id}: ${errorText}`
+        );
+        const replyWithUserData = await enrichWithUserData(reply);
+        return serializeModelDates([replyWithUserData])[0];
+      }
       const moderationResult = await response.json();
       // Map the API response back to match database format
       const moderatedReply = { ...reply, isOffensive: moderationResult.isOffensive };
@@ -62,16 +70,23 @@ export class RepliesService {
           }))
         })
       });
-      const moderationResult = await response.json();
-      moderatedReplies = moderationResult.comments.map((reply: any, index: number) => ({
-        id: reply.id,
-        ownerId: reply.owner_id || reply.ownerId,
-        replyText: reply.comment_text || reply.commentText,
-        commentId: reply.activity_id || reply.activityId,
-        createdAt: new Date(reply.created_at || reply.createdAt),
-        updatedAt: replies[index].updatedAt,
-        isOffensive: reply.isOffensive
-      }));
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Moderation API returned ${response.status} for comment ${commentId}: ${errorText}`
+        );
+      } else {
+        const moderationResult = await response.json();
+        moderatedReplies = moderationResult.comments.map((reply: any, index: number) => ({
+          id: reply.id,
+          ownerId: reply.owner_id || reply.ownerId,
+          replyText: reply.comment_text || reply.commentText,
+          commentId: reply.activity_id || reply.activityId,
+          createdAt: new Date(reply.created_at || reply.createdAt),
+          updatedAt: replies[index].updatedAt,
+          isOffensive: reply.isOffensive
+        }));
+      }
     } catch (error) {
       console.error('Error moderating replies:', error);
     }
